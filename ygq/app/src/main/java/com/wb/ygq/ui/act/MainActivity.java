@@ -1,6 +1,5 @@
 package com.wb.ygq.ui.act;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wb.ygq.R;
+import com.wb.ygq.ui.application.MyApplication;
 import com.wb.ygq.ui.base.BaseActivity;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.ui.constant.PubConst;
@@ -30,6 +30,7 @@ import com.wb.ygq.ui.fm.SpFragment;
 import com.wb.ygq.ui.fm.SzFragment;
 import com.wb.ygq.ui.fm.VideoFragment;
 import com.wb.ygq.ui.utils.DialogUtil;
+import com.wb.ygq.ui.utils.MyUtil;
 import com.wb.ygq.ui.utils.SharedUtil;
 
 import java.util.ArrayList;
@@ -141,7 +142,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         }
         initView();
         initData();
-//        int sex = 0;
         int sex = SharedUtil.getInt(PubConst.KEY_SEX, 0);
         if (sex == 0) //没存 弹出男女
         {

@@ -4,6 +4,8 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 
+import com.wb.ygq.ui.utils.MyUtil;
+
 /**
  * Description：
  * Created on 2017/4/2

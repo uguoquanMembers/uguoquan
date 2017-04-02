@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rl_dia_sex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/color_ffffff"
@@ -31,8 +32,8 @@
             <RadioButton
                 android:id="@+id/rb_man"
                 android:layout_width="wrap_content"
-                android:checked="true"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:text="男" />
 
             <RadioButton
@@ -51,7 +52,8 @@
             android:layout_marginRight="20dp"
             android:background="@drawable/list_selector"
             android:padding="10dp"
-            android:text="确定" />
+            android:text="确定"
+            android:textColor="@color/color_press" />
 
         <TextView
             android:id="@+id/tv_cancel"
@@ -63,7 +65,8 @@
             android:layout_toLeftOf="@id/tv_sure"
             android:background="@drawable/list_selector"
             android:padding="10dp"
-            android:text="取消" />
+            android:text="取消"
+            android:textColor="@color/color_press" />
     </RelativeLayout>
 
 
