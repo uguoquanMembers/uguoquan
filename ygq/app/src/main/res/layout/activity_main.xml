@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_ffffff"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/color_ffffff"
+        android:gravity="center">
+
+        <RelativeLayout
+            android:id="@+id/rl_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/color_ededed" />
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_ffffff">
+
+        <!--内容页 要放在上面-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/realtabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/color_press" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="62dp">
+
+                <RadioGroup
+                    android:id="@+id/tabs_rg"
+                    android:layout_width="fill_parent"
+                    android:layout_height="62dp"
+                    android:layout_alignParentBottom="true"
+                    android:checkedButton="@+id/tab_home"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <!-- 首页  私照  视频  私拍  搜索    我的-->
+                    <RadioButton
+                        android:id="@+id/tab_home"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:background="#00ffffff"
+                        android:button="@null"
+                        android:checked="true"
+                        android:drawableTop="@drawable/tab_home"
+                        android:gravity="center"
+                        android:text="首页"
+                        android:textColor="@color/color_press"
+                        android:textSize="9sp" />
+
+
+                    <RadioButton
+                        android:id="@+id/tab_sz"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:background="#00ffffff"
+                        android:button="@null"
+                        android:checked="false"
+                        android:drawableTop="@drawable/tab_ablum"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="私照"
+                        android:textColor="@color/color_666666"
+                        android:textSize="9sp" />
+
+                    <RadioButton
+                        android:id="@+id/tab_video"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.0"
+                        android:background="#00ffffff"
+                        android:button="@null"
+                        android:checked="false"
+                        android:drawableTop="@drawable/tab_fm"
+                        android:gravity="center"
+                        android:text="视频"
+                        android:textColor="@color/color_666666"
+                        android:textSize="9sp" />
+
+                    <RadioButton
+                        android:id="@+id/tab_sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:background="#00ffffff"
+                        android:button="@null"
+                        android:checked="false"
+                        android:drawableTop="@drawable/tab_ablum"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="私拍"
+                        android:textColor="@color/color_666666"
+                        android:textSize="9sp" />
+
+                    <RadioButton
+                        android:id="@+id/tab_search"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:background="#00ffffff"
+                        android:button="@null"
+                        android:checked="false"
+                        android:drawableTop="@drawable/tab_ablum"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="搜索"
+                        android:textColor="@color/color_666666"
+                        android:textSize="9sp" />
+
+                    <RadioButton
+                        android:id="@+id/tab_wd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:background="#00ffffff"
+                        android:button="@null"
+                        android:checked="false"
+                        android:drawableTop="@drawable/tab_mine"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="我的"
+                        android:textColor="@color/color_666666"
+                        android:textSize="9sp" />
+                </RadioGroup>
+            </RelativeLayout>
+        </LinearLayout>
+        <!--不加背景色透明-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="#ffffff">
+
+            <include layout="@layout/layout_drawer" />
+        </LinearLayout>
+
+    </android.support.v4.widget.DrawerLayout>
+
+</LinearLayout>
