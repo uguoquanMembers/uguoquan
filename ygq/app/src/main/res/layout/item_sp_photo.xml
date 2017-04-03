@@ -39,6 +39,7 @@
             android:id="@+id/grid_sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_below="@+id/tv_itemspphoto_content"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/ima_itemspphoto_head"
