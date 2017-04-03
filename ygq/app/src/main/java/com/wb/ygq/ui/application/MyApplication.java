@@ -4,7 +4,10 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 
-import com.wb.ygq.ui.utils.MyUtil;
+import com.squareup.okhttp.OkHttpClient;
+import com.zhy.http.okhttp.OkHttpUtils;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Description：
@@ -19,6 +22,10 @@ public  class MyApplication extends Application {
     {
         super.onCreate();
         instance = this;
+        //设置超时时间
+        OkHttpClient client =
+                OkHttpUtils.getInstance().getOkHttpClient();
+        client.setConnectTimeout(100000, TimeUnit.MILLISECONDS);
 //        CrashHandler.getInstance().init(this);
 
     }

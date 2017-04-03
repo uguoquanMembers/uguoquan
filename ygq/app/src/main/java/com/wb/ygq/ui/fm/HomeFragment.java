@@ -9,27 +9,30 @@ import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
+import com.wb.ygq.bean.HomeVideoBean;
 import com.wb.ygq.bean.IBannerBean;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.ui.utils.AppUtils;
 import com.wb.ygq.ui.utils.MyUtil;
+import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.widget.autoscrollviewpager.AutoScrollViewPager;
 import com.wb.ygq.widget.autoscrollviewpager.CircleIndicator;
 import com.wb.ygq.widget.autoscrollviewpager.ImagePagerAdapter;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Description：
- * Created on 2017/4/2
- * Author : 郭
- */
 public class HomeFragment extends BaseFragment {
-
     private View view;
     private List<IBannerBean> banners;
+    private HomeVideoBean mHomeVideoBean;
 
     RelativeLayout layout_banner;
 
@@ -73,16 +76,45 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        banners = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            IBannerBean bannerBean = new IBannerBean();
-            bannerBean.setBannerImg("http://shtml.asia-cloud.com/ZZSY/list_test2.png");
-            bannerBean.setBannerLinkId("1");
-            bannerBean.setBannerType("005");
-            banners.add(bannerBean);
-        }
-        initBanner();
 
+        OkHttpUtils.get()
+                .url(HttpUrl.API.SHOUYE)
+                .build()
+                .execute(new Callback() {
+            @Override
+            public Object parseNetworkResponse(final Response response) throws IOException {
+                String data= null;
+                    data = response.body().string();
+
+                final String finalData = data;
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mHomeVideoBean=new Gson().fromJson(finalData,HomeVideoBean.class);
+                        banners = new ArrayList<>();
+                        for (int i = 0; i < 5; i++) {
+                            IBannerBean bannerBean = new IBannerBean();
+                            bannerBean.setBannerImg("http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg");
+                            bannerBean.setBannerLinkId("001");
+                            bannerBean.setBannerType("005");
+                            banners.add(bannerBean);
+                        }
+                        initBanner();
+                    }
+                });
+
+                return null;
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
     }
 
     @Override
