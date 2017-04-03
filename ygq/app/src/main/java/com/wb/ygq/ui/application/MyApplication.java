@@ -9,7 +9,6 @@ import com.wb.ygq.ui.utils.MyUtil;
 /**
  * Description：
  * Created on 2017/4/2
- * Author : 郭
  */
 public  class MyApplication extends Application {
     private static MyApplication instance;

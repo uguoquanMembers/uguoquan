@@ -3,6 +3,7 @@ package com.wb.ygq.ui.utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.support.annotation.IdRes;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wb.ygq.R;
@@ -68,6 +70,7 @@ public class DialogUtil {
         RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.rg_sex);
         TextView tv_sure = (TextView) view.findViewById(R.id.tv_sure);
         TextView tv_cancel = (TextView) view.findViewById(R.id.tv_cancel);
+        RelativeLayout rl_dia_sex  = (RelativeLayout) view.findViewById(R.id.rl_dia_sex);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
@@ -80,23 +83,29 @@ public class DialogUtil {
                 }
             }
         });
-//        int screenWidth = AppUtils.getScreenWidth(context);
-//        ViewGroup.LayoutParams params = view.getLayoutParams();
-//        params.width = screenWidth * (2 / 3);
-//        view.setLayoutParams(params);
+        int screenWidth = AppUtils.getScreenWidth(context);
+        ViewGroup.LayoutParams params = rl_dia_sex.getLayoutParams();
+        params.width = (screenWidth/3)*2;
+        view.setLayoutParams(params);
         showDialog(dialog, view, Gravity.CENTER, false);
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                SharedUtil.setInt(PubConst.KEY_SEX,key_sex[0]);
+                SharedUtil.setInt(PubConst.KEY_SEX,key_sex[0]);
                 dialog.dismiss();
             }
         });
         tv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                SharedUtil.setInt(PubConst.KEY_SEX,key_sex[0]);
+                SharedUtil.setInt(PubConst.KEY_SEX,key_sex[0]);
                 dialog.dismiss();
+            }
+        });
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                setAlpha(context,1);
             }
         });
 
