@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_ffffff">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/color_ffffff"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/ima_itemspphoto_head"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/login_no" />
+
+        <TextView
+            android:id="@+id/tv_itemspphoto_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/ima_itemspphoto_head"
+            android:paddingLeft="10dp"
+            android:text="名字"
+            android:textColor="@color/color_press" />
+
+        <TextView
+            android:id="@+id/tv_itemspphoto_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_itemspphoto_name"
+            android:layout_toRightOf="@id/ima_itemspphoto_head"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:text="11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111" />
+
+        <GridView
+            android:id="@+id/grid_sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_itemspphoto_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/ima_itemspphoto_head"
+            android:background="@color/color_ffffff"
+            android:columnWidth="0.5dp"
+            android:numColumns="2"
+            android:scrollbars="none"></GridView>
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -16,12 +16,9 @@ import com.wb.ygq.ui.base.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.wb.ygq.R.id.viewPager;
-
 /**
  * Description：
  * Created on 2017/4/2
- * Author : 郭
  */
 public class SzFragment extends BaseFragment {
 
