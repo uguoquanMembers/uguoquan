@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,42 +13,43 @@ import com.wb.ygq.R;
 import com.wb.ygq.bean.CeshiBean;
 import com.wb.ygq.ui.base.BaseRecyclerAdapter;
 
-import org.w3c.dom.Text;
 
 /**
  * Description：
- * Created on 2017/4/3
+ * Created on 2017/4/4
  */
 public class SpVideoAdapter extends BaseRecyclerAdapter<CeshiBean> {
+
     public SpVideoAdapter(Context context) {
         super(context);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SpVideoViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_sp_photo, null));
+        return new SpVideoHolder(LayoutInflater.from(mContext).inflate(R.layout.item_sp_video, null));
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof SpVideoViewHolder) {
+        if (holder instanceof SpVideoHolder) {
             CeshiBean ceshiBean = mItems.get(position);
-            ((SpVideoViewHolder) holder).tv_itemspphoto_content.setText(ceshiBean.getNum());
-            ((SpVideoViewHolder) holder).tv_itemspphoto_name.setText(ceshiBean.getName());
-            Glide.with(mContext).load(ceshiBean.getIma()).crossFade().into(((SpVideoViewHolder) holder).ima_itemspphoto_head);
+            ((SpVideoHolder) holder).tv_video_name.setText(ceshiBean.getName());
+            ((SpVideoHolder) holder).tv_video_num.setText("已经播放" + ceshiBean.getNum() + "万次");
+            Glide.with(mContext).load(ceshiBean.getIma()).crossFade().into(((SpVideoHolder) holder).ima_video_head);
+            ((SpVideoHolder) holder).ima_video_share.setVisibility(View.GONE);
         }
     }
 
-    class SpVideoViewHolder extends RecyclerView.ViewHolder {
-        private ImageView ima_itemspphoto_head;
-        private TextView tv_itemspphoto_name, tv_itemspphoto_content;
-        private GridView grid_sp;
+    class SpVideoHolder extends RecyclerView.ViewHolder {
+        private ImageView ima_video_head, ima_video_share;
+        private TextView tv_video_name, tv_video_num;
 
-        public SpVideoViewHolder(View itemView) {
+        public SpVideoHolder(View itemView) {
             super(itemView);
-            ima_itemspphoto_head = (ImageView) itemView.findViewById(R.id.ima_itemspphoto_head);
-            tv_itemspphoto_name = (TextView) itemView.findViewById(R.id.tv_itemspphoto_name);
-            tv_itemspphoto_content = (TextView) itemView.findViewById(R.id.tv_itemspphoto_content);
+            ima_video_head = (ImageView) itemView.findViewById(R.id.ima_video_head);
+            ima_video_share = (ImageView) itemView.findViewById(R.id.ima_video_share);
+            tv_video_name = (TextView) itemView.findViewById(R.id.tv_video_name);
+            tv_video_num = (TextView) itemView.findViewById(R.id.tv_video_num);
         }
     }
 }
