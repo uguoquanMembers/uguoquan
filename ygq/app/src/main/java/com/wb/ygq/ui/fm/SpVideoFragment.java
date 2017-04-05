@@ -2,6 +2,7 @@ package com.wb.ygq.ui.fm;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -68,7 +69,7 @@ public class SpVideoFragment extends BaseFragment implements RecyclerViewItemCli
         getceshiData();
         adapter = new SpVideoAdapter(mActivity);
         recycleview.setHasFixedSize(true);
-        recycleview.setLayoutManager(new LinearLayoutManager(mActivity));
+        recycleview.setLayoutManager(new GridLayoutManager(mActivity,1));
         adapter.setItemClickListener(this);
         recycleview.setAdapter(adapter);
         adapter.updateItems(dataList);

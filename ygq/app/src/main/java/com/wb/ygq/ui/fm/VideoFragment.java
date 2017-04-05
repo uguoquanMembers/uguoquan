@@ -2,7 +2,7 @@ package com.wb.ygq.ui.fm;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.CeshiBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
-import com.wb.ygq.ui.adapter.SpVideoAdapter;
 import com.wb.ygq.ui.adapter.VideoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.ui.utils.MyUtil;
@@ -73,8 +72,7 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
             adapter.setHeadView(headView);
         }
         recycle_video.setHasFixedSize(true);
-        recycle_video.setLayoutManager(new LinearLayoutManager(mActivity));
-
+        recycle_video.setLayoutManager(new GridLayoutManager(mActivity,1));
         adapter.setItemClickListener(this);
         recycle_video.setAdapter(adapter);
         adapter.updateItems(dataList);
