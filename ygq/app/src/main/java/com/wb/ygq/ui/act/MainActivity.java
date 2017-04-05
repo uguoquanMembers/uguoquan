@@ -19,7 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wb.ygq.R;
-import com.wb.ygq.ui.application.MyApplication;
 import com.wb.ygq.ui.base.BaseActivity;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.ui.constant.PubConst;
@@ -30,7 +29,6 @@ import com.wb.ygq.ui.fm.SpFragment;
 import com.wb.ygq.ui.fm.SzFragment;
 import com.wb.ygq.ui.fm.VideoFragment;
 import com.wb.ygq.ui.utils.DialogUtil;
-import com.wb.ygq.ui.utils.MyUtil;
 import com.wb.ygq.ui.utils.SharedUtil;
 
 import java.util.ArrayList;
@@ -285,7 +283,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
                 break;
             case R.id.tv_kf://客服
-
+                Intent intent=new Intent(this,PicInfoActivity.class);
+                startActivity(intent);
                 break;
             case R.id.tv_versions://版本
 
