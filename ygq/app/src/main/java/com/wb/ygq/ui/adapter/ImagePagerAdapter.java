@@ -2,6 +2,7 @@ package com.wb.ygq.ui.adapter;
 
 import android.app.Activity;
 import android.database.DataSetObserver;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.wb.ygq.R;
 import com.wb.ygq.ui.act.PicInfoActivity;
 
@@ -48,7 +52,21 @@ public class ImagePagerAdapter extends PagerAdapter {
         Glide.with(mActivity)
                 .load(path)
                 .crossFade()
-                .into(iv_image);
+                .into(new GlideDrawableImageViewTarget(iv_image){
+                    @Override
+                    public void onLoadStarted(Drawable placeholder) {
+                        super.onLoadStarted(placeholder);
+                        spinner.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {
+                        super.onResourceReady(resource, animation);
+                        spinner.setVisibility(View.GONE);
+
+                    }
+                });
+        container.addView(imageLayout);
         return imageLayout;
     }
 

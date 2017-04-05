@@ -1,7 +1,6 @@
 package com.wb.ygq.ui.base;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,10 +12,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 
 import com.wb.ygq.R;
-import com.wb.ygq.ui.application.MyApplication;
 import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.ui.utils.MyUtil;
 
@@ -230,6 +227,10 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
             finish();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public void back(View view) {
+        finish();
     }
 
     @Override
