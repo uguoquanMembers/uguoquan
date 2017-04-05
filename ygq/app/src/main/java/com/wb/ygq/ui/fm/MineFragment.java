@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wb.ygq.R;
+import com.wb.ygq.ui.act.RechargeActivity;
 import com.wb.ygq.ui.base.BaseFragment;
+import com.wb.ygq.ui.utils.MyUtil;
 import com.wb.ygq.utils.PublicUtil;
 
 /**
@@ -76,6 +78,7 @@ public class MineFragment extends BaseFragment {
 
     @Override
     public void setListener() {
+        MyUtil.showLog("zhixing========");
         tv_bt_rank.setOnClickListener(this);
         tv_bt_recharge.setOnClickListener(this);
         tv_btmine_buy.setOnClickListener(this);
@@ -86,12 +89,13 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        switch (tv_bt_rank.getId()) {
+        switch (v.getId()) {
             case R.id.tv_bt_rank://等级
 
                 break;
             case R.id.tv_bt_recharge://充值
-
+                MyUtil.showLog("点击充值");
+                skip(RechargeActivity.class, false);
                 break;
             case R.id.tv_btmine_buy://已购买的
 

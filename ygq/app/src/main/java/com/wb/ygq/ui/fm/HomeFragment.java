@@ -81,40 +81,40 @@ public class HomeFragment extends BaseFragment {
                 .url(HttpUrl.API.SHOUYE)
                 .build()
                 .execute(new Callback() {
-            @Override
-            public Object parseNetworkResponse(final Response response) throws IOException {
-                String data= null;
-                    data = response.body().string();
-
-                final String finalData = data;
-                getActivity().runOnUiThread(new Runnable() {
                     @Override
-                    public void run() {
-                        mHomeVideoBean=new Gson().fromJson(finalData,HomeVideoBean.class);
-                        banners = new ArrayList<>();
-                        for (int i = 0; i < 5; i++) {
-                            IBannerBean bannerBean = new IBannerBean();
-                            bannerBean.setBannerImg("http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg");
-                            bannerBean.setBannerLinkId("001");
-                            bannerBean.setBannerType("005");
-                            banners.add(bannerBean);
-                        }
-                        initBanner();
+                    public Object parseNetworkResponse(final Response response) throws IOException {
+                        String data = null;
+                        data = response.body().string();
+
+                        final String finalData = data;
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mHomeVideoBean = new Gson().fromJson(finalData, HomeVideoBean.class);
+                                banners = new ArrayList<>();
+                                for (int i = 0; i < 5; i++) {
+                                    IBannerBean bannerBean = new IBannerBean();
+                                    bannerBean.setBannerImg("http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg");
+                                    bannerBean.setBannerLinkId("001");
+                                    bannerBean.setBannerType("005");
+                                    banners.add(bannerBean);
+                                }
+                                initBanner();
+                            }
+                        });
+
+                        return null;
+                    }
+
+                    @Override
+                    public void onError(Request request, Exception e) {
+                    }
+
+                    @Override
+                    public void onResponse(Object response) {
+
                     }
                 });
-
-                return null;
-            }
-
-            @Override
-            public void onError(Request request, Exception e) {
-            }
-
-            @Override
-            public void onResponse(Object response) {
-
-            }
-        });
     }
 
     @Override

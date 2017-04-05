@@ -2,20 +2,26 @@ package com.wb.ygq.ui.fm;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.wb.ygq.R;
+import com.wb.ygq.bean.CeshiBean;
+import com.wb.ygq.callback.RecyclerViewItemClickListener;
 import com.wb.ygq.ui.adapter.SpVideoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Description：私拍视频
  * Created on 2017/4/3
  */
-public class SpVideoFragment extends BaseFragment {
+public class SpVideoFragment extends BaseFragment implements RecyclerViewItemClickListener {
     public static SpVideoFragment newInstance() {
         Bundle args = new Bundle();
         SpVideoFragment fragment = new SpVideoFragment();
@@ -27,6 +33,10 @@ public class SpVideoFragment extends BaseFragment {
 
     private RecyclerView recycleview;
     private SpVideoAdapter adapter;
+    /**
+     * 存入集合
+     */
+    private List<CeshiBean> dataList = new ArrayList();
 
     @Nullable
     @Override
@@ -55,11 +65,47 @@ public class SpVideoFragment extends BaseFragment {
 
     @Override
     public void initData() {
-
+        getceshiData();
+        adapter = new SpVideoAdapter(mActivity);
+        recycleview.setHasFixedSize(true);
+        recycleview.setLayoutManager(new LinearLayoutManager(mActivity));
+        adapter.setItemClickListener(this);
+        recycleview.setAdapter(adapter);
+        adapter.updateItems(dataList);
     }
 
     @Override
     public void setListener() {
+
+    }
+
+    /**
+     * 测试数据
+     *
+     * @return
+     */
+    public void getceshiData() {
+        for (int i = 0; i < 9; i++) {
+            CeshiBean cb = new CeshiBean();
+            cb.setId(1);
+            cb.setIma("http://shtml.asia-cloud.com/ZZSY/list_test3.png");
+            cb.setName("卧槽" + i);
+            cb.setNum(13 + i);
+            dataList.add(cb);
+        }
+
+    }
+
+    /**
+     * item点击事件
+     *
+     * @param view
+     * @param o
+     * @param position
+     * @param eventType
+     */
+    @Override
+    public void onItemClick(View view, Object o, int position, int eventType) {
 
     }
 }

@@ -16,7 +16,7 @@ import java.io.Serializable;
  * Description：
  * Created on 2017/4/2
  */
-public abstract class BaseFragment extends Fragment implements View.OnClickListener{
+public abstract class BaseFragment extends Fragment implements  View.OnClickListener{
 
     private String name = this.getClass().getSimpleName();
 
@@ -49,7 +49,9 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         this.mActivity = activity;
     }
 
-
+    @Override
+    public void onClick(View view) {
+    }
 
     @Override
     public void onPause()
@@ -63,9 +65,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         super.onResume();
     }
 
-    @Override
-    public void onClick(View v)
-    {}
+
 
 
 
