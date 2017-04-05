@@ -283,8 +283,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
                 break;
             case R.id.tv_kf://客服
-                Intent intent=new Intent(this,PicInfoActivity.class);
-                startActivity(intent);
+                skip(PicInfoActivity.class,false);
                 break;
             case R.id.tv_versions://版本
 
