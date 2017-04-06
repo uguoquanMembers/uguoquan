@@ -1,22 +1,29 @@
 package com.wb.ygq.ui.base;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 
 import com.wb.ygq.R;
 import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.ui.utils.MyUtil;
+import com.wb.ygq.utils.ToastUtil;
 
+import android.view.WindowManager;
+import android.view.WindowManager.LayoutParams;
 import java.util.ArrayList;
 
 /**
@@ -64,10 +71,13 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
      */
     public abstract void setListener();
 
+    public ImageView ima_zq;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+//        setView();
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_DATE_CHANGED);
@@ -241,4 +251,5 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
                 break;
         }
     }
+
 }

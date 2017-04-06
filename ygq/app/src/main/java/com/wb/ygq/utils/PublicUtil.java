@@ -12,10 +12,14 @@ import android.text.style.TextAppearanceSpan;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.wb.ygq.ui.utils.*;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -176,4 +180,11 @@ public class PublicUtil {
     }
 
 
+    public static void setImaSize(Context context,ImageView ima, int c, int x) {
+        int screenWidth = com.wb.ygq.ui.utils.AppUtils.getScreenWidth(context);
+        ViewGroup.LayoutParams layoutParams = ima.getLayoutParams();
+        layoutParams.width = (screenWidth/c)*x;
+        layoutParams.height = (screenWidth/c)*x;
+        ima.setLayoutParams(layoutParams);
+    }
 }

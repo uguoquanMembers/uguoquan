@@ -138,12 +138,13 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             mineFragment = (MineFragment) fragmentManager.findFragmentByTag(MINEFRAGMENT_TAG);
             showFragment = savedInstanceState.getString("showFragment");
         }
+        initTitle();
         initView();
         initData();
         int sex = SharedUtil.getInt(PubConst.KEY_SEX, 0);
         if (sex == 0) //没存 弹出男女
         {
-            DialogUtil.showSex(this,"取消","确定");
+            DialogUtil.showSex(this, "取消", "确定");
         }
         setListener();
     }
@@ -156,7 +157,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     @Override
     public void initTitle() {
-
+//        setAn(true);
     }
 
     public void initView() {
@@ -283,8 +284,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
                 break;
             case R.id.tv_kf://客服
-                Intent intent=new Intent(this,PicInfoActivity.class);
-                startActivity(intent);
+                skip(PicInfoActivity.class, false);
                 break;
             case R.id.tv_versions://版本
 
