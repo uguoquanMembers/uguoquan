@@ -7,7 +7,6 @@ import java.util.List;
 /**
  * Description：
  * Created on 2017/4/6
- * Author : 郭
  */
 public class SpFriendListResponseBean extends BaseResponse {
     private List<FriendListBean> Data;
