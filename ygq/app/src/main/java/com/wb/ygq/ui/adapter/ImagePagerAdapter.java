@@ -1,6 +1,5 @@
 package com.wb.ygq.ui.adapter;
 
-import android.app.Activity;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
@@ -23,9 +22,9 @@ import java.util.List;
  * Created by Administrator on 2017/4/4.
  */
 public class ImagePagerAdapter extends PagerAdapter {
-    private Activity mActivity;
+    private PicInfoActivity mActivity;
     private List<String> pictureList;
-
+    private boolean flag;
 
     public ImagePagerAdapter(PicInfoActivity mActivity, List<String> pictureList) {
         this.mActivity = mActivity;
@@ -48,6 +47,18 @@ public class ImagePagerAdapter extends PagerAdapter {
         final ImageView iv_image = (ImageView) imageLayout.findViewById(R.id.iv_img);
         final ProgressBar spinner = (ProgressBar) imageLayout.findViewById(R.id.pb_loading);
 
+        iv_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flag){
+                    mActivity.isShowTitle(true);
+                    flag=false;
+                }else {
+                    mActivity.isShowTitle(false);
+                    flag=true;
+                }
+            }
+        });
         String path = pictureList.get(position);
         Glide.with(mActivity)
                 .load(path)

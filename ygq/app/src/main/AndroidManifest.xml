@@ -19,16 +19,18 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <activity android:name=".ui.act.PicInfoActivity">
+        <activity
+            android:name=".ui.act.PicInfoActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
 
-        <!--充值页面-->
+        <!-- 充值页面 -->
         <activity
             android:name=".ui.act.RechargeActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.act.VideoPlayActivity">
+        </activity>
     </application>
 
 </manifest>
