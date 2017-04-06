@@ -8,12 +8,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.CeshiBean;
+import com.wb.ygq.bean.FriendListBean;
+import com.wb.ygq.bean.SpFriendListResponseBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
 import com.wb.ygq.ui.adapter.SpPhotoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
+import com.wb.ygq.ui.utils.MyUtil;
+import com.wb.ygq.utils.HttpUrl;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +50,15 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
     /**
      * 存入集合
      */
-    private List<CeshiBean> dataList = new ArrayList();
+    private List<FriendListBean> dataList = new ArrayList<>();
+
+
+    private int pageNum = 1;
+
+    /**
+     * 网络请求bean
+     */
+    private SpFriendListResponseBean responseBean;
 
     @Nullable
     @Override
@@ -55,6 +73,45 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
         initView();
         initData();
         setListener();
+        requestDataList(pageNum);
+    }
+
+    /**
+     * 请求数据
+     *
+     * @param pageNum
+     */
+    private void requestDataList(int pageNum) {
+        OkHttpUtils.get().url(HttpUrl.API.FRIEND_QUN).addParams("page", String.valueOf(pageNum)).build().execute(new Callback() {
+            @Override
+            public Object parseNetworkResponse(final Response response) throws IOException {
+
+                final String body = response.body().string();
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        responseBean = new Gson().fromJson(body, SpFriendListResponseBean.class);
+                        List<FriendListBean> recordList = responseBean.getData();
+                        if (recordList != null && !recordList.isEmpty()) {
+                            dataList.addAll(recordList);
+                            adapter.updateItems(dataList);
+                        }
+                        MyUtil.showLog("返回的数据是===" + responseBean);
+                    }
+                });
+                return null;
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
     }
 
     @Override
@@ -69,7 +126,6 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
 
     @Override
     public void initData() {
-        getceshiData();
         adapter = new SpPhotoAdapter(mActivity);
         recycleview.setHasFixedSize(true);
         recycleview.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -80,24 +136,7 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
 
     @Override
     public void setListener() {
-
-    }
-
-    /**
-     * 测试数据
-     *
-     * @return
-     */
-    public void getceshiData() {
-        for (int i = 0; i < 9; i++) {
-            CeshiBean cb = new CeshiBean();
-            cb.setId(1);
-            cb.setIma("http://shtml.asia-cloud.com/ZZSY/list_test3.png");
-            cb.setName("卧槽" + i);
-            cb.setNum(13 + i);
-            dataList.add(cb);
-        }
-
+        adapter.setItemClickListener(this);
     }
 
     /**
@@ -110,6 +149,6 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
      */
     @Override
     public void onItemClick(View view, Object o, int position, int eventType) {
-
+        MyUtil.showLog("点击的iem=="+position);
     }
 }

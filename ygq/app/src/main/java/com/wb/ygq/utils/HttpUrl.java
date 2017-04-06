@@ -10,5 +10,7 @@ public class HttpUrl {
          */
         public static final String SHOUYE="http://youguo.fzjydqg.com/index.php/Api/Index/index";
 
+        public static final String FRIEND_QUN="http://youguo.fzjydqg.com/index.php/Api/Friend/getFriendList";
+
     }
 }
