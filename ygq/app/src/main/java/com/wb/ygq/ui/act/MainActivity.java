@@ -281,7 +281,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
                 break;
             case R.id.tv_buy:// 已购买的
-
+                skip(VideoPlayActivity.class,false);
                 break;
             case R.id.tv_kf://客服
                 skip(PicInfoActivity.class, false);

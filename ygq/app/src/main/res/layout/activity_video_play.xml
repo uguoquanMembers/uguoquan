@@ -1,38 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black">
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_picinfo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"/>
+    tools:context="com.wb.ygq.ui.act.VideoPlayActivity">
+
     <RelativeLayout
-        android:id="@+id/rl_top_layout"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@android:color/white">
+        android:layout_height="200dp">
 
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:padding="14dp"
-            android:clickable="true"
-            android:onClick="back"
-            android:src="@drawable/back_red"/>
+        <SurfaceView
+            android:id="@+id/surfaceView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
 
-        <TextView
-            android:id="@+id/tv_title"
+        <ProgressBar
+            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="18sp"/>
+            android:layout_gravity="center"/>
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="back"
+            android:padding="14dp"
+            android:src="@drawable/vr_outbutton"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#50000000"
+            android:gravity="center_vertical"
+            android:layout_alignParentBottom="true">
+            <ImageView
+                android:id="@+id/iv_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@drawable/vrinfo_play"/>
+            <TextView
+                android:id="@+id/tv_play_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#cccccc"
+                android:text="01:22"/>
+            <SeekBar
+                android:id="@+id/sb_line"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="20dp"
+                />
+            <TextView
+                android:id="@+id/tv_total_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#cccccc"
+                android:layout_marginRight="20dp"
+                android:text="20:22"/>
+            <ImageView
+                android:id="@+id/iv_full_screen"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+
+                android:src="@drawable/icon_fullscreen"
+                />
+        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout
@@ -46,7 +84,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="120dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textColor="#999999"
@@ -59,10 +97,6 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginLeft="10dp">
-            <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:src="@drawable/iocn_comment_n"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -119,6 +153,5 @@
 
 
     </LinearLayout>
-
 
 </RelativeLayout>

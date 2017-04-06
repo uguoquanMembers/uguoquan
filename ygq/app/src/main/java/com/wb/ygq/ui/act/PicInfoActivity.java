@@ -2,7 +2,10 @@ package com.wb.ygq.ui.act;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.view.Window;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wb.ygq.R;
@@ -15,6 +18,8 @@ import java.util.List;
 public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     private ViewPager vp_picinfo;
     private TextView tv_title;
+    private RelativeLayout rl_top_layout;
+    private LinearLayout ll_bottom_layout;
 
     private List<String> picPathes;
     private int currentPage;
@@ -30,7 +35,8 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
     public void initView() {
         vp_picinfo= (ViewPager) findViewById(R.id.vp_picinfo);
         tv_title= (TextView) findViewById(R.id.tv_title);
-
+        rl_top_layout= (RelativeLayout) findViewById(R.id.rl_top_layout);
+        ll_bottom_layout= (LinearLayout) findViewById(R.id.ll_bottom_layout);
     }
 
     @Override
@@ -48,6 +54,17 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
         vp_picinfo.setCurrentItem(currentPage);
         vp_picinfo.setOnPageChangeListener(this);
         tv_title.setText((currentPage+1)+"/"+picPathes.size());
+    }
+
+    public void isShowTitle(boolean flag){
+        if (flag){
+            rl_top_layout.setVisibility(View.VISIBLE);
+            ll_bottom_layout.setVisibility(View.VISIBLE);
+        }else {
+            rl_top_layout.setVisibility(View.GONE);
+            ll_bottom_layout.setVisibility(View.GONE);
+        }
+
     }
 
     @Override

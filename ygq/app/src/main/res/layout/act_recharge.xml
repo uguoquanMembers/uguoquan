@@ -20,5 +20,4 @@
             android:text="充值"
             android:textSize="17sp"></TextView>
     </android.support.v7.widget.Toolbar>
-
 </LinearLayout>
