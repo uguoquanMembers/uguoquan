@@ -53,7 +53,7 @@ public class SpFragment extends BaseFragment {
     @Override
     public void initData() {
         sp_tablayout.addTab(sp_tablayout.newTab().setText("自拍"));
-        sp_tablayout.addTab(sp_tablayout.newTab().setText("视频"));
+        sp_tablayout.addTab(sp_tablayout.newTab().setText("直播"));
         sp_tablayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final PagerAdapter adapter = new PagerAdapter(getChildFragmentManager(), sp_tablayout.getTabCount());
