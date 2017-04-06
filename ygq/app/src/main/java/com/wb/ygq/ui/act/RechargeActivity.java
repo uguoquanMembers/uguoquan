@@ -28,7 +28,6 @@ public class RechargeActivity extends BaseActivity {
 
     @Override
     public void initTitle() {
-
     }
 
     @Override

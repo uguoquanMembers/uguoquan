@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.CeshiBean;
 import com.wb.ygq.bean.IBannerBean;
@@ -56,6 +57,8 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
     private boolean isInfiniteLoop = true;
     private List<IBannerBean> banners;
 
+    private SwipeToLoadLayout swipe_refresh;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,6 +82,7 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
     @Override
     public void initView() {
         recycle_video = (RecyclerView) view.findViewById(R.id.recycle_video);
+        swipe_refresh = (SwipeToLoadLayout) view.findViewById(R.id.swipe_refresh);
     }
 
     @Override
@@ -94,6 +98,7 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
         adapter.setItemClickListener(this);
         recycle_video.setAdapter(adapter);
         adapter.updateItems(dataList);
+
 //处理轮播
         banners = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
