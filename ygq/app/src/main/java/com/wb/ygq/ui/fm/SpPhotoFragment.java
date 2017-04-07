@@ -2,7 +2,7 @@ package com.wb.ygq.ui.fm;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +12,6 @@ import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
-import com.wb.ygq.bean.CeshiBean;
 import com.wb.ygq.bean.FriendListBean;
 import com.wb.ygq.bean.SpFriendListResponseBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
@@ -128,7 +127,7 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
     public void initData() {
         adapter = new SpPhotoAdapter(mActivity);
         recycleview.setHasFixedSize(true);
-        recycleview.setLayoutManager(new LinearLayoutManager(mActivity));
+        recycleview.setLayoutManager(new GridLayoutManager(mActivity,1));
         adapter.setItemClickListener(this);
         recycleview.setAdapter(adapter);
         adapter.updateItems(dataList);
