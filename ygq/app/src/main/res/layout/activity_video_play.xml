@@ -1,87 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.wb.ygq.ui.act.VideoPlayActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.wb.ygq.ui.act.VideoPlayActivity">
 
     <RelativeLayout
-        android:id="@+id/rl_player"
+        android:id="@+id/frame_mediao"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="wrap_content"
+        >
 
-        <SurfaceView
-            android:id="@+id/surfaceView"
+        <VideoView
+            android:id="@+id/surfaceview"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="220dp"
+            android:layout_centerInParent="true"
+            android:background="#FF333333"
+            />
 
         <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/image_buffer"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_centerInParent="true"
-            android:layout_gravity="center" />
+            android:indeterminateDrawable="@drawable/jc_loading"
+            android:visibility="gone"></ProgressBar>
 
         <ImageView
-            android:id="@+id/iv_back"
+            android:id="@+id/image_playorpause"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/vrinfo_play"/>
+
+        <ImageView
+            android:id="@+id/image_frist_play"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/top_media_controller"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:background="#50000000"
+        >
+
+        <ImageView
+            android:id="@+id/image_back"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/vr_outbutton"/>
+
+        <TextView
+            android:id="@+id/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:onClick="back"
-            android:padding="14dp"
-            android:src="@drawable/vr_outbutton" />
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_toRightOf="@+id/image_back"
+            android:singleLine="true"
+            android:text="我是标题我是标题"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/bottom_media_controller"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/frame_mediao"
+        android:layout_marginTop="-40dp"
+        android:background="#40000000">
+
+        <TextView
+            android:id="@+id/text_currentpostion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:text="00:00"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"/>
+
+        <SeekBar
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_toLeftOf="@+id/text_durtionposition"
+            android:layout_toRightOf="@+id/text_currentpostion"
+            android:background="@null"
+            android:max="100"
+            android:maxHeight="4dp"
+            android:minHeight="4dp"
+            android:progressDrawable="@drawable/jc_seek_progress"
+            android:thumb="@drawable/jc_seek_thumb_normal"/>
+
+        <TextView
+            android:id="@+id/text_durtionposition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:layout_toLeftOf="@+id/linear_full_or_wrap"
+            android:text="00:00"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_alignParentBottom="true"
-            android:background="#50000000"
-            android:gravity="center_vertical">
+            android:id="@+id/linear_full_or_wrap"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center">
 
             <ImageView
-                android:id="@+id/iv_start"
+                android:id="@+id/image_full_screen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:src="@drawable/vrinfo_play" />
+                android:src="@drawable/jc_enlarge"
+                >
 
-            <TextView
-                android:id="@+id/tv_play_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="01:22"
-                android:textColor="#cccccc" />
-
-            <SeekBar
-                android:id="@+id/sb_line"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/tv_total_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:text="20:22"
-                android:textColor="#cccccc" />
-
-            <ImageView
-                android:id="@+id/iv_full_screen"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:src="@drawable/icon_fullscreen" />
+            </ImageView>
         </LinearLayout>
+
     </RelativeLayout>
+    <!--<RelativeLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="200dp">-->
+
+    <!--<SurfaceView-->
+    <!--android:id="@+id/surfaceView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="200dp"/>-->
+
+    <!--<ProgressBar-->
+    <!--android:id="@+id/progressBar"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:layout_gravity="center"/>-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/iv_back"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:clickable="true"-->
+    <!--android:onClick="back"-->
+    <!--android:padding="14dp"-->
+    <!--android:src="@drawable/vr_outbutton"/>-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="48dp"-->
+    <!--android:background="#50000000"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:layout_alignParentBottom="true">-->
+    <!--<ImageView-->
+    <!--android:id="@+id/iv_start"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="10dp"-->
+    <!--android:src="@drawable/vrinfo_play"/>-->
+    <!--<TextView-->
+    <!--android:id="@+id/tv_play_time"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:textColor="#cccccc"-->
+    <!--android:text="01:22"/>-->
+    <!--<SeekBar-->
+    <!--android:id="@+id/sb_line"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="5dp"-->
+    <!--android:layout_marginRight="20dp"-->
+    <!--/>-->
+    <!--<TextView-->
+    <!--android:id="@+id/tv_total_time"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:textColor="#cccccc"-->
+    <!--android:layout_marginRight="20dp"-->
+    <!--android:text="20:22"/>-->
+    <!--<ImageView-->
+    <!--android:id="@+id/iv_full_screen"-->
+    <!--android:layout_width="35dp"-->
+    <!--android:layout_height="35dp"-->
+
+    <!--android:src="@drawable/icon_fullscreen"-->
+    <!--/>-->
+    <!--</LinearLayout>-->
+    <!--</RelativeLayout>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycle_comment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/ll_bottom_layout"
-        android:layout_below="@id/rl_player"
+        android:layout_below="@id/frame_mediao"
         android:layout_weight="1"></android.support.v7.widget.RecyclerView>
 
     <LinearLayout
@@ -107,7 +236,7 @@
             android:paddingTop="5dp"
             android:text="评论吧"
             android:textColor="#999999"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
 
         <RelativeLayout
             android:layout_width="45dp"
@@ -124,7 +253,7 @@
                 android:background="@android:color/white"
                 android:text="312"
                 android:textColor="#666666"
-                android:textSize="10dp" />
+                android:textSize="10dp"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -135,7 +264,7 @@
             <ImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:src="@drawable/icon_favorite_n" />
+                android:src="@drawable/icon_favorite_n"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -147,7 +276,7 @@
                 android:background="@android:color/white"
                 android:text="312"
                 android:textColor="#666666"
-                android:textSize="10dp" />
+                android:textSize="10dp"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -158,7 +287,7 @@
             <ImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:src="@drawable/icon_praise_n" />
+                android:src="@drawable/icon_praise_n"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -170,7 +299,7 @@
                 android:background="@android:color/white"
                 android:text="312"
                 android:textColor="#666666"
-                android:textSize="10dp" />
+                android:textSize="10dp"/>
         </RelativeLayout>
     </LinearLayout>
 
@@ -197,7 +326,7 @@
             android:padding="10dp"
             android:singleLine="true"
             android:textColorHint="@color/color_999999"
-            android:textSize="13sp" />
+            android:textSize="13sp"/>
 
         <TextView
             android:id="@+id/tv_button_send"
@@ -211,5 +340,6 @@
             android:padding="10dp"
             android:text="发送"
             android:textColor="@color/color_press" />
+            android:textColor="@color/color_press"/>
     </RelativeLayout>
 </RelativeLayout>

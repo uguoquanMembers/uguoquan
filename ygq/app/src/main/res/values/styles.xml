@@ -25,8 +25,12 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.AppLauncher" parent="@android:style/Theme.NoTitleBar.Fullscreen">
-        <item name="android:windowBackground">@drawable/splashscreen</item>
+
+    <style name="top_line_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">#E0E0E0</item>
+        <item name="android:layout_alignParentBottom">true</item>
     </style>
 
     <style name="textstyle_14_ff6633">

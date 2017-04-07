@@ -24,8 +24,6 @@ import com.wb.ygq.ui.utils.MyUtil;
 import com.wb.ygq.utils.PublicUtil;
 import com.wb.ygq.utils.ToastUtil;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
