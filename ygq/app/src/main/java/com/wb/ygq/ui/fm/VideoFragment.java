@@ -26,6 +26,10 @@ import com.wb.ygq.utils.ToastUtil;
 import com.wb.ygq.widget.autoscrollviewpager.AutoScrollViewPager;
 import com.wb.ygq.widget.autoscrollviewpager.CircleIndicator;
 import com.wb.ygq.widget.autoscrollviewpager.ImagePagerAdapter;
+import com.wb.ygq.widget.irecycleerview.IRecyclerView;
+import com.wb.ygq.widget.irecycleerview.LoadMoreFooterView;
+import com.wb.ygq.widget.irecycleerview.OnLoadMoreListener;
+import com.wb.ygq.widget.irecycleerview.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +38,10 @@ import java.util.List;
  * Description：
  * Created on 2017/4/2
  */
-public class VideoFragment extends BaseFragment implements RecyclerViewItemClickListener {
+public class VideoFragment extends BaseFragment implements RecyclerViewItemClickListener ,OnRefreshListener, OnLoadMoreListener {
 
     private View view;
-    private RecyclerView recycle_video;
+    private IRecyclerView recycle_video;
     private VideoAdapter adapter;
     /**
      * 存储数据
@@ -57,7 +61,8 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
     private boolean isInfiniteLoop = true;
     private List<IBannerBean> banners;
 
-    private SwipeToLoadLayout swipe_refresh;
+    private LoadMoreFooterView loadMoreFooterView;
+
 
     @Nullable
     @Override
@@ -81,8 +86,7 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
 
     @Override
     public void initView() {
-        recycle_video = (RecyclerView) view.findViewById(R.id.recycle_video);
-        swipe_refresh = (SwipeToLoadLayout) view.findViewById(R.id.swipe_refresh);
+        recycle_video = (IRecyclerView) view.findViewById(R.id.recycle_video);
     }
 
     @Override
@@ -96,8 +100,19 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
         recycle_video.setHasFixedSize(true);
         recycle_video.setLayoutManager(new GridLayoutManager(mActivity, 1));
         adapter.setItemClickListener(this);
-        recycle_video.setAdapter(adapter);
+//        recycle_video.setAdapter(adapter);
         adapter.updateItems(dataList);
+
+        loadMoreFooterView = (LoadMoreFooterView) recycle_video.getLoadMoreFooterView();
+
+        recycle_video.setIAdapter(adapter);
+        recycle_video.post(new Runnable() {
+            @Override
+            public void run() {
+                recycle_video.setRefreshing(true);
+            }
+        });
+
 
 //处理轮播
         banners = new ArrayList<>();
@@ -115,6 +130,11 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
     public void setListener() {
         ima_videohead_left.setOnClickListener(this);
         ima_videohead_right.setOnClickListener(this);
+
+        recycle_video.setOnRefreshListener(this);
+        recycle_video.setOnLoadMoreListener(this);
+
+
         adapter.setItemClickListener(this);
     }
 
@@ -130,8 +150,8 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
         ima_videohead_left = (ImageView) headView.findViewById(R.id.ima_videohead_left);
         ima_videohead_right = (ImageView) headView.findViewById(R.id.ima_videohead_right);
         //设置为屏幕宽度的三分之1
-        PublicUtil.setImaSize(mActivity,ima_videohead_left,3,1);
-        PublicUtil.setImaSize(mActivity,ima_videohead_right,3,1);
+        PublicUtil.setImaSize(mActivity, ima_videohead_left, 3, 1);
+        PublicUtil.setImaSize(mActivity, ima_videohead_right, 3, 1);
         return headView;
     }
 
@@ -235,6 +255,19 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
                 MyUtil.showLog("点击banner");
                 break;
 
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+    }
+
+    @Override
+    public void onLoadMore() {
+        if (loadMoreFooterView.canLoadMore() && adapter.getItemCount() > 0) {
+            loadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
+//            loadMore();
         }
     }
 }
