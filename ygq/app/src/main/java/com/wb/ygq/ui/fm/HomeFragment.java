@@ -87,7 +87,7 @@ public class HomeFragment extends BaseFragment {
                         data = response.body().string();
 
                         final String finalData = data;
-                        getActivity().runOnUiThread(new Runnable() {
+                        mActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 mHomeVideoBean = new Gson().fromJson(finalData, HomeVideoBean.class);
