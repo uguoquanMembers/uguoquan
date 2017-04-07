@@ -172,8 +172,44 @@
                 android:textColor="#666666"
                 android:textSize="10dp" />
         </RelativeLayout>
-
-
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_input"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_ffffff"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/et_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toLeftOf="@+id/tv_button_send"
+            android:background="@drawable/bg_comment_border"
+            android:ellipsize="start"
+            android:gravity="center_vertical"
+            android:hint="请输入"
+            android:maxLength="20"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColorHint="@color/color_999999"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_button_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="10dp"
+            android:text="发送"
+
+            android:textColor="@color/color_press" />
+    </RelativeLayout>
 </RelativeLayout>

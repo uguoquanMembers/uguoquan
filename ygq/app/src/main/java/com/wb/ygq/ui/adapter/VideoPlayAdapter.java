@@ -58,6 +58,8 @@ public class VideoPlayAdapter extends BaseRecyclerAdapter<CeshiBean> {
         this.headView = headView;
     }
 
+
+
     class VideoPlayViewHolder extends RecyclerView.ViewHolder {
         private ImageView ima_videoplay_head;
         private TextView tv_videoplay_name, tv_videoplay_content;

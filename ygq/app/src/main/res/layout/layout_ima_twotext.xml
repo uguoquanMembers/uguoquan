@@ -10,7 +10,6 @@
         android:id="@+id/image_head"
         android:layout_width="107dp"
         android:layout_height="80dp"
-        android:background="@drawable/medicine_operation_done"
         android:scaleType="centerCrop" />
 
     <TextView
