@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.wb.ygq.ui.act.VideoPlayActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.wb.ygq.ui.act.VideoPlayActivity">
 
     <RelativeLayout
         android:id="@+id/frame_mediao"
@@ -133,156 +132,213 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/jc_enlarge"
-                ></ImageView>
+                >
+
+            </ImageView>
         </LinearLayout>
 
     </RelativeLayout>
     <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="200dp">-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="200dp">-->
 
-        <!--<SurfaceView-->
-            <!--android:id="@+id/surfaceView"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="200dp"/>-->
+    <!--<SurfaceView-->
+    <!--android:id="@+id/surfaceView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="200dp"/>-->
 
-        <!--<ProgressBar-->
-            <!--android:id="@+id/progressBar"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerInParent="true"-->
-            <!--android:layout_gravity="center"/>-->
+    <!--<ProgressBar-->
+    <!--android:id="@+id/progressBar"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:layout_gravity="center"/>-->
 
-        <!--<ImageView-->
-            <!--android:id="@+id/iv_back"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:clickable="true"-->
-            <!--android:onClick="back"-->
-            <!--android:padding="14dp"-->
-            <!--android:src="@drawable/vr_outbutton"/>-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="48dp"-->
-            <!--android:background="#50000000"-->
-            <!--android:gravity="center_vertical"-->
-            <!--android:layout_alignParentBottom="true">-->
-            <!--<ImageView-->
-                <!--android:id="@+id/iv_start"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:padding="10dp"-->
-                <!--android:src="@drawable/vrinfo_play"/>-->
-            <!--<TextView-->
-                <!--android:id="@+id/tv_play_time"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textColor="#cccccc"-->
-                <!--android:text="01:22"/>-->
-            <!--<SeekBar-->
-                <!--android:id="@+id/sb_line"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="5dp"-->
-                <!--android:layout_marginRight="20dp"-->
-                <!--/>-->
-            <!--<TextView-->
-                <!--android:id="@+id/tv_total_time"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textColor="#cccccc"-->
-                <!--android:layout_marginRight="20dp"-->
-                <!--android:text="20:22"/>-->
-            <!--<ImageView-->
-                <!--android:id="@+id/iv_full_screen"-->
-                <!--android:layout_width="35dp"-->
-                <!--android:layout_height="35dp"-->
+    <!--<ImageView-->
+    <!--android:id="@+id/iv_back"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:clickable="true"-->
+    <!--android:onClick="back"-->
+    <!--android:padding="14dp"-->
+    <!--android:src="@drawable/vr_outbutton"/>-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="48dp"-->
+    <!--android:background="#50000000"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:layout_alignParentBottom="true">-->
+    <!--<ImageView-->
+    <!--android:id="@+id/iv_start"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="10dp"-->
+    <!--android:src="@drawable/vrinfo_play"/>-->
+    <!--<TextView-->
+    <!--android:id="@+id/tv_play_time"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:textColor="#cccccc"-->
+    <!--android:text="01:22"/>-->
+    <!--<SeekBar-->
+    <!--android:id="@+id/sb_line"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="5dp"-->
+    <!--android:layout_marginRight="20dp"-->
+    <!--/>-->
+    <!--<TextView-->
+    <!--android:id="@+id/tv_total_time"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:textColor="#cccccc"-->
+    <!--android:layout_marginRight="20dp"-->
+    <!--android:text="20:22"/>-->
+    <!--<ImageView-->
+    <!--android:id="@+id/iv_full_screen"-->
+    <!--android:layout_width="35dp"-->
+    <!--android:layout_height="35dp"-->
 
-                <!--android:src="@drawable/icon_fullscreen"-->
-                <!--/>-->
-        <!--</LinearLayout>-->
+    <!--android:src="@drawable/icon_fullscreen"-->
+    <!--/>-->
+    <!--</LinearLayout>-->
     <!--</RelativeLayout>-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycle_comment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ll_bottom_layout"
+        android:layout_below="@id/frame_mediao"
+        android:layout_weight="1"></android.support.v7.widget.RecyclerView>
 
     <LinearLayout
         android:id="@+id/ll_bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@android:color/white"
         android:layout_alignParentBottom="true"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@android:color/white"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
         <TextView
+            android:id="@+id/tv_input"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="#999999"
+            android:background="@drawable/tv_comment_bg_corner"
+            android:paddingBottom="5dp"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:background="@drawable/tv_comment_bg_corner"
-            android:text="评论吧"/>
+            android:text="评论吧"
+            android:textColor="#999999"
+            android:textSize="14sp"/>
+
         <RelativeLayout
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginLeft="10dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:background="@android:color/white"
                 android:layout_marginBottom="7dp"
                 android:layout_marginRight="5dp"
-                android:textSize="10dp"
+                android:background="@android:color/white"
+                android:text="312"
                 android:textColor="#666666"
-                android:text="312"/>
+                android:textSize="10dp"/>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginLeft="15dp">
+
             <ImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@drawable/icon_favorite_n"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:background="@android:color/white"
                 android:layout_marginBottom="7dp"
                 android:layout_marginRight="5dp"
-                android:textSize="10dp"
+                android:background="@android:color/white"
+                android:text="312"
                 android:textColor="#666666"
-                android:text="312"/>
+                android:textSize="10dp"/>
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginLeft="15dp">
+
             <ImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@drawable/icon_praise_n"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:background="@android:color/white"
                 android:layout_marginBottom="7dp"
                 android:layout_marginRight="5dp"
-                android:textSize="10dp"
+                android:background="@android:color/white"
+                android:text="312"
                 android:textColor="#666666"
-                android:text="312"/>
+                android:textSize="10dp"/>
         </RelativeLayout>
-
-
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_input"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_ffffff"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/et_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toLeftOf="@+id/tv_button_send"
+            android:background="@drawable/bg_comment_border"
+            android:ellipsize="start"
+            android:gravity="center_vertical"
+            android:hint="请输入"
+            android:maxLength="20"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColorHint="@color/color_999999"
+            android:textSize="13sp"/>
+
+        <TextView
+            android:id="@+id/tv_button_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="10dp"
+            android:text="发送"
+
+            android:textColor="@color/color_press"/>
+    </RelativeLayout>
 </RelativeLayout>

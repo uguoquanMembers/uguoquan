@@ -33,4 +33,8 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/color_666666</item>
     </style>
+    <style name="textstyle_10_5DBCF4">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/color_5DBCF4</item>
+    </style>
 </resources>
