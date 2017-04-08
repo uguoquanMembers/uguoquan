@@ -94,7 +94,7 @@ public class MineFragment extends BaseFragment {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.tv_bt_rank://等级
-
+                skip(RechargeActivity.class, false);
                 break;
             case R.id.tv_bt_recharge://充值
                 MyUtil.showLog("点击充值");

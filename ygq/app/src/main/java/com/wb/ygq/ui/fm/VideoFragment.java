@@ -215,7 +215,7 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
 
             isInfiniteLoop = banners.size() > 1;
 
-            viewPager.setAdapter(new ImagePagerAdapter<>(mActivity, banners, new ImagePagerAdapter.onBannerItemClickListenter<IBannerBean>() {
+            viewPager.setAdapter(new ImagePagerAdapter<>(0,mActivity, banners, new ImagePagerAdapter.onBannerItemClickListenter<IBannerBean>() {
                 @Override
                 public void onItemClick(IBannerBean bannerBean) {
                     doBannerClick(bannerBean);
