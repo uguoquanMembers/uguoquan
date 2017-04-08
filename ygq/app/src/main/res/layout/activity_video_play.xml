@@ -338,6 +338,9 @@
             android:layout_marginLeft="10dp"
             android:background="?android:attr/selectableItemBackground"
             android:padding="10dp"
+
+
+
             android:text="发送"
             android:textColor="@color/color_press" />
             android:textColor="@color/color_press"/>

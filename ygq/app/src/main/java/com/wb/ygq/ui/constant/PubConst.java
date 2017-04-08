@@ -8,6 +8,13 @@ public class PubConst {
 
     public final static String GPS = "GPS";
     /**
+     * vip
+     */
+    public final static String VIP_KEY_ZS = "vip_key_zs";
+    public final static String VIP_KEY_BJ = "vip_key_bj";
+    public final static String VIP_KEY_SY = "vip_key_sy";
+    public final static String VIP_KEY_DY = "vip_key_dy";
+    /**
      * 传值key title
      */
     public static final String KEY_TITLE = "title";

@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.IBanner;
 import com.wb.ygq.ui.utils.MyUtil;
+import com.wb.ygq.widget.GlideRoundTransform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ public class ImagePagerAdapter<T extends IBanner> extends RecyclingPagerAdapter 
     private int size;
 
     private boolean isInfiniteLoop;
+    private int key_showstyle = 0;
 
     /**
      * 是Banner 还是url 默认false 代表Banner
@@ -63,7 +65,7 @@ public class ImagePagerAdapter<T extends IBanner> extends RecyclingPagerAdapter 
         inflater = LayoutInflater.from(context);
     }
 
-    public ImagePagerAdapter(@Nullable Context context, @Nullable List<T> imageIdList, onBannerItemClickListenter<T> listener) {
+    public ImagePagerAdapter(int key_showstyle, @Nullable Context context, @Nullable List<T> imageIdList, onBannerItemClickListenter<T> listener) {
         if (context == null) return;
         this.context = context;
         this.imageIdList = imageIdList;
@@ -71,6 +73,7 @@ public class ImagePagerAdapter<T extends IBanner> extends RecyclingPagerAdapter 
         isInfiniteLoop = false;
         inflater = LayoutInflater.from(context);
         mListener = listener;
+       this.key_showstyle = key_showstyle;
     }
 
     @Override
@@ -109,7 +112,11 @@ public class ImagePagerAdapter<T extends IBanner> extends RecyclingPagerAdapter 
 
         if (!isUrl) {
             final T t = imageIdList.get(getPosition(position));
-            Glide.with(context).load(t.getBannerImg()).into(holder.imageView);
+            if (key_showstyle !=  0) {//唯一的时候 圆角
+                Glide.with(context).load(t.getBannerImg()).transform(new GlideRoundTransform(context, 15)).into(holder.imageView);
+            } else {
+                Glide.with(context).load(t.getBannerImg()).into(holder.imageView);
+            }
             holder.imageView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -120,7 +127,7 @@ public class ImagePagerAdapter<T extends IBanner> extends RecyclingPagerAdapter 
 
         } else {
             String url = imgList.get(getPosition(position));
-            MyUtil.showLog("22222222222222"+url);
+            MyUtil.showLog("22222222222222" + url);
 //            Glide.with(context).load("http://shtml.asia-cloud.com/ZZSY/list_test2.png").into(holder.imageView);
 //            ImageLoaderUtil.display(WAPI.urlFormatRemote(StringUtil.StrTrim(url)), holder.imageView, R.drawable.shop_detail_default_pic);
             if (!TextUtils.isEmpty(url)) {

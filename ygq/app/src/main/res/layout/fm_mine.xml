@@ -46,8 +46,9 @@
     <ImageView
         android:id="@+id/ima_recharge"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/color_ededed" />
+        android:layout_height="wrap_content"
+        android:background="@color/color_ffffff"
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/tv_btmine_buy"
