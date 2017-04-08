@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.wb.ygq.R;
+import com.wb.ygq.ui.act.AlreadyBuyActivity;
 import com.wb.ygq.ui.act.RechargeActivity;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.ui.utils.MyUtil;
@@ -74,6 +76,7 @@ public class MineFragment extends BaseFragment {
     public void initData() {
         tv_bt_rank.setText(PublicUtil.formatTextView(mActivity, "1", "\n等级", R.style.textstyle_14_ff6633, R.style.textstyle_14_666666, 2));
         tv_bt_recharge.setText(PublicUtil.formatTextView(mActivity, "充值", "\n成为vip", R.style.textstyle_14_ff6633, R.style.textstyle_14_666666, 5));
+        Glide.with(mActivity).load("http://7xwwfr.com1.z0.glb.clouddn.com/recharge_baoqi_bg.png").into(ima_recharge);
     }
 
     @Override
@@ -98,7 +101,7 @@ public class MineFragment extends BaseFragment {
                 skip(RechargeActivity.class, false);
                 break;
             case R.id.tv_btmine_buy://已购买的
-
+                skip(AlreadyBuyActivity.class, false);
                 break;
             case R.id.tv_btmine_collect://收藏
 
