@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.OvershootInterpolator;
 import android.widget.ImageButton;
 
 import com.wb.ygq.R;
@@ -54,7 +53,7 @@ public class SplashScreenActivity extends BaseActivity {
         imabtn_comein = (ImageButton) findViewById(R.id.imabtn_comein);
        ObjectAnimator.ofFloat(imabtn_comein, "translationY", 0F, -screenHeight / 2).setDuration(2000).start();
 //        animator.setInterpolator(new OvershootInterpolator());
-        handler.postDelayed(run, 5000);
+        handler.postDelayed(run, 3000);
     }
 
     @Override

@@ -11,15 +11,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.wb.ygq.R;
-import com.wb.ygq.bean.CeshiBean;
+import com.wb.ygq.bean.VideoFMBean;
 import com.wb.ygq.ui.base.BaseRecyclerAdapter;
+import com.wb.ygq.widget.CropCircleTransformation;
 import com.wb.ygq.widget.EmptyViewHolder;
 
 /**
  * Description：
  * Created on 2017/4/5
  */
-public class VideoAdapter extends BaseRecyclerAdapter<CeshiBean> {
+public class VideoAdapter extends BaseRecyclerAdapter<VideoFMBean.DataBean.VideoListBean> {
 
     private View headView;
 
@@ -49,17 +50,20 @@ public class VideoAdapter extends BaseRecyclerAdapter<CeshiBean> {
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof VideoHolder) {
-            final CeshiBean ceshiBean = mItems.get(position);
-            ((VideoHolder) holder).tv_video_name.setText(ceshiBean.getName());
-            ((VideoHolder) holder).tv_video_num.setText(position+10+"");
+            final VideoFMBean.DataBean.VideoListBean mVideoBean = mItems.get(position);
+            ((VideoHolder) holder).tv_video_name.setText(mVideoBean.getName());
+            ((VideoHolder) holder).tv_video_num.setText(mVideoBean.getCount());
+            ((VideoHolder) holder).tv_video_mark.setText(mVideoBean.getLabel());
+
             ((VideoHolder) holder).ll_item_spvideo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    itemClickListener.onItemClick(((VideoHolder) holder).ll_item_spvideo, ceshiBean, position, 1);
+                    itemClickListener.onItemClick(((VideoHolder) holder).ll_item_spvideo, mVideoBean, position, 1);
                 }
             });
-
-            Glide.with(mContext).load(ceshiBean.getIma()).crossFade().into(((VideoHolder) holder).ima_video_head);
+            Glide.with(mContext).load(mVideoBean.getImg()).crossFade().into(((VideoHolder) holder).iv_video_img);
+            Glide.with(mContext).load(mVideoBean.getHeadpic()).crossFade()
+                    .bitmapTransform(new CropCircleTransformation(mContext)).into(((VideoHolder) holder).ima_video_head);
         }
     }
 
@@ -68,16 +72,17 @@ public class VideoAdapter extends BaseRecyclerAdapter<CeshiBean> {
     }
 
     class VideoHolder extends RecyclerView.ViewHolder {
-        private ImageView ima_video_head, ima_video_share;
-        private TextView tv_video_name, tv_video_num;
+        private ImageView ima_video_head,iv_video_img;
+        private TextView tv_video_name, tv_video_num,tv_video_mark;
         private LinearLayout ll_item_spvideo;
         public VideoHolder(View itemView) {
             super(itemView);
             ima_video_head = (ImageView) itemView.findViewById(R.id.ima_video_head);
-            ima_video_share = (ImageView) itemView.findViewById(R.id.ima_video_share);
             tv_video_name = (TextView) itemView.findViewById(R.id.tv_video_name);
             tv_video_num = (TextView) itemView.findViewById(R.id.tv_video_num);
             ll_item_spvideo = (LinearLayout) itemView.findViewById(R.id.ll_item_spvideo);
+            iv_video_img= (ImageView) itemView.findViewById(R.id.iv_video_img);
+            tv_video_mark= (TextView) itemView.findViewById(R.id.tv_video_mark);
         }
     }
 }

@@ -91,9 +91,9 @@ public class HomeFragment extends BaseFragment {
                             public void run() {
                                 mHomeVideoBean = new Gson().fromJson(finalData, HomeVideoBean.class);
                                 banners = new ArrayList<>();
-                                for (int i = 0; i < 5; i++) {
+                                for (int i = 0; i < mHomeVideoBean.getData().getCarouselList().size(); i++) {
                                     IBannerBean bannerBean = new IBannerBean();
-                                    bannerBean.setBannerImg("http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg");
+                                    bannerBean.setBannerImg(mHomeVideoBean.getData().getCarouselList().get(i).getImg());
                                     bannerBean.setBannerLinkId("001");
                                     bannerBean.setBannerType("005");
                                     banners.add(bannerBean);
@@ -130,11 +130,11 @@ public class HomeFragment extends BaseFragment {
             layout_banner = (RelativeLayout) header.findViewById(R.id.layout_banner);
             viewPager = (AutoScrollViewPager) layout_banner.findViewById(R.id.viewPager);
             int width = AppUtils.getScreenWidth(mActivity);
-            int height = (int) (width * 9f / 16f);
+            int height = (int) (width * 8f / 16f);
             AbsListView.LayoutParams rlp = new AbsListView.LayoutParams(width, height);
             layout_banner.setLayoutParams(rlp);
             layout_banner.setPadding(45,0,45,0);
-            viewPager.setPadding(0,0,0,45);
+            viewPager.setPadding(0,0,0,60);
             isInfiniteLoop = banners.size() > 1;
 
             viewPager.setAdapter(new ImagePagerAdapter<>(1,mActivity, banners, new ImagePagerAdapter.onBannerItemClickListenter<IBannerBean>() {

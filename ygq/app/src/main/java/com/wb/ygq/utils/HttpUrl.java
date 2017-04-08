@@ -25,5 +25,15 @@ public class HttpUrl {
          */
         public static final String SZ_MESSAGE="http://youguo.fzjydqg.com/index.php/Api/img/imgFromType/type/%s/page/%d";
 
+        /**
+         * 视频tab接口
+         */
+        public static final String VIDEO_FM="http://youguo.fzjydqg.com/index.php/Api/video/getvideoList/page/%d";
+
+        /**
+         * 获取图片列表
+         */
+        public static final String GET_IMG_LIST="http://youguo.fzjydqg.com/index.php/Api/img/showImg/id/%s";
+
     }
 }

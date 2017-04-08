@@ -106,7 +106,7 @@ public class CircleIndicator extends View
 		{
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 			ImageView imageView = new ImageView(getContext());
-			lp.setMargins(4, 0, 4, 0);
+			lp.setMargins(8, 0, 8, 0);
 			lp.gravity = Gravity.CENTER_HORIZONTAL;
 			imageView.setLayoutParams(lp);
 

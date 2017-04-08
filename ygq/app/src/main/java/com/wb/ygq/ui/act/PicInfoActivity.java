@@ -8,11 +8,19 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
+import com.wb.ygq.bean.ImgListBean;
 import com.wb.ygq.ui.adapter.ImagePagerAdapter;
 import com.wb.ygq.ui.base.BaseActivity;
+import com.wb.ygq.ui.constant.PubConst;
+import com.wb.ygq.utils.HttpUrl;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
@@ -23,7 +31,9 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
 
     private List<String> picPathes;
     private int currentPage;
+    private String id;
     private ImagePagerAdapter adapter;
+    private ImgListBean mImgListBean;
 
 
     @Override
@@ -41,19 +51,51 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
 
     @Override
     public void initData() {
-        picPathes=getIntent().getStringArrayListExtra("pathList");
-        currentPage=getIntent().getIntExtra("position",0);
-        if (picPathes==null||picPathes.size()<1){
-            picPathes=new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
-                picPathes.add("http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg");
-            }
-        }
-        adapter=new ImagePagerAdapter(this,picPathes);
-        vp_picinfo.setAdapter(adapter);
-        vp_picinfo.setCurrentItem(currentPage);
-        vp_picinfo.setOnPageChangeListener(this);
-        tv_title.setText((currentPage+1)+"/"+picPathes.size());
+        Bundle bundle = getIntent().getBundleExtra(PubConst.DATA);
+        id= bundle.getString("id");
+        getNetDatas();
+
+    }
+
+    /**
+     * 获取网络数据
+     */
+    public void getNetDatas(){
+        OkHttpUtils.get()
+                .url(String.format(HttpUrl.API.GET_IMG_LIST,id))
+                .build()
+                .execute(new Callback() {
+                    @Override
+                    public Object parseNetworkResponse(final Response response) throws IOException {
+
+                        String data = null;
+                        data = response.body().string();
+                        final String finalData = data;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mImgListBean=new Gson().fromJson(finalData,ImgListBean.class);
+                                picPathes=mImgListBean.getData().getOrderimg();
+                                adapter=new ImagePagerAdapter(PicInfoActivity.this,picPathes);
+                                vp_picinfo.setAdapter(adapter);
+                                vp_picinfo.setCurrentItem(currentPage);
+                                vp_picinfo.setOnPageChangeListener(PicInfoActivity.this);
+                                tv_title.setText((currentPage+1)+"/"+picPathes.size());
+                            }
+                        });
+
+                        return null;
+                    }
+
+                    @Override
+                    public void onError(Request request, Exception e) {
+                    }
+
+                    @Override
+                    public void onResponse(Object response) {
+
+                    }
+                });
     }
 
     public void isShowTitle(boolean flag){
@@ -85,6 +127,7 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+
     }
 
     @Override
@@ -95,6 +138,6 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
+        
     }
 }

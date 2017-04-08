@@ -3,7 +3,6 @@ package com.wb.ygq.ui.fm;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +11,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.CeshiBean;
 import com.wb.ygq.bean.IBannerBean;
+import com.wb.ygq.bean.VideoFMBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
 import com.wb.ygq.ui.adapter.VideoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.ui.utils.AppUtils;
 import com.wb.ygq.ui.utils.MyUtil;
-import com.wb.ygq.utils.PublicUtil;
+import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.ToastUtil;
 import com.wb.ygq.widget.autoscrollviewpager.AutoScrollViewPager;
 import com.wb.ygq.widget.autoscrollviewpager.CircleIndicator;
@@ -30,7 +33,10 @@ import com.wb.ygq.widget.irecycleerview.IRecyclerView;
 import com.wb.ygq.widget.irecycleerview.LoadMoreFooterView;
 import com.wb.ygq.widget.irecycleerview.OnLoadMoreListener;
 import com.wb.ygq.widget.irecycleerview.OnRefreshListener;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +58,8 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
     private LinearLayout ll_video_addvp;
     private RelativeLayout layout_banner;
 
+    private VideoFMBean mVideoFMBean;
+    private int page;
 
     private AutoScrollViewPager viewPager;
 
@@ -101,7 +109,7 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
         recycle_video.setLayoutManager(new GridLayoutManager(mActivity, 1));
         adapter.setItemClickListener(this);
 //        recycle_video.setAdapter(adapter);
-        adapter.updateItems(dataList);
+
 
         loadMoreFooterView = (LoadMoreFooterView) recycle_video.getLoadMoreFooterView();
 
@@ -112,29 +120,15 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
                 recycle_video.setRefreshing(true);
             }
         });
-
-
-//处理轮播
-        banners = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            IBannerBean bannerBean = new IBannerBean();
-            bannerBean.setBannerImg("http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg");
-            bannerBean.setBannerLinkId("001");
-            bannerBean.setBannerType("005");
-            banners.add(bannerBean);
-        }
-        initBanner();
+        getNetDatas();
     }
 
     @Override
     public void setListener() {
         ima_videohead_left.setOnClickListener(this);
         ima_videohead_right.setOnClickListener(this);
-
         recycle_video.setOnRefreshListener(this);
         recycle_video.setOnLoadMoreListener(this);
-
-
         adapter.setItemClickListener(this);
     }
 
@@ -146,12 +140,9 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
     public View getHeadView() {
         View headView = LayoutInflater.from(mActivity).inflate(R.layout.headview_video_fm, null);
         ll_video_addvp = (LinearLayout) headView.findViewById(R.id.ll_video_addvp);
-        MyUtil.showLog("屏幕的宽度为===" + ll_video_addvp.getWidth());
         ima_videohead_left = (ImageView) headView.findViewById(R.id.ima_videohead_left);
         ima_videohead_right = (ImageView) headView.findViewById(R.id.ima_videohead_right);
-        //设置为屏幕宽度的三分之1
-        PublicUtil.setImaSize(mActivity, ima_videohead_left, 3, 1);
-        PublicUtil.setImaSize(mActivity, ima_videohead_right, 3, 1);
+
         return headView;
     }
 
@@ -179,8 +170,57 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
      */
     @Override
     public void onItemClick(View view, Object o, int position, int eventType) {
-        MyUtil.showLog("点击的item===" + position);
 
+    }
+
+    public void getNetDatas(){
+        OkHttpUtils.get()
+                .url(String.format(HttpUrl.API.VIDEO_FM,page))
+                .build()
+                .execute(new Callback() {
+                    @Override
+                    public Object parseNetworkResponse(final Response response) throws IOException {
+
+                        String data = null;
+                        data = response.body().string();
+
+                        final String finalData = data;
+                        mActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mVideoFMBean = new Gson().fromJson(finalData, VideoFMBean.class);
+                                //处理轮播
+                                banners = new ArrayList<>();
+                                for (int i = 0; i <mVideoFMBean.getData().getCarouselList().size(); i++) {
+                                    IBannerBean bannerBean = new IBannerBean();
+                                    bannerBean.setBannerImg(mVideoFMBean.getData().getCarouselList().get(i).getImg());
+                                    bannerBean.setBannerLinkId("001");
+                                    bannerBean.setBannerType("005");
+                                    banners.add(bannerBean);
+                                }
+                                initBanner();
+                                //轮播下两张图片
+                                Glide.with(mActivity).load(mVideoFMBean.getData().getPictureList().get(0).getImg())
+                                        .into(ima_videohead_left);
+                                Glide.with(mActivity).load(mVideoFMBean.getData().getPictureList().get(1).getImg())
+                                        .into(ima_videohead_right);
+                                //recycleview里的数据
+                                adapter.updateItems(mVideoFMBean.getData().getVideoList());
+                            }
+                        });
+
+                        return null;
+                    }
+
+                    @Override
+                    public void onError(Request request, Exception e) {
+                    }
+
+                    @Override
+                    public void onResponse(Object response) {
+
+                    }
+                });
     }
 
     /**

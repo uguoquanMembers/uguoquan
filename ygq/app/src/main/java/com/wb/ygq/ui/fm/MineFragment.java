@@ -13,7 +13,6 @@ import com.wb.ygq.R;
 import com.wb.ygq.ui.act.AlreadyBuyActivity;
 import com.wb.ygq.ui.act.RechargeActivity;
 import com.wb.ygq.ui.base.BaseFragment;
-import com.wb.ygq.ui.utils.MyUtil;
 import com.wb.ygq.utils.PublicUtil;
 
 /**
@@ -75,13 +74,13 @@ public class MineFragment extends BaseFragment {
     @Override
     public void initData() {
         tv_bt_rank.setText(PublicUtil.formatTextView(mActivity, "1", "\n等级", R.style.textstyle_14_ff6633, R.style.textstyle_14_666666, 2));
-        tv_bt_recharge.setText(PublicUtil.formatTextView(mActivity, "充值", "\n成为vip", R.style.textstyle_14_ff6633, R.style.textstyle_14_666666, 5));
+        tv_bt_recharge.setText(PublicUtil.formatTextView(mActivity, "会员", "\n充值", R.style.textstyle_14_ff6633, R.style.textstyle_14_666666, 2));
         Glide.with(mActivity).load("http://7xwwfr.com1.z0.glb.clouddn.com/recharge_baoqi_bg.png").into(ima_recharge);
     }
 
     @Override
     public void setListener() {
-        MyUtil.showLog("zhixing========");
+
         tv_bt_rank.setOnClickListener(this);
         tv_bt_recharge.setOnClickListener(this);
         tv_btmine_buy.setOnClickListener(this);
@@ -97,7 +96,7 @@ public class MineFragment extends BaseFragment {
                 skip(RechargeActivity.class, false);
                 break;
             case R.id.tv_bt_recharge://充值
-                MyUtil.showLog("点击充值");
+
                 skip(RechargeActivity.class, false);
                 break;
             case R.id.tv_btmine_buy://已购买的

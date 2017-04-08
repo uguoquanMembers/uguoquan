@@ -14,6 +14,7 @@ import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.SZMessage;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
+import com.wb.ygq.ui.act.PicInfoActivity;
 import com.wb.ygq.ui.adapter.SzListAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.utils.HttpUrl;
@@ -113,7 +114,10 @@ public class SzListFragment extends BaseFragment implements RecyclerViewItemClic
      */
     @Override
     public void onItemClick(View view, Object o, int position, int eventType) {
-
+        SZMessage.DataBean dataBean= (SZMessage.DataBean) o;
+        Bundle bundle=new Bundle();
+        bundle.putString("id",dataBean.getId());
+        skip(PicInfoActivity.class,bundle,false);
     }
 
     /**

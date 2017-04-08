@@ -128,12 +128,4 @@ public class SzFragment extends BaseFragment {
                 });
     }
 
-
-//    public void getBundleData() {
-//
-//        Bundle data = mActivity.getIntent().getBundleExtra("data");
-//        if (data != null) {
-//            defIdx = data.getInt("typeIdx", 0);
-//        }
-//    }
 }

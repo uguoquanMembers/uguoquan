@@ -36,18 +36,17 @@ public class SpVideoAdapter extends BaseRecyclerAdapter<CeshiBean> {
             ((SpVideoHolder) holder).tv_video_name.setText(ceshiBean.getName());
             ((SpVideoHolder) holder).tv_video_num.setText("已经播放" + ceshiBean.getNum() + "万次");
             Glide.with(mContext).load(ceshiBean.getIma()).crossFade().into(((SpVideoHolder) holder).ima_video_head);
-            ((SpVideoHolder) holder).ima_video_share.setVisibility(View.GONE);
         }
     }
 
     class SpVideoHolder extends RecyclerView.ViewHolder {
-        private ImageView ima_video_head, ima_video_share;
+        private ImageView ima_video_head;
         private TextView tv_video_name, tv_video_num;
 
         public SpVideoHolder(View itemView) {
             super(itemView);
             ima_video_head = (ImageView) itemView.findViewById(R.id.ima_video_head);
-            ima_video_share = (ImageView) itemView.findViewById(R.id.ima_video_share);
+
             tv_video_name = (TextView) itemView.findViewById(R.id.tv_video_name);
             tv_video_num = (TextView) itemView.findViewById(R.id.tv_video_num);
         }
