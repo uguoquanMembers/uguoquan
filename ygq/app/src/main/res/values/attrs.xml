@@ -7,13 +7,5 @@
         <attr name="loadMoreEnabled" format="boolean" />
         <attr name="refreshFinalMoveOffset" format="dimension" />
     </declare-styleable>
-    <declare-styleable name="RoundCornerImageView">
-        <!--圆角位置-->
-        <attr name="roundCornerLeftTop" format="boolean"/>
-        <attr name="roundCornerLeftBottom" format="boolean"/>
-        <attr name="roundCornerRightTop" format="boolean"/>
-        <attr name="roundCornerRightBottom" format="boolean"/>
-        <!--圆角大小-->
-        <attr name="roundCornerRadius" format="dimension"/>
-    </declare-styleable>
+
 </resources>

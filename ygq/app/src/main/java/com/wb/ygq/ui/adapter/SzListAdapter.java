@@ -13,7 +13,7 @@ import com.wb.ygq.R;
 import com.wb.ygq.bean.SZMessage;
 import com.wb.ygq.ui.base.BaseRecyclerAdapter;
 import com.wb.ygq.widget.CropCircleTransformation;
-import com.wb.ygq.widget.RoundCornerImageView;
+import com.wb.ygq.widget.GlideRoundTransform;
 
 /**
  * Description：
@@ -45,7 +45,7 @@ public class SzListAdapter extends BaseRecyclerAdapter<SZMessage.DataBean> {
 //                // getSupportActionBar().
 //
 //            }
-            Glide.with(mContext).load(dataBean.getImg()).crossFade().into(((SzListViewHolder) holder).ima_sz_bg);
+            Glide.with(mContext).load(dataBean.getImg()).transform(new GlideRoundTransform(mContext, 10)).into(((SzListViewHolder) holder).ima_sz_bg);
             //圆形头像
             Glide.with(mContext).load(dataBean.getHeadpic()).bitmapTransform(new CropCircleTransformation(mContext)).into(((SzListViewHolder) holder).ima_sz_head);
         }
@@ -57,12 +57,12 @@ public class SzListAdapter extends BaseRecyclerAdapter<SZMessage.DataBean> {
      */
     class SzListViewHolder extends RecyclerView.ViewHolder {
         private ImageView  ima_sz_head;
-        private RoundCornerImageView ima_sz_bg;
+        private ImageView ima_sz_bg;
         private TextView tv_item_name;
 
         public SzListViewHolder(View itemView) {
             super(itemView);
-            ima_sz_bg = (RoundCornerImageView) itemView.findViewById(R.id.ima_sz_bg);
+            ima_sz_bg = (ImageView) itemView.findViewById(R.id.ima_sz_bg);
             ima_sz_head = (ImageView) itemView.findViewById(R.id.ima_sz_head);
             tv_item_name = (TextView) itemView.findViewById(R.id.tv_item_name);
         }

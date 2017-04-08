@@ -127,7 +127,6 @@ public class ImagePagerAdapter<T extends IBanner> extends RecyclingPagerAdapter 
 
         } else {
             String url = imgList.get(getPosition(position));
-            MyUtil.showLog("22222222222222" + url);
 //            Glide.with(context).load("http://shtml.asia-cloud.com/ZZSY/list_test2.png").into(holder.imageView);
 //            ImageLoaderUtil.display(WAPI.urlFormatRemote(StringUtil.StrTrim(url)), holder.imageView, R.drawable.shop_detail_default_pic);
             if (!TextUtils.isEmpty(url)) {
