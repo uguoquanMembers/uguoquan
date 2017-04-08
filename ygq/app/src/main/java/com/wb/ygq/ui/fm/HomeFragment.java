@@ -47,7 +47,6 @@ public class HomeFragment extends BaseFragment {
      * 添加轮播
      */
     private LinearLayout ll_home_addbanner;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
