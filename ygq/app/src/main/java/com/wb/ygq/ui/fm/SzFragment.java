@@ -8,11 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.FragmentHolder;
+import com.wb.ygq.bean.SZListBean;
 import com.wb.ygq.ui.adapter.ViewpagerFragmentAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
+import com.wb.ygq.utils.HttpUrl;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +40,8 @@ public class SzFragment extends BaseFragment {
      * 显示Fragment索引  默认  0
      */
     private int defIdx = 0;
+    private SZListBean mSZListBean;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,9 +52,9 @@ public class SzFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getBundleData();
+//        getBundleData();
         initView();
-        initData();
+        getNetDatas();
         setListener();
     }
 
@@ -55,25 +65,14 @@ public class SzFragment extends BaseFragment {
 
     @Override
     public void initView() {
-        sz_tablayout  = (TabLayout) view.findViewById(R.id.sz_tablayout);
+        sz_tablayout = (TabLayout) view.findViewById(R.id.sz_tablayout);
         vp_sz = (ViewPager) view.findViewById(R.id.vp_sz);
     }
 
     @Override
     public void initData() {
-        holders = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            FragmentHolder holder = new FragmentHolder();
-            holder.setTitle("TAB"+i);
-            holder.setFragment(SzListFragment.newInstance(holder.getTitle(),1));
-            holders.add(holder);
-        }
-        adapter = new ViewpagerFragmentAdapter(getFragmentManager(), holders);
-        vp_sz.setOffscreenPageLimit(3);
-        vp_sz.setAdapter(adapter);
-        sz_tablayout.setupWithViewPager(vp_sz);
-        if (defIdx >= holders.size()) defIdx = 0;
-        vp_sz.setCurrentItem(defIdx);
+
+
     }
 
     @Override
@@ -81,11 +80,60 @@ public class SzFragment extends BaseFragment {
 
     }
 
-    public void getBundleData() {
+    /**
+     * 网络接口数据
+     */
+    public void getNetDatas() {
+        OkHttpUtils.get()
+                .url(HttpUrl.API.SZ_List)
+                .build()
+                .execute(new Callback() {
+                    @Override
+                    public Object parseNetworkResponse(final Response response) throws IOException {
+                        holders = new ArrayList<>();
+                        String data = null;
+                        data = response.body().string();
 
-        Bundle data = mActivity.getIntent().getBundleExtra("data");
-        if (data != null) {
-            defIdx = data.getInt("typeIdx", 0);
-        }
+                        final String finalData = data;
+                        mActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mSZListBean = new Gson().fromJson(finalData, SZListBean.class);
+                                for (SZListBean.DataBean dataBean : mSZListBean.getData()) {
+                                    FragmentHolder holder = new FragmentHolder();
+                                    holder.setTitle(dataBean.getTitle());
+                                    holder.setFragment(SzListFragment.newInstance(holder.getTitle(), dataBean.getId()));
+                                    holders.add(holder);
+                                }
+                                adapter = new ViewpagerFragmentAdapter(getFragmentManager(), holders);
+                                vp_sz.setOffscreenPageLimit(3);
+                                vp_sz.setAdapter(adapter);
+                                sz_tablayout.setupWithViewPager(vp_sz);
+                                if (defIdx >= holders.size()) defIdx = 0;
+                                vp_sz.setCurrentItem(defIdx);
+                            }
+                        });
+
+                        return null;
+                    }
+
+                    @Override
+                    public void onError(Request request, Exception e) {
+                    }
+
+                    @Override
+                    public void onResponse(Object response) {
+
+                    }
+                });
     }
+
+
+//    public void getBundleData() {
+//
+//        Bundle data = mActivity.getIntent().getBundleExtra("data");
+//        if (data != null) {
+//            defIdx = data.getInt("typeIdx", 0);
+//        }
+//    }
 }

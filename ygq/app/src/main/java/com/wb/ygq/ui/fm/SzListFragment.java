@@ -7,18 +7,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
-import com.wb.ygq.bean.CeshiBean;
+import com.wb.ygq.bean.SZMessage;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
 import com.wb.ygq.ui.adapter.SzListAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
-import com.wb.ygq.ui.utils.MyUtil;
+import com.wb.ygq.utils.HttpUrl;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 /**
  * Description：
@@ -28,20 +30,18 @@ import java.util.List;
 public class SzListFragment extends BaseFragment implements RecyclerViewItemClickListener {
 
     private String title;
-    private int pos;
+    private String id;
+    private int page;
     private View view;
     private RecyclerView recycle_sz;
     private SzListAdapter adapter;
-    /**
-     *
-     */
-    private List<CeshiBean> dataList = new ArrayList<>();
+    private SZMessage mSZMessage;
 
-    public static SzListFragment newInstance(String title, int pos) {
+    public static SzListFragment newInstance(String title, String id) {
 
         Bundle args = new Bundle();
         args.putString("title", title);
-        args.putInt("pos", pos);
+        args.putString("id", id);
         SzListFragment fragment = new SzListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -71,15 +71,13 @@ public class SzListFragment extends BaseFragment implements RecyclerViewItemClic
 
     @Override
     public void initView() {
-        getceshiData();
         recycle_sz = (RecyclerView) view.findViewById(R.id.recycle_sz);
-        MyUtil.showLog("recycleview是否为空==="+recycle_sz);
         recycle_sz.setHasFixedSize(true);
         recycle_sz.setLayoutManager(new GridLayoutManager(mActivity, 2));
         adapter = new SzListAdapter(mActivity);
         adapter.setItemClickListener(this);
         recycle_sz.setAdapter(adapter);
-        adapter.updateItems(dataList);
+        getNetDatas();
 
     }
 
@@ -100,7 +98,7 @@ public class SzListFragment extends BaseFragment implements RecyclerViewItemClic
         Bundle bundle = getArguments();
         if (bundle != null) {
             title = bundle.getString("title");
-            pos = bundle.getInt("pos");
+            id = bundle.getString("id");
         }
 
     }
@@ -119,19 +117,42 @@ public class SzListFragment extends BaseFragment implements RecyclerViewItemClic
     }
 
     /**
-     * 测试数据
-     *
-     * @return
+     * 获取网络数据
      */
-    public void getceshiData() {
-        for (int i = 0; i < 9; i++) {
-            CeshiBean cb = new CeshiBean();
-            cb.setId(1);
-            cb.setIma("http://shtml.asia-cloud.com/ZZSY/list_test3.png");
-            cb.setName("卧槽" + i);
-            cb.setNum(13 + i);
-            dataList.add(cb);
-        }
+    public void getNetDatas(){
+        OkHttpUtils.get()
+                .url(String.format(HttpUrl.API.SZ_MESSAGE,id,page))
+                .build()
+                .execute(new Callback() {
+                    @Override
+                    public Object parseNetworkResponse(final Response response) throws IOException {
 
+                        String data = null;
+                        data = response.body().string();
+
+                        final String finalData = data;
+                        mActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mSZMessage=new Gson().fromJson(finalData,SZMessage.class);
+                                adapter.updateItems(mSZMessage.getData());
+                            }
+                        });
+
+                        return null;
+                    }
+
+                    @Override
+                    public void onError(Request request, Exception e) {
+                    }
+
+                    @Override
+                    public void onResponse(Object response) {
+
+                    }
+                });
     }
+
+
+
 }
