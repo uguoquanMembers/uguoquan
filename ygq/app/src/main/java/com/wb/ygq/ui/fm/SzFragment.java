@@ -99,6 +99,11 @@ public class SzFragment extends BaseFragment {
                             @Override
                             public void run() {
                                 mSZListBean = new Gson().fromJson(finalData, SZListBean.class);
+                                if (mSZListBean.getData().size() <= 4) {
+                                    sz_tablayout.setTabMode(TabLayout.MODE_FIXED);
+                                } else {
+                                    sz_tablayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+                                }
                                 for (SZListBean.DataBean dataBean : mSZListBean.getData()) {
                                     FragmentHolder holder = new FragmentHolder();
                                     holder.setTitle(dataBean.getTitle());
