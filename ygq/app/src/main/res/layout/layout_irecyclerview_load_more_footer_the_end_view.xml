@@ -3,6 +3,6 @@
     android:id="@+id/tvTheEnd"
     android:layout_width="match_parent"
     android:layout_height="36dp"
+    android:layout_gravity="center"
     android:gravity="center"
-    android:text="THE END"
-    android:layout_gravity="center" />
+    android:text="到底了..." />
