@@ -2,7 +2,6 @@ package com.wb.ygq.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +50,6 @@ public class VideoPlayAdapter extends BaseRecyclerAdapter<VideoContentBean.DataB
         if (holder instanceof VideoPlayViewHolder) {
             ((VideoPlayViewHolder) holder).tv_videoplay_name.setText(mItems.get(position).getName());
             ((VideoPlayViewHolder) holder).tv_videoplay_content.setText(mItems.get(position).getMessage());
-            Log.e("TAG",position+"===="+mItems.get(position).getMessage());
             Glide.with(mContext).load(mItems.get(position).getImg()).bitmapTransform(new CropCircleTransformation(mContext)).crossFade().into(((VideoPlayViewHolder) holder).ima_videoplay_head);
         }
     }
