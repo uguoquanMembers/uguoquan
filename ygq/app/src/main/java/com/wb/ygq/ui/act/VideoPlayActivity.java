@@ -212,8 +212,7 @@ public class VideoPlayActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        //空bean  用于占位
-//        dataList.add(new VideoContentBean.DataBean.CommentListBean());
+        adapter = new VideoPlayAdapter(this);
         getNetDatas();
     }
 
@@ -231,6 +230,7 @@ public class VideoPlayActivity extends BaseActivity {
                             public void run() {
                                 mVideoContentBean = new Gson().fromJson(finalData, VideoContentBean.class);
                                 adapter = new VideoPlayAdapter(VideoPlayActivity.this);
+                                mVideoContentBean=new Gson().fromJson(finalData,VideoContentBean.class);
                                 adapter.setHeadView(getHeadView());
                                 recycle_comment.setHasFixedSize(true);
                                 recycle_comment.setLayoutManager(new LinearLayoutManager(VideoPlayActivity.this));
@@ -241,6 +241,9 @@ public class VideoPlayActivity extends BaseActivity {
                                     MyUtil.showLog("返回的结果是===" + dataList);
                                     adapter.updateItems(dataList);
                                 }
+                                adapter.updateItems(mVideoContentBean.getData().getCommentList());
+                                playMedia(mVideoContentBean.getData().getVideoMessage().getUrl(),
+                                        mVideoContentBean.getData().getVideoMessage().getName() );
                             }
                         });
 
@@ -479,7 +482,8 @@ public class VideoPlayActivity extends BaseActivity {
     private MediaPlayer.OnErrorListener mOnErrorListener = new MediaPlayer.OnErrorListener() {
         @Override
         public boolean onError(MediaPlayer mp, int what, int extra) {
-            return false;
+
+            return true;
         }
     };
 
@@ -586,6 +590,7 @@ public class VideoPlayActivity extends BaseActivity {
                 mImage_PlayOrPause.setImageResource(R.drawable.vrinfo_play);
                 mediaControllerShow();
                 Toast.makeText(VideoPlayActivity.this, "播放完成", Toast.LENGTH_LONG).show();
+
             }
 
         }
@@ -799,6 +804,5 @@ public class VideoPlayActivity extends BaseActivity {
         });
         return v;
     }
-
 
 }
