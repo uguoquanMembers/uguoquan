@@ -46,6 +46,15 @@ public class VideoContentBean {
         this.Data = Data;
     }
 
+    @Override
+    public String toString() {
+        return "VideoContentBean{" +
+                "Msg='" + Msg + '\'' +
+                ", Count='" + Count + '\'' +
+                ", Data=" + Data +
+                '}';
+    }
+
     public static class DataBean {
         /**
          * img : http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg
@@ -80,6 +89,14 @@ public class VideoContentBean {
 
         public void setCommentList(List<CommentListBean> commentList) {
             this.commentList = commentList;
+        }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "videoMessage=" + videoMessage +
+                    ", commentList=" + commentList +
+                    '}';
         }
 
         public static class VideoMessageBean {
@@ -137,6 +154,18 @@ public class VideoContentBean {
             public void setOrderimg(List<String> orderimg) {
                 this.orderimg = orderimg;
             }
+
+            @Override
+            public String toString() {
+                return "VideoMessageBean{" +
+                        "img='" + img + '\'' +
+                        ", headpic='" + headpic + '\'' +
+                        ", name='" + name + '\'' +
+                        ", count='" + count + '\'' +
+                        ", url='" + url + '\'' +
+                        ", orderimg=" + orderimg +
+                        '}';
+            }
         }
 
         public static class CommentListBean {
@@ -175,6 +204,16 @@ public class VideoContentBean {
 
             public void setTime(String time) {
                 this.time = time;
+            }
+
+            @Override
+            public String toString() {
+                return "CommentListBean{" +
+                        "img='" + img + '\'' +
+                        ", message='" + message + '\'' +
+                        ", name='" + name + '\'' +
+                        ", time='" + time + '\'' +
+                        '}';
             }
         }
     }

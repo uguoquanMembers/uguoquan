@@ -25,6 +25,7 @@ public class VideoPlayAdapter extends BaseRecyclerAdapter<VideoContentBean.DataB
 
     public VideoPlayAdapter(Context context) {
         super(context);
+
     }
 
     @Override
@@ -34,6 +35,11 @@ public class VideoPlayAdapter extends BaseRecyclerAdapter<VideoContentBean.DataB
         } else {
             return 1;
         }
+    }
+
+    @Override
+    public int getItemCount() {
+        return mItems.size()+1;
     }
 
     @Override
@@ -49,10 +55,10 @@ public class VideoPlayAdapter extends BaseRecyclerAdapter<VideoContentBean.DataB
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof VideoPlayViewHolder) {
-            ((VideoPlayViewHolder) holder).tv_videoplay_name.setText(mItems.get(position).getName());
-            ((VideoPlayViewHolder) holder).tv_videoplay_content.setText(mItems.get(position).getMessage());
-            Log.e("TAG",position+"===="+mItems.get(position).getMessage());
-            Glide.with(mContext).load(mItems.get(position).getImg()).bitmapTransform(new CropCircleTransformation(mContext)).crossFade().into(((VideoPlayViewHolder) holder).ima_videoplay_head);
+            VideoContentBean.DataBean.CommentListBean commentListBean = mItems.get(position == 0 ? position : position-1);
+            ((VideoPlayViewHolder) holder).tv_videoplay_name.setText(commentListBean.getName());
+            ((VideoPlayViewHolder) holder).tv_videoplay_content.setText(commentListBean.getMessage());
+            Glide.with(mContext).load(commentListBean.getImg()).bitmapTransform(new CropCircleTransformation(mContext)).crossFade().into(((VideoPlayViewHolder) holder).ima_videoplay_head);
         }
     }
 

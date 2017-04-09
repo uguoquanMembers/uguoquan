@@ -57,7 +57,7 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemClickListener {
+public class VideoPlayActivity extends BaseActivity {
     /**
      * 视频
      */
@@ -117,7 +117,7 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
      * 存储更多内容
      */
     private List<CeshiBean> llList = new ArrayList<>();
-    private List<CeshiBean> dataList = new ArrayList<>();
+    private List<VideoContentBean.DataBean.CommentListBean> dataList = new ArrayList<>();
 
     //输入框
     private RelativeLayout rl_input;
@@ -194,11 +194,11 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
 
     @Override
     public void initView() {
-        Bundle bundle=getIntent().getBundleExtra(PubConst.DATA);
-        id=bundle.getString("id");
+        Bundle bundle = getIntent().getBundleExtra(PubConst.DATA);
+        id = bundle.getString("id");
 
         mVideoView = (VideoView) findViewById(R.id.surfaceview);
-        ll_bottom_layout= (LinearLayout) findViewById(R.id.ll_bottom_layout);
+        ll_bottom_layout = (LinearLayout) findViewById(R.id.ll_bottom_layout);
         initMediaController();
         resetProgressAndTimer();
 
@@ -212,31 +212,35 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
 
     @Override
     public void initData() {
-
+        //空bean  用于占位
+//        dataList.add(new VideoContentBean.DataBean.CommentListBean());
         getNetDatas();
     }
 
-    public void getNetDatas(){
+    public void getNetDatas() {
         OkHttpUtils.get()
-                .url(String.format(HttpUrl.API.VIDEO_CONTENT,id))
+                .url(String.format(HttpUrl.API.VIDEO_CONTENT, id))
                 .build()
                 .execute(new Callback() {
                     @Override
                     public Object parseNetworkResponse(final Response response) throws IOException {
-                        String data = null;
-                        data = response.body().string();
+                        String data = response.body().string();
                         final String finalData = data;
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                mVideoContentBean=new Gson().fromJson(finalData,VideoContentBean.class);
+                                mVideoContentBean = new Gson().fromJson(finalData, VideoContentBean.class);
                                 adapter = new VideoPlayAdapter(VideoPlayActivity.this);
                                 adapter.setHeadView(getHeadView());
                                 recycle_comment.setHasFixedSize(true);
                                 recycle_comment.setLayoutManager(new LinearLayoutManager(VideoPlayActivity.this));
-                                adapter.setItemClickListener(VideoPlayActivity.this);
                                 recycle_comment.setAdapter(adapter);
-                                adapter.updateItems(mVideoContentBean.getData().getCommentList());
+                                List<VideoContentBean.DataBean.CommentListBean> commentList = mVideoContentBean.getData().getCommentList();
+                                if (commentList != null && !commentList.isEmpty()) {
+                                    dataList.addAll(commentList);
+                                    MyUtil.showLog("返回的结果是===" + dataList);
+                                    adapter.updateItems(dataList);
+                                }
                             }
                         });
 
@@ -341,12 +345,13 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
         mImage_Full_Screen.setImageResource(R.drawable.jc_shrink);
         setScreenLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
+
     //设置半屏
     public void screenWrapModeUI() {
 //        mRela_Layout.setVisibility(View.VISIBLE);
         ll_bottom_layout.setVisibility(View.VISIBLE);
         mImage_Full_Screen.setImageResource(R.drawable.jc_enlarge);
-        setScreenLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,dip2px(this, 220));
+        setScreenLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dip2px(this, 220));
     }
 
     //设置全屏参数
@@ -414,6 +419,7 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
 
     /**
      * 变换视频
+     *
      * @param path
      * @param name
      */
@@ -531,7 +537,7 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
         mText_Durtion.setText(stringForTime(duration));
     }
 
-    public  String stringForTime(int timeMs) {
+    public String stringForTime(int timeMs) {
         if (timeMs <= 0 || timeMs >= 24 * 60 * 60 * 1000) {
             return "00:00";
         }
@@ -666,6 +672,7 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
             e.printStackTrace();
         }
     }
+
     private int getMediaCurrentPostion() {
         if (mVideoView != null) {
             return mVideoView.getCurrentPosition();
@@ -690,7 +697,6 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
         mVideoView.setOnPreparedListener(mOnPreparedListener);
         tv_input.setOnClickListener(this);
         tv_button_send.setOnClickListener(this);
-//        adapter.setItemClickListener(this);
     }
 
     @Override
@@ -721,15 +727,27 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
      * @param etString
      */
     private void saveTOList(String etString) {
-        CeshiBean cb = new CeshiBean();
-        cb.setId(1);
-        cb.setIma("http://shtml.asia-cloud.com/ZZSY/list_test1.png");
-        cb.setName(etString);
-        cb.setNum(13);
+        VideoContentBean.DataBean.CommentListBean cb = new VideoContentBean.DataBean.CommentListBean();
+        cb.setImg("http://shtml.asia-cloud.com/ZZSY/list_test1.png");
+        cb.setMessage(etString);
+        cb.setName("我");
+        cb.setTime("刚刚");
         dataList.add(cb);
-//        adapter.updateItems(dataList);
+        adapter.updateItems(dataList);
         rl_input.setVisibility(View.GONE);
         et_input.setText("");
+        colseKeyBoard();
+    }
+
+    /**
+     * 关闭软键盘
+     */
+    private void colseKeyBoard() {
+        View view = getWindow().peekDecorView();
+        if (view != null) {
+            InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     /**
@@ -756,7 +774,7 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
         for (int i = 0; i < mVideoContentBean.getData().getVideoMessage().getOrderimg().size(); i++) {
             ll_moreaddview.addView(foramtSlideView(i));
         }
-        String str = "\n"+mVideoContentBean.getData().getVideoMessage().getCount();
+        String str = "\n" + mVideoContentBean.getData().getVideoMessage().getCount();
         tv_title_num.setText(PublicUtil.formatTextView(this, mVideoContentBean.getData().getVideoMessage().getName(), str, R.style.textstyle_14_666666, R.style.textstyle_10_5DBCF4, str.length()));
         return v;
     }
@@ -780,38 +798,6 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
             }
         });
         return v;
-    }
-
-
-    /**
-     * 测试数据
-     *
-     * @return
-     */
-    public void getceshiData() {
-        for (int i = 0; i < 9; i++) {
-            CeshiBean cb = new CeshiBean();
-            cb.setId(1);
-            cb.setIma("http://shtml.asia-cloud.com/ZZSY/list_test3.png");
-            cb.setName("卧槽" + i);
-            cb.setNum(13 + i);
-            llList.add(cb);
-            dataList.add(cb);
-        }
-
-    }
-
-    /**
-     * item点击事件
-     *
-     * @param view
-     * @param o
-     * @param position
-     * @param eventType
-     */
-    @Override
-    public void onItemClick(View view, Object o, int position, int eventType) {
-        MyUtil.showLog("点击====" + position);
     }
 
 
