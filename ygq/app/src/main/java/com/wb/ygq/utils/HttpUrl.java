@@ -35,5 +35,10 @@ public class HttpUrl {
          */
         public static final String GET_IMG_LIST="http://youguo.fzjydqg.com/index.php/Api/img/showImg/id/%s";
 
+        /**
+         * 视频详情
+         */
+        public static final String VIDEO_CONTENT="http://youguo.fzjydqg.com/index.php/Api/video/getvideo/id/%s";
+
     }
 }

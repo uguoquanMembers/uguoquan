@@ -30,17 +30,26 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.CeshiBean;
 import com.wb.ygq.bean.MediaInfor;
+import com.wb.ygq.bean.VideoContentBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
 import com.wb.ygq.ui.adapter.VideoPlayAdapter;
 import com.wb.ygq.ui.base.BaseActivity;
+import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.ui.utils.MyUtil;
+import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.PublicUtil;
 import com.wb.ygq.utils.ToastUtil;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
@@ -115,6 +124,9 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
     private EditText et_input;
     private TextView tv_button_send;
 
+    private VideoContentBean mVideoContentBean;
+    private String id;
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -182,6 +194,9 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
 
     @Override
     public void initView() {
+        Bundle bundle=getIntent().getBundleExtra(PubConst.DATA);
+        id=bundle.getString("id");
+
         mVideoView = (VideoView) findViewById(R.id.surfaceview);
         ll_bottom_layout= (LinearLayout) findViewById(R.id.ll_bottom_layout);
         initMediaController();
@@ -193,6 +208,52 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
         rl_input = (RelativeLayout) findViewById(R.id.rl_input);
         et_input = (EditText) findViewById(R.id.et_input);
     }
+
+
+    @Override
+    public void initData() {
+
+        getNetDatas();
+    }
+
+    public void getNetDatas(){
+        OkHttpUtils.get()
+                .url(String.format(HttpUrl.API.VIDEO_CONTENT,id))
+                .build()
+                .execute(new Callback() {
+                    @Override
+                    public Object parseNetworkResponse(final Response response) throws IOException {
+                        String data = null;
+                        data = response.body().string();
+                        final String finalData = data;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mVideoContentBean=new Gson().fromJson(finalData,VideoContentBean.class);
+                                adapter = new VideoPlayAdapter(VideoPlayActivity.this);
+                                adapter.setHeadView(getHeadView());
+                                recycle_comment.setHasFixedSize(true);
+                                recycle_comment.setLayoutManager(new LinearLayoutManager(VideoPlayActivity.this));
+                                adapter.setItemClickListener(VideoPlayActivity.this);
+                                recycle_comment.setAdapter(adapter);
+                                adapter.updateItems(mVideoContentBean.getData().getCommentList());
+                            }
+                        });
+
+                        return null;
+                    }
+
+                    @Override
+                    public void onError(Request request, Exception e) {
+                    }
+
+                    @Override
+                    public void onResponse(Object response) {
+
+                    }
+                });
+    }
+
 
     private void initMediaController() {
         mTop_Controller = (RelativeLayout) findViewById(R.id.top_media_controller);
@@ -394,18 +455,6 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
         return getResources().getConfiguration().orientation;
     }
 
-    @Override
-    public void initData() {
-        getceshiData();
-        adapter = new VideoPlayAdapter(this);
-        adapter.setHeadView(getHeadView());
-        recycle_comment.setHasFixedSize(true);
-        recycle_comment.setLayoutManager(new LinearLayoutManager(this));
-        adapter.setItemClickListener(this);
-        recycle_comment.setAdapter(adapter);
-        adapter.updateItems(dataList);
-
-    }
     private View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -641,7 +690,7 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
         mVideoView.setOnPreparedListener(mOnPreparedListener);
         tv_input.setOnClickListener(this);
         tv_button_send.setOnClickListener(this);
-        adapter.setItemClickListener(this);
+//        adapter.setItemClickListener(this);
     }
 
     @Override
@@ -678,7 +727,7 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
         cb.setName(etString);
         cb.setNum(13);
         dataList.add(cb);
-        adapter.updateItems(dataList);
+//        adapter.updateItems(dataList);
         rl_input.setVisibility(View.GONE);
         et_input.setText("");
     }
@@ -704,11 +753,11 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
         View v = LayoutInflater.from(this).inflate(R.layout.headview_videopalyer, null);
         LinearLayout ll_moreaddview = (LinearLayout) v.findViewById(R.id.ll_moreaddview);
         TextView tv_title_num = (TextView) v.findViewById(R.id.tv_title_num);
-        for (int i = 0; i < llList.size(); i++) {
+        for (int i = 0; i < mVideoContentBean.getData().getVideoMessage().getOrderimg().size(); i++) {
             ll_moreaddview.addView(foramtSlideView(i));
         }
-        String str = "\n我是傻逼崔";
-        tv_title_num.setText(PublicUtil.formatTextView(this, "title", str, R.style.textstyle_14_666666, R.style.textstyle_10_5DBCF4, str.length()));
+        String str = "\n"+mVideoContentBean.getData().getVideoMessage().getCount();
+        tv_title_num.setText(PublicUtil.formatTextView(this, mVideoContentBean.getData().getVideoMessage().getName(), str, R.style.textstyle_14_666666, R.style.textstyle_10_5DBCF4, str.length()));
         return v;
     }
 
@@ -721,11 +770,9 @@ public class VideoPlayActivity extends BaseActivity implements RecyclerViewItemC
     private View foramtSlideView(final int i) {
         View v = LayoutInflater.from(this).inflate(R.layout.layout_ima_twotext, null);
         ImageView image_head = (ImageView) v.findViewById(R.id.image_head);
-        TextView text_title = (TextView) v.findViewById(R.id.text_title);
-        TextView text_content = (TextView) v.findViewById(R.id.text_content);
-        Glide.with(this).load(llList.get(i).getIma()).into(image_head);
-        text_content.setText(llList.get(i).getName());
-        text_title.setText(llList.get(i).getName());
+        Glide.with(this).load(mVideoContentBean.getData().getVideoMessage().getOrderimg().get(i)).into(image_head);
+//        text_content.setText(llList.get(i).getName());
+//        text_title.setText(llList.get(i).getName());
         image_head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

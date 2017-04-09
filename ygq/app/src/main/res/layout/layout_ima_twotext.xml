@@ -12,27 +12,27 @@
         android:layout_height="80dp"
         android:scaleType="centerCrop" />
 
-    <TextView
-        android:id="@+id/text_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:ellipsize="end"
-        android:padding="3dp"
-        android:singleLine="true"
-        android:text="仙剑"
-        android:textColor="@color/color_333333"
-        android:textSize="13sp" />
+    <!--<TextView-->
+        <!--android:id="@+id/text_title"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="3dp"-->
+        <!--android:ellipsize="end"-->
+        <!--android:padding="3dp"-->
+        <!--android:singleLine="true"-->
+        <!--android:text="仙剑"-->
+        <!--android:textColor="@color/color_333333"-->
+        <!--android:textSize="13sp" />-->
 
-    <TextView
-        android:id="@+id/text_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:paddingLeft="3dp"
-        android:singleLine="true"
-        android:text="仙剑"
-        android:textColor="@color/color_666666"
-        android:textSize="11sp" />
+    <!--<TextView-->
+        <!--android:id="@+id/text_content"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:ellipsize="end"-->
+        <!--android:paddingLeft="3dp"-->
+        <!--android:singleLine="true"-->
+        <!--android:text="仙剑"-->
+        <!--android:textColor="@color/color_666666"-->
+        <!--android:textSize="11sp" />-->
 
 </LinearLayout>

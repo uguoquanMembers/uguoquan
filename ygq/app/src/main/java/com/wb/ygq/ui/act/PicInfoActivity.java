@@ -25,7 +25,7 @@ import java.util.List;
 
 public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     private ViewPager vp_picinfo;
-    private TextView tv_title;
+    private TextView tv_title,tv_comment_count,tv_collect_count,tv_praise_count;
     private RelativeLayout rl_top_layout;
     private LinearLayout ll_bottom_layout;
 
@@ -34,6 +34,8 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
     private String id;
     private ImagePagerAdapter adapter;
     private ImgListBean mImgListBean;
+    private float x;
+    private float moveX;
 
 
     @Override
@@ -43,16 +45,42 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
 
     @Override
     public void initView() {
-        vp_picinfo= (ViewPager) findViewById(R.id.vp_picinfo);
-        tv_title= (TextView) findViewById(R.id.tv_title);
-        rl_top_layout= (RelativeLayout) findViewById(R.id.rl_top_layout);
-        ll_bottom_layout= (LinearLayout) findViewById(R.id.ll_bottom_layout);
+        vp_picinfo = (ViewPager) findViewById(R.id.vp_picinfo);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        rl_top_layout = (RelativeLayout) findViewById(R.id.rl_top_layout);
+        ll_bottom_layout = (LinearLayout) findViewById(R.id.ll_bottom_layout);
+        tv_comment_count= (TextView) findViewById(R.id.tv_comment_count);
+        tv_collect_count= (TextView) findViewById(R.id.tv_collect_count);
+        tv_praise_count= (TextView) findViewById(R.id.tv_praise_count);
+
+//        vp_picinfo.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (currentPage == 0) {
+//                    switch (event.getAction()) {
+//                        case MotionEvent.ACTION_DOWN:
+//                            x = event.getX();
+//                            break;
+//                        case MotionEvent.ACTION_MOVE:
+//                            moveX = event.getX();
+//                            if (moveX - x < 0) {
+//                                Toast.makeText(PicInfoActivity.this, "该交钱啦", Toast.LENGTH_SHORT).show();
+//                            }
+//                            break;
+//                        case MotionEvent.ACTION_UP:
+//                            break;
+//
+//                    }
+//                }
+//                return false;
+//            }
+//        });
     }
 
     @Override
     public void initData() {
         Bundle bundle = getIntent().getBundleExtra(PubConst.DATA);
-        id= bundle.getString("id");
+        id = bundle.getString("id");
         getNetDatas();
 
     }
@@ -60,9 +88,9 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
     /**
      * 获取网络数据
      */
-    public void getNetDatas(){
+    public void getNetDatas() {
         OkHttpUtils.get()
-                .url(String.format(HttpUrl.API.GET_IMG_LIST,id))
+                .url(String.format(HttpUrl.API.GET_IMG_LIST, id))
                 .build()
                 .execute(new Callback() {
                     @Override
@@ -74,13 +102,13 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                mImgListBean=new Gson().fromJson(finalData,ImgListBean.class);
-                                picPathes=mImgListBean.getData().getOrderimg();
-                                adapter=new ImagePagerAdapter(PicInfoActivity.this,picPathes);
+                                mImgListBean = new Gson().fromJson(finalData, ImgListBean.class);
+                                picPathes = mImgListBean.getData().getOrderimg();
+                                adapter = new ImagePagerAdapter(PicInfoActivity.this, picPathes);
                                 vp_picinfo.setAdapter(adapter);
                                 vp_picinfo.setCurrentItem(currentPage);
                                 vp_picinfo.setOnPageChangeListener(PicInfoActivity.this);
-                                tv_title.setText((currentPage+1)+"/"+picPathes.size());
+                                tv_title.setText((currentPage + 1) + "/" + picPathes.size());
                             }
                         });
 
@@ -98,11 +126,11 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
                 });
     }
 
-    public void isShowTitle(boolean flag){
-        if (flag){
+    public void isShowTitle(boolean flag) {
+        if (flag) {
             rl_top_layout.setVisibility(View.VISIBLE);
             ll_bottom_layout.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             rl_top_layout.setVisibility(View.GONE);
             ll_bottom_layout.setVisibility(View.GONE);
         }
@@ -132,12 +160,16 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
 
     @Override
     public void onPageSelected(int position) {
-        currentPage=position;
-        tv_title.setText((currentPage+1)+"/"+picPathes.size());
+        currentPage = position;
+        tv_title.setText((currentPage + 1) + "/" + picPathes.size());
+//        tv_collect_count.setText(mImgListBean.getData().getCharge();
+
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        
+
     }
+
+
 }

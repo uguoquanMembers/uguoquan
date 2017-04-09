@@ -20,6 +20,7 @@ import com.wb.ygq.bean.CeshiBean;
 import com.wb.ygq.bean.IBannerBean;
 import com.wb.ygq.bean.VideoFMBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
+import com.wb.ygq.ui.act.VideoPlayActivity;
 import com.wb.ygq.ui.adapter.VideoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.ui.utils.AppUtils;
@@ -99,7 +100,6 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
 
     @Override
     public void initData() {
-        getceshiData();
         adapter = new VideoAdapter(mActivity);
         View headView = getHeadView();
         if (headView != null) {
@@ -170,7 +170,10 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
      */
     @Override
     public void onItemClick(View view, Object o, int position, int eventType) {
-
+        VideoFMBean.DataBean.VideoListBean mVideoBean = (VideoFMBean.DataBean.VideoListBean) o;
+        Bundle bundle=new Bundle();
+        bundle.putString("id",mVideoBean.getId());
+        skip(VideoPlayActivity.class,bundle,false);
     }
 
     public void getNetDatas(){
@@ -221,23 +224,6 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
 
                     }
                 });
-    }
-
-    /**
-     * 测试数据
-     *
-     * @return
-     */
-    public void getceshiData() {
-        for (int i = 0; i < 9; i++) {
-            CeshiBean cb = new CeshiBean();
-            cb.setId(1);
-            cb.setIma("http://shtml.asia-cloud.com/ZZSY/list_test1.png");
-            cb.setName("卧槽sb崔" + i);
-            cb.setNum(13 + i);
-            dataList.add(cb);
-        }
-
     }
 
     /**

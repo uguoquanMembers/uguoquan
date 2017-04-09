@@ -1,17 +1,13 @@
 package com.wb.ygq.ui.base;
 
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
@@ -20,10 +16,7 @@ import android.widget.ImageView;
 import com.wb.ygq.R;
 import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.ui.utils.MyUtil;
-import com.wb.ygq.utils.ToastUtil;
 
-import android.view.WindowManager;
-import android.view.WindowManager.LayoutParams;
 import java.util.ArrayList;
 
 /**
@@ -95,26 +88,26 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
     }
 
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        showKeyboard(false);
-        int action = ev.getAction();
-        long downTime = 0;
-        switch (action & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_POINTER_DOWN:// 防止多个手指多个点击
-                return true;
-            case MotionEvent.ACTION_DOWN: // 按钮按下
-                downTime = System.currentTimeMillis();
-                if (downTime - preTime < keepTime) {
-                    return true;
-                }
-                preTime = downTime;
-                break;
-            default:
-                break;
-        }
-        return super.dispatchTouchEvent(ev);
-    }
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        showKeyboard(false);
+//        int action = ev.getAction();
+//        long downTime = 0;
+//        switch (action & MotionEvent.ACTION_MASK) {
+//            case MotionEvent.ACTION_POINTER_DOWN:// 防止多个手指多个点击
+//                return true;
+//            case MotionEvent.ACTION_DOWN: // 按钮按下
+//                downTime = System.currentTimeMillis();
+//                if (downTime - preTime < keepTime) {
+//                    return true;
+//                }
+//                preTime = downTime;
+//                break;
+//            default:
+//                break;
+//        }
+//        return super.dispatchTouchEvent(ev);
+//    }
 
 
     @Override
@@ -123,13 +116,13 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
         rightOut(this);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        MyUtil.showLog("BaseActivity.onTouchEvent.event ");
-        showKeyboard(false);
-
-        return super.onTouchEvent(event);
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        MyUtil.showLog("BaseActivity.onTouchEvent.event ");
+//        showKeyboard(false);
+//
+//        return super.onTouchEvent(event);
+//    }
 
     /**
      * 控制输入法是否显示

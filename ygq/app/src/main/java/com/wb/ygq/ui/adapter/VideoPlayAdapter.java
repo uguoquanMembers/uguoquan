@@ -2,6 +2,7 @@ package com.wb.ygq.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.wb.ygq.R;
-import com.wb.ygq.bean.CeshiBean;
+import com.wb.ygq.bean.VideoContentBean;
 import com.wb.ygq.ui.base.BaseRecyclerAdapter;
 import com.wb.ygq.widget.CropCircleTransformation;
 import com.wb.ygq.widget.EmptyViewHolder;
@@ -19,7 +20,7 @@ import com.wb.ygq.widget.EmptyViewHolder;
  * Description：
  * Created on 2017/4/6
  */
-public class VideoPlayAdapter extends BaseRecyclerAdapter<CeshiBean> {
+public class VideoPlayAdapter extends BaseRecyclerAdapter<VideoContentBean.DataBean.CommentListBean> {
     private View headView;
 
     public VideoPlayAdapter(Context context) {
@@ -49,15 +50,15 @@ public class VideoPlayAdapter extends BaseRecyclerAdapter<CeshiBean> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof VideoPlayViewHolder) {
             ((VideoPlayViewHolder) holder).tv_videoplay_name.setText(mItems.get(position).getName());
-            ((VideoPlayViewHolder) holder).tv_videoplay_content.setText(mItems.get(position).getName());
-            Glide.with(mContext).load(mItems.get(position).getIma()).bitmapTransform(new CropCircleTransformation(mContext)).crossFade().into(((VideoPlayViewHolder) holder).ima_videoplay_head);
+            ((VideoPlayViewHolder) holder).tv_videoplay_content.setText(mItems.get(position).getMessage());
+            Log.e("TAG",position+"===="+mItems.get(position).getMessage());
+            Glide.with(mContext).load(mItems.get(position).getImg()).bitmapTransform(new CropCircleTransformation(mContext)).crossFade().into(((VideoPlayViewHolder) holder).ima_videoplay_head);
         }
     }
 
     public void setHeadView(View headView) {
         this.headView = headView;
     }
-
 
 
     class VideoPlayViewHolder extends RecyclerView.ViewHolder {
