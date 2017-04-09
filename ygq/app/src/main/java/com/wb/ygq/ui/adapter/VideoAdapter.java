@@ -27,24 +27,9 @@ public class VideoAdapter extends BaseRecyclerAdapter<VideoFMBean.DataBean.Video
     public VideoAdapter(Context context) {
         super(context);
     }
-
-//    @Override
-//    public int getItemViewType(int position) {
-//        if (position == 0 && headView != null) {
-//            return 0;
-//        } else {
-//            return 1;
-//        }
-//    }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        if (viewType == 0) {
-//            return new EmptyViewHolder(headView);
-//        } else if (viewType == 1) {
-            return new VideoHolder(LayoutInflater.from(mContext).inflate(R.layout.item_sp_video,null));
-//        }
-//        return null;
+        return new VideoHolder(LayoutInflater.from(mContext).inflate(R.layout.item_sp_video, null));
     }
 
     @Override
@@ -67,22 +52,20 @@ public class VideoAdapter extends BaseRecyclerAdapter<VideoFMBean.DataBean.Video
         }
     }
 
-    public void setHeadView(View headView) {
-        this.headView = headView;
-    }
 
     class VideoHolder extends RecyclerView.ViewHolder {
-        private ImageView ima_video_head,iv_video_img;
-        private TextView tv_video_name, tv_video_num,tv_video_mark;
+        private ImageView ima_video_head, iv_video_img;
+        private TextView tv_video_name, tv_video_num, tv_video_mark;
         private LinearLayout ll_item_spvideo;
+
         public VideoHolder(View itemView) {
             super(itemView);
             ima_video_head = (ImageView) itemView.findViewById(R.id.ima_video_head);
             tv_video_name = (TextView) itemView.findViewById(R.id.tv_video_name);
             tv_video_num = (TextView) itemView.findViewById(R.id.tv_video_num);
             ll_item_spvideo = (LinearLayout) itemView.findViewById(R.id.ll_item_spvideo);
-            iv_video_img= (ImageView) itemView.findViewById(R.id.iv_video_img);
-            tv_video_mark= (TextView) itemView.findViewById(R.id.tv_video_mark);
+            iv_video_img = (ImageView) itemView.findViewById(R.id.iv_video_img);
+            tv_video_mark = (TextView) itemView.findViewById(R.id.tv_video_mark);
         }
     }
 }

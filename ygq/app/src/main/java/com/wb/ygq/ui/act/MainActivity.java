@@ -278,13 +278,14 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         super.onClick(v);
         switch (v.getId()) {
             case R.id.tv_vip: //加入vip
-
+                skip(RechargeActivity.class, false);
                 break;
             case R.id.tv_buy:// 已购买的
-                skip(VideoPlayActivity.class,false);
+                skip(AlreadyBuyActivity.class, false);
+//                skip(VideoPlayActivity.class,false);
                 break;
             case R.id.tv_kf://客服
-                skip(PicInfoActivity.class, false);
+//                skip(PicInfoActivity.class, false);
                 break;
             case R.id.tv_versions://版本
 

@@ -48,12 +48,12 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="62dp">
+                android:layout_height="50dp">
 
                 <RadioGroup
                     android:id="@+id/tabs_rg"
                     android:layout_width="fill_parent"
-                    android:layout_height="62dp"
+                    android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
                     android:checkedButton="@+id/tab_home"
                     android:gravity="center"
@@ -92,7 +92,7 @@
                     <RadioButton
                         android:id="@+id/tab_video"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1.0"
                         android:background="#00ffffff"
                         android:button="@null"

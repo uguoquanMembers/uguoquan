@@ -201,17 +201,14 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
                                 Glide.with(mActivity).load(mVideoFMBean.getData().getPictureList().get(1).getImg())
                                         .into(ima_videohead_right);
                                 List<VideoFMBean.DataBean.VideoListBean> videoList = mVideoFMBean.getData().getVideoList();
-                                if (pageNum == 1) {
-                                    dataList.clear();
-                                }
+                                if (pageNum == 1) dataList.clear();
+                                recycle_video.setRefreshing(false);
                                 if (videoList != null && !videoList.isEmpty()) {
                                     pageNum++;
                                     dataList.addAll(videoList);
                                     adapter.updateItems(dataList);
-                                    recycle_video.setRefreshing(false);
                                     loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
                                 } else {
-                                    recycle_video.setRefreshing(false);
                                     loadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
                                 }
                             }
