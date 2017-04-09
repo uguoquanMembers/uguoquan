@@ -28,23 +28,23 @@ public class VideoAdapter extends BaseRecyclerAdapter<VideoFMBean.DataBean.Video
         super(context);
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if (position == 0 && headView != null) {
-            return 0;
-        } else {
-            return 1;
-        }
-    }
+//    @Override
+//    public int getItemViewType(int position) {
+//        if (position == 0 && headView != null) {
+//            return 0;
+//        } else {
+//            return 1;
+//        }
+//    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == 0) {
-            return new EmptyViewHolder(headView);
-        } else if (viewType == 1) {
+//        if (viewType == 0) {
+//            return new EmptyViewHolder(headView);
+//        } else if (viewType == 1) {
             return new VideoHolder(LayoutInflater.from(mContext).inflate(R.layout.item_sp_video,null));
-        }
-        return null;
+//        }
+//        return null;
     }
 
     @Override

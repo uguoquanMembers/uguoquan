@@ -85,6 +85,15 @@ public class VideoFMBean {
             return videoList;
         }
 
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "carouselList=" + carouselList +
+                    ", pictureList=" + pictureList +
+                    ", videoList=" + videoList +
+                    '}';
+        }
+
         public void setVideoList(List<VideoListBean> videoList) {
             this.videoList = videoList;
         }
@@ -108,6 +117,14 @@ public class VideoFMBean {
             public void setUrl(String url) {
                 this.url = url;
             }
+
+            @Override
+            public String toString() {
+                return "CarouselListBean{" +
+                        "img='" + img + '\'' +
+                        ", url='" + url + '\'' +
+                        '}';
+            }
         }
 
         public static class PictureListBean {
@@ -128,6 +145,14 @@ public class VideoFMBean {
 
             public void setUrl(String url) {
                 this.url = url;
+            }
+
+            @Override
+            public String toString() {
+                return "PictureListBean{" +
+                        "img='" + img + '\'' +
+                        ", url='" + url + '\'' +
+                        '}';
             }
         }
 
@@ -186,6 +211,29 @@ public class VideoFMBean {
             public void setCount(String count) {
                 this.count = count;
             }
+
+            @Override
+            public String toString() {
+                return "VideoListBean{" +
+                        "id='" + id + '\'' +
+                        ", img='" + img + '\'' +
+                        ", headpic='" + headpic + '\'' +
+                        ", name='" + name + '\'' +
+                        ", label='" + label + '\'' +
+                        ", count='" + count + '\'' +
+                        '}';
+            }
         }
+
+
+    }
+
+    @Override
+    public String toString() {
+        return "VideoFMBean{" +
+                "Msg='" + Msg + '\'' +
+                ", Count='" + Count + '\'' +
+                ", Data=" + Data +
+                '}';
     }
 }

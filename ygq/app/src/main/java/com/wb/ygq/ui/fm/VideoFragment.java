@@ -16,7 +16,6 @@ import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
-import com.wb.ygq.bean.CeshiBean;
 import com.wb.ygq.bean.IBannerBean;
 import com.wb.ygq.bean.VideoFMBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
@@ -44,7 +43,7 @@ import java.util.List;
  * Description：
  * Created on 2017/4/2
  */
-public class VideoFragment extends BaseFragment implements RecyclerViewItemClickListener ,OnRefreshListener, OnLoadMoreListener {
+public class VideoFragment extends BaseFragment implements RecyclerViewItemClickListener, OnRefreshListener, OnLoadMoreListener {
 
     private View view;
     private IRecyclerView recycle_video;
@@ -52,14 +51,14 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
     /**
      * 存储数据
      */
-    private List<CeshiBean> dataList = new ArrayList<>();
+    private List<VideoFMBean.DataBean.VideoListBean> dataList = new ArrayList<>();
     private ImageView ima_videohead_left;
     private ImageView ima_videohead_right;
     private LinearLayout ll_video_addvp;
     private RelativeLayout layout_banner;
 
     private VideoFMBean mVideoFMBean;
-    private int page;
+    private int pageNum = 1;
 
     private AutoScrollViewPager viewPager;
 
@@ -99,20 +98,15 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
 
     @Override
     public void initData() {
-        getceshiData();
         adapter = new VideoAdapter(mActivity);
         View headView = getHeadView();
         if (headView != null) {
-            adapter.setHeadView(headView);
+            recycle_video.addHeaderView(headView);
         }
         recycle_video.setHasFixedSize(true);
         recycle_video.setLayoutManager(new GridLayoutManager(mActivity, 1));
         adapter.setItemClickListener(this);
-//        recycle_video.setAdapter(adapter);
-
-
         loadMoreFooterView = (LoadMoreFooterView) recycle_video.getLoadMoreFooterView();
-
         recycle_video.setIAdapter(adapter);
         recycle_video.post(new Runnable() {
             @Override
@@ -120,7 +114,6 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
                 recycle_video.setRefreshing(true);
             }
         });
-        getNetDatas();
     }
 
     @Override
@@ -173,9 +166,9 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
 
     }
 
-    public void getNetDatas(){
+    public void getNetDatas() {
         OkHttpUtils.get()
-                .url(String.format(HttpUrl.API.VIDEO_FM,page))
+                .url(String.format(HttpUrl.API.VIDEO_FM, pageNum))
                 .build()
                 .execute(new Callback() {
                     @Override
@@ -189,55 +182,54 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
                             @Override
                             public void run() {
                                 mVideoFMBean = new Gson().fromJson(finalData, VideoFMBean.class);
+                                MyUtil.showLog("数据为1111111111===" + mVideoFMBean.toString());
                                 //处理轮播
                                 banners = new ArrayList<>();
-                                for (int i = 0; i <mVideoFMBean.getData().getCarouselList().size(); i++) {
+                                for (int i = 0; i < mVideoFMBean.getData().getCarouselList().size(); i++) {
                                     IBannerBean bannerBean = new IBannerBean();
                                     bannerBean.setBannerImg(mVideoFMBean.getData().getCarouselList().get(i).getImg());
                                     bannerBean.setBannerLinkId("001");
                                     bannerBean.setBannerType("005");
                                     banners.add(bannerBean);
                                 }
-                                initBanner();
+                                if (ll_video_addvp.getChildCount() == 0) {
+                                    initBanner();
+                                }
                                 //轮播下两张图片
                                 Glide.with(mActivity).load(mVideoFMBean.getData().getPictureList().get(0).getImg())
                                         .into(ima_videohead_left);
                                 Glide.with(mActivity).load(mVideoFMBean.getData().getPictureList().get(1).getImg())
                                         .into(ima_videohead_right);
-                                //recycleview里的数据
-                                adapter.updateItems(mVideoFMBean.getData().getVideoList());
+                                List<VideoFMBean.DataBean.VideoListBean> videoList = mVideoFMBean.getData().getVideoList();
+                                if (pageNum == 1) {
+                                    dataList.clear();
+                                }
+                                if (videoList != null && !videoList.isEmpty()) {
+                                    pageNum++;
+                                    dataList.addAll(videoList);
+                                    adapter.updateItems(dataList);
+                                    recycle_video.setRefreshing(false);
+                                    loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                                } else {
+                                    recycle_video.setRefreshing(false);
+                                    loadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+                                }
                             }
                         });
-
                         return null;
                     }
 
                     @Override
                     public void onError(Request request, Exception e) {
+                        recycle_video.setRefreshing(false);
+                        e.printStackTrace();
                     }
 
                     @Override
                     public void onResponse(Object response) {
-
+//                        MyUtil.showLog("数据为222222222222==="+response.toString());
                     }
                 });
-    }
-
-    /**
-     * 测试数据
-     *
-     * @return
-     */
-    public void getceshiData() {
-        for (int i = 0; i < 9; i++) {
-            CeshiBean cb = new CeshiBean();
-            cb.setId(1);
-            cb.setIma("http://shtml.asia-cloud.com/ZZSY/list_test1.png");
-            cb.setName("卧槽sb崔" + i);
-            cb.setNum(13 + i);
-            dataList.add(cb);
-        }
-
     }
 
     /**
@@ -255,7 +247,7 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
 
             isInfiniteLoop = banners.size() > 1;
 
-            viewPager.setAdapter(new ImagePagerAdapter<>(0,mActivity, banners, new ImagePagerAdapter.onBannerItemClickListenter<IBannerBean>() {
+            viewPager.setAdapter(new ImagePagerAdapter<>(0, mActivity, banners, new ImagePagerAdapter.onBannerItemClickListenter<IBannerBean>() {
                 @Override
                 public void onItemClick(IBannerBean bannerBean) {
                     doBannerClick(bannerBean);
@@ -301,13 +293,17 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
     @Override
     public void onRefresh() {
         loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+        pageNum = 1;
+        getNetDatas();
     }
 
     @Override
     public void onLoadMore() {
         if (loadMoreFooterView.canLoadMore() && adapter.getItemCount() > 0) {
             loadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
-//            loadMore();
+            pageNum++;
+            getNetDatas();
+            MyUtil.showLog("上拉加载" + pageNum);
         }
     }
 }
