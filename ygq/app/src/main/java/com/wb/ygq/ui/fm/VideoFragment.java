@@ -165,9 +165,9 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
     @Override
     public void onItemClick(View view, Object o, int position, int eventType) {
         VideoFMBean.DataBean.VideoListBean mVideoBean = (VideoFMBean.DataBean.VideoListBean) o;
-        Bundle bundle=new Bundle();
-        bundle.putString("id",mVideoBean.getId());
-        skip(VideoPlayActivity.class,bundle,false);
+        Bundle bundle = new Bundle();
+        bundle.putString("id", mVideoBean.getId());
+        skip(VideoPlayActivity.class, bundle, false);
     }
 
     public void getNetDatas() {
@@ -199,11 +199,20 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
                                 if (ll_video_addvp.getChildCount() == 0) {
                                     initBanner();
                                 }
-                                //轮播下两张图片
-                                Glide.with(mActivity).load(mVideoFMBean.getData().getPictureList().get(0).getImg())
-                                        .into(ima_videohead_left);
-                                Glide.with(mActivity).load(mVideoFMBean.getData().getPictureList().get(1).getImg())
-                                        .into(ima_videohead_right);
+                                //左右两个tabimageview
+                                List<VideoFMBean.DataBean.PictureListBean> pictureList = mVideoFMBean.getData().getPictureList();
+                                if (pictureList != null && !pictureList.isEmpty()) {
+                                    if (pictureList.size() == 1) {
+                                        Glide.with(mActivity).load(mVideoFMBean.getData().getPictureList().get(0).getImg())
+                                                .into(ima_videohead_left);
+                                    } else if (pictureList.size() >= 2) {
+                                        Glide.with(mActivity).load(mVideoFMBean.getData().getPictureList().get(0).getImg())
+                                                .into(ima_videohead_left);
+                                        Glide.with(mActivity).load(mVideoFMBean.getData().getPictureList().get(1).getImg())
+                                                .into(ima_videohead_right);
+                                    }
+                                }
+                                //处理下面的列表
                                 List<VideoFMBean.DataBean.VideoListBean> videoList = mVideoFMBean.getData().getVideoList();
                                 if (pageNum == 1) dataList.clear();
                                 recycle_video.setRefreshing(false);

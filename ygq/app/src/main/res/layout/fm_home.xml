@@ -16,9 +16,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"></LinearLayout>
 
-    <TextView
+    <com.wb.ygq.widget.CycleGalleryViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="home" />
+        android:layout_height="match_parent"></com.wb.ygq.widget.CycleGalleryViewPager>
+
 </LinearLayout>

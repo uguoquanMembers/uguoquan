@@ -41,6 +41,15 @@ public class HomeVideoBean {
         this.Data = Data;
     }
 
+    @Override
+    public String toString() {
+        return "HomeVideoBean{" +
+                "Msg='" + Msg + '\'' +
+                ", Count='" + Count + '\'' +
+                ", Data=" + Data +
+                '}';
+    }
+
     public static class DataBean {
         /**
          * img : http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg
@@ -72,6 +81,14 @@ public class HomeVideoBean {
             this.indexImgList = indexImgList;
         }
 
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "carouselList=" + carouselList +
+                    ", indexImgList=" + indexImgList +
+                    '}';
+        }
+
         public static class CarouselListBean {
             private String img;
             private String url;
@@ -90,6 +107,14 @@ public class HomeVideoBean {
 
             public void setUrl(String url) {
                 this.url = url;
+            }
+
+            @Override
+            public String toString() {
+                return "CarouselListBean{" +
+                        "img='" + img + '\'' +
+                        ", url='" + url + '\'' +
+                        '}';
             }
         }
 
@@ -120,6 +145,15 @@ public class HomeVideoBean {
 
             public void setTitle(String title) {
                 this.title = title;
+            }
+
+            @Override
+            public String toString() {
+                return "IndexImgListBean{" +
+                        "img='" + img + '\'' +
+                        ", url='" + url + '\'' +
+                        ", title='" + title + '\'' +
+                        '}';
             }
         }
     }

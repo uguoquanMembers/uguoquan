@@ -262,6 +262,8 @@ public class AutoScrollViewPager extends ViewPager {
         return event;
     }
 
+
+
     private static class MyHandler extends Handler {
 
         @NonNull
