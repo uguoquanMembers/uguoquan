@@ -311,7 +311,7 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
     public void onLoadMore() {
         if (loadMoreFooterView.canLoadMore() && adapter.getItemCount() > 0) {
             loadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
-            pageNum++;
+//            pageNum++;
             getNetDatas();
             MyUtil.showLog("上拉加载" + pageNum);
         }

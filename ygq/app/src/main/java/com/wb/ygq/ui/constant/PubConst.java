@@ -19,6 +19,7 @@ public class PubConst {
      */
     public static final String KEY_TITLE = "title";
     public static final String KEY_SEX = "sex";
+    public static final String KEY_UID = "userId";
 
 
 }

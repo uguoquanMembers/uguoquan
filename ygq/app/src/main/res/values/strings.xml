@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">尤果圈</string>
+    <string name="channelID">1000000</string>
 </resources>
