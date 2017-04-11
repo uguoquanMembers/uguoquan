@@ -52,6 +52,11 @@
             android:name=".ui.act.AlreadyBuyActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"></activity>
+        <!--收藏-->
+        <activity
+            android:name=".ui.act.CollectActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"></activity>
 
 
     </application>

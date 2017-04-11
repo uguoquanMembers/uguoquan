@@ -43,6 +43,10 @@ public class HttpUrl {
          * 登录
          */
         public static final String LOGIN = "http://youguo.fzjydqg.com/index.php/Api/User/login";
+        /**
+         * 收藏列表
+         */
+        public static final String COLLECT_LIST = "http://youguo.fzjydqg.com/index.php/Api/Order/showcollection";
 
     }
 }

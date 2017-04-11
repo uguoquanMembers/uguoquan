@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.wb.ygq.R;
 import com.wb.ygq.ui.act.AlreadyBuyActivity;
+import com.wb.ygq.ui.act.CollectActivity;
 import com.wb.ygq.ui.act.RechargeActivity;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.utils.PublicUtil;
@@ -103,7 +104,7 @@ public class MineFragment extends BaseFragment {
                 skip(AlreadyBuyActivity.class, false);
                 break;
             case R.id.tv_btmine_collect://收藏
-
+                skip(CollectActivity.class, false);
                 break;
             case R.id.ima_recharge://图片点击
 
