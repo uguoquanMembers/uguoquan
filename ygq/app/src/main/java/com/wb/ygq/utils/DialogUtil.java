@@ -70,7 +70,6 @@ public class DialogUtil {
         ViewGroup.LayoutParams params = rt_reminder.getLayoutParams();
         MyUtil.showLog("屏幕的宽度为====" + screenWidth);
         params.width = (screenWidth / 3) * 2;
-        params.height = screenWidth/2;
         view.setLayoutParams(params);
         showDialog(dialog, view, Gravity.CENTER, false);
         tv_sure.setOnClickListener(new View.OnClickListener() {

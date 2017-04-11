@@ -47,6 +47,10 @@ public class HttpUrl {
          * 收藏列表
          */
         public static final String COLLECT_LIST = "http://youguo.fzjydqg.com/index.php/Api/Order/showcollection";
+        /**
+         * 删除收藏
+         */
+        public static final String DELETE_COLLECT_LIST = "http://youguo.fzjydqg.com/index.php/Api/Order/delCollection";
 
     }
 }

@@ -109,6 +109,10 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
      * 标题
      */
     private RelativeLayout rl_title;
+    /**
+     * 是否跳转  2 的时候为视频
+     */
+    private int key = -1;
 
     public static void start(Context context, Intent extras) {
         Intent intent = new Intent();
@@ -143,6 +147,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getBundleData();
         if (savedInstanceState != null) {// 判断是恢复状态情况，还是重新建立情况  首页  私照  视频  私拍  搜索    我的
             FragmentManager fragmentManager = getSupportFragmentManager();
             homeFragment = (HomeFragment) fragmentManager.findFragmentByTag(HOMEFRAGMENT_TAG);
@@ -195,6 +200,11 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         tv_versions = (TextView) findViewById(R.id.tv_versions);
 
         initToolbar();
+        //为2的时候 从轮播图进入
+        if (key == 2) {
+            tab_video.setChecked(true);
+        }
+
         //默认标题
         setToolTitle(0);
     }
@@ -276,21 +286,27 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         OkHttpUtils.get().url(HttpUrl.API.LOGIN).addParams("version", AppUtils.getVersionCode(this) + "").addParams("devicenumber", AppUtils.getDevice()).addParams("channel_name", AppUtils.getChannelID()).build().execute(new Callback() {
             @Override
             public Object parseNetworkResponse(Response response) throws IOException {
-                LoginResponseBean responseBean = new Gson().fromJson(response.body().string(), LoginResponseBean.class);
+                final LoginResponseBean responseBean = new Gson().fromJson(response.body().string(), LoginResponseBean.class);
                 MyUtil.showLog("登录陈宫===" + responseBean);
-                LoginData data = responseBean.getData();
-                if (data != null) {
-                    SharedUtil.setString(PubConst.KEY_UID, data.getUserid());
-                    if (TextUtils.equals(data.getIsUpdate(), "1"))//需要更新
-                    {
-                        doClientUpdate(data);
-                    } else {
-                        if (key == 1) {
-                            ToastUtil.showToast("您当前版本已经是最新版本");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        LoginData data = responseBean.getData();
+                        if (data != null) {
+                            SharedUtil.setString(PubConst.KEY_UID, data.getUserid());
+                            if (TextUtils.equals(data.getIsUpdate(), "1"))//需要更新
+                            {
+                                doClientUpdate(data);
+                            } else {
+                                if (key == 1) {
+                                    ToastUtil.showToast("您当前版本已经是最新版本");
+                                }
+                            }
+
                         }
                     }
+                });
 
-                }
                 return null;
             }
 
@@ -529,4 +545,10 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
 
+    public void getBundleData() {
+        Bundle bundle = getIntent().getBundleExtra(PubConst.DATA);
+        if (bundle != null) {
+            key = bundle.getInt("key");
+        }
+    }
 }

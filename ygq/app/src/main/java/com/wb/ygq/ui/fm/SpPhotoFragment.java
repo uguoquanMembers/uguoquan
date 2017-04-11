@@ -19,6 +19,11 @@ import com.wb.ygq.ui.adapter.SpPhotoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.MyUtil;
+import com.wb.ygq.utils.ToastUtil;
+import com.wb.ygq.widget.irecycleerview.IRecyclerView;
+import com.wb.ygq.widget.irecycleerview.LoadMoreFooterView;
+import com.wb.ygq.widget.irecycleerview.OnLoadMoreListener;
+import com.wb.ygq.widget.irecycleerview.OnRefreshListener;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 
@@ -30,7 +35,7 @@ import java.util.List;
  * Description：
  * Created on 2017/4/3
  */
-public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemClickListener {
+public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemClickListener, OnRefreshListener, OnLoadMoreListener {
 
     public static SpPhotoFragment newInstance() {
 
@@ -43,7 +48,7 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
 
     private View view;
 
-    private RecyclerView recycleview;
+    private IRecyclerView recycleview;
 
     private SpPhotoAdapter adapter;
     /**
@@ -58,11 +63,12 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
      * 网络请求bean
      */
     private SpFriendListResponseBean responseBean;
+    private LoadMoreFooterView loadMoreFooterView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.layout_single_recyclerview, null);
+        view = inflater.inflate(R.layout.fm_video, null);
         return view;
     }
 
@@ -72,28 +78,31 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
         initView();
         initData();
         setListener();
-        requestDataList(pageNum);
+//        requestDataList(pageNum);
     }
 
     /**
      * 请求数据
-     *
-     * @param pageNum
      */
-    private void requestDataList(int pageNum) {
+    private void requestDataList() {
         OkHttpUtils.get().url(HttpUrl.API.FRIEND_QUN).addParams("page", String.valueOf(pageNum)).build().execute(new Callback() {
             @Override
             public Object parseNetworkResponse(final Response response) throws IOException {
-
                 final String body = response.body().string();
                 mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         responseBean = new Gson().fromJson(body, SpFriendListResponseBean.class);
                         List<FriendListBean> recordList = responseBean.getData();
+                        if (pageNum == 1) dataList.clear();
+                        recycleview.setRefreshing(false);
                         if (recordList != null && !recordList.isEmpty()) {
+                            pageNum++;
                             dataList.addAll(recordList);
                             adapter.updateItems(dataList);
+                            loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                        } else {
+                            loadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
                         }
                         MyUtil.showLog("返回的数据是===" + responseBean);
                     }
@@ -103,7 +112,7 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
 
             @Override
             public void onError(Request request, Exception e) {
-
+                ToastUtil.showToast("数据加载错误，请稍后重试");
             }
 
             @Override
@@ -120,22 +129,30 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
 
     @Override
     public void initView() {
-        recycleview = (RecyclerView) view.findViewById(R.id.recycleview);
+        recycleview = (IRecyclerView) view.findViewById(R.id.recycle_video);
     }
 
     @Override
     public void initData() {
         adapter = new SpPhotoAdapter(mActivity);
         recycleview.setHasFixedSize(true);
-        recycleview.setLayoutManager(new GridLayoutManager(mActivity,1));
+        recycleview.setLayoutManager(new GridLayoutManager(mActivity, 1));
         adapter.setItemClickListener(this);
-        recycleview.setAdapter(adapter);
-        adapter.updateItems(dataList);
+        loadMoreFooterView = (LoadMoreFooterView) recycleview.getLoadMoreFooterView();
+        recycleview.setIAdapter(adapter);
+        recycleview.post(new Runnable() {
+            @Override
+            public void run() {
+                recycleview.setRefreshing(true);
+            }
+        });
     }
 
     @Override
     public void setListener() {
         adapter.setItemClickListener(this);
+        recycleview.setOnRefreshListener(this);
+        recycleview.setOnLoadMoreListener(this);
     }
 
     /**
@@ -148,6 +165,22 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
      */
     @Override
     public void onItemClick(View view, Object o, int position, int eventType) {
-        MyUtil.showLog("点击的iem=="+position);
+        MyUtil.showLog("点击的iem==" + position);
+    }
+
+    @Override
+    public void onRefresh() {
+        loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+        pageNum = 1;
+        requestDataList();
+    }
+
+    @Override
+    public void onLoadMore() {
+        if (loadMoreFooterView.canLoadMore() && adapter.getItemCount() > 0) {
+            loadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
+            requestDataList();
+            MyUtil.showLog("上拉加载" + pageNum);
+        }
     }
 }

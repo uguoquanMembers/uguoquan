@@ -39,6 +39,7 @@ public class CollectPhotoAdapter extends BaseRecyclerAdapter<String> {
                     return false;
                 }
             });
+            //点击
             ((CollectPhotoViewHolder) holder).ima.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

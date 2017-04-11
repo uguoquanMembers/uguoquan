@@ -150,4 +150,6 @@ public class AppUtils {
     public static String getChannelID() {
         return MyApplication.getInstance().getResources().getString(R.string.channelID);
     }
+
+
 }
