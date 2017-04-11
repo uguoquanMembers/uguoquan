@@ -22,9 +22,9 @@ import com.wb.ygq.callback.RecyclerViewItemClickListener;
 import com.wb.ygq.ui.act.VideoPlayActivity;
 import com.wb.ygq.ui.adapter.VideoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
-import com.wb.ygq.ui.utils.AppUtils;
-import com.wb.ygq.ui.utils.MyUtil;
+import com.wb.ygq.utils.AppUtils;
 import com.wb.ygq.utils.HttpUrl;
+import com.wb.ygq.utils.MyUtil;
 import com.wb.ygq.utils.ToastUtil;
 import com.wb.ygq.widget.autoscrollviewpager.AutoScrollViewPager;
 import com.wb.ygq.widget.autoscrollviewpager.CircleIndicator;
@@ -311,7 +311,7 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
     public void onLoadMore() {
         if (loadMoreFooterView.canLoadMore() && adapter.getItemCount() > 0) {
             loadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
-            pageNum++;
+//            pageNum++;
             getNetDatas();
             MyUtil.showLog("上拉加载" + pageNum);
         }

@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".ui.application.MyApplication"
@@ -49,6 +50,11 @@
         <!--已经购买的-->
         <activity
             android:name=".ui.act.AlreadyBuyActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"></activity>
+        <!--收藏-->
+        <activity
+            android:name=".ui.act.CollectActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"></activity>
 

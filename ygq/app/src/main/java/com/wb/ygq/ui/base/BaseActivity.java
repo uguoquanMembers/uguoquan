@@ -15,7 +15,7 @@ import android.widget.ImageView;
 
 import com.wb.ygq.R;
 import com.wb.ygq.ui.constant.PubConst;
-import com.wb.ygq.ui.utils.MyUtil;
+import com.wb.ygq.utils.MyUtil;
 
 import java.util.ArrayList;
 

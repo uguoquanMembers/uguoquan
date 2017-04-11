@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 
 
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
+import com.wb.ygq.callback.RecyclerViewItemLongClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
 public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     protected RecyclerViewItemClickListener itemClickListener;
+    protected RecyclerViewItemLongClickListener itemLongClickListener;
 
     protected List<T> mItems;
     protected Context mContext;
@@ -32,6 +34,9 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
 
     public void setItemClickListener(RecyclerViewItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
+    }
+    public void setItemLongClickListener(RecyclerViewItemLongClickListener itemLongClickListener) {
+        this.itemLongClickListener = itemLongClickListener;
     }
 
     public List<T> getList() {

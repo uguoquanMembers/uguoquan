@@ -17,8 +17,8 @@ import com.wb.ygq.bean.SpFriendListResponseBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
 import com.wb.ygq.ui.adapter.SpPhotoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
-import com.wb.ygq.ui.utils.MyUtil;
 import com.wb.ygq.utils.HttpUrl;
+import com.wb.ygq.utils.MyUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 

@@ -19,6 +19,11 @@ public class PubConst {
      */
     public static final String KEY_TITLE = "title";
     public static final String KEY_SEX = "sex";
+    public static final String KEY_UID = "userId";
 
 
+    /**
+     * 工程包名：SD卡保存路径时使用
+     */
+    public static final String PACKAGE_NAME = "com.ugq";
 }

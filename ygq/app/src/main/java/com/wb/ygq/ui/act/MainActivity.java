@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,7 +19,12 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
+import com.wb.ygq.bean.LoginData;
+import com.wb.ygq.bean.LoginResponseBean;
 import com.wb.ygq.ui.base.BaseActivity;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.ui.constant.PubConst;
@@ -28,9 +34,18 @@ import com.wb.ygq.ui.fm.SearchFragment;
 import com.wb.ygq.ui.fm.SpFragment;
 import com.wb.ygq.ui.fm.SzFragment;
 import com.wb.ygq.ui.fm.VideoFragment;
-import com.wb.ygq.ui.utils.DialogUtil;
-import com.wb.ygq.ui.utils.SharedUtil;
+import com.wb.ygq.utils.AppUtils;
+import com.wb.ygq.utils.ClientUpgrade;
+import com.wb.ygq.utils.ConfirmDialog;
+import com.wb.ygq.utils.DialogUtil;
+import com.wb.ygq.utils.HttpUrl;
+import com.wb.ygq.utils.MyUtil;
+import com.wb.ygq.utils.SharedUtil;
+import com.wb.ygq.utils.ToastUtil;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -158,6 +173,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @Override
     public void initTitle() {
 //        setAn(true);
+//        doClientUpdate(new LoginData());
     }
 
     public void initView() {
@@ -204,6 +220,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     @Override
     public void initData() {
+        requestLoginData(0);
         instance = this;
         if (homeFragment == null) homeFragment = new HomeFragment();// 主页
         if (szFragment == null) szFragment = new SzFragment();
@@ -252,6 +269,44 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         }
     }
 
+    /**
+     * 请求登录接口http://youguo.fzjydqg.com/index.php/Api/User/login/version/2/devicenumber/36521/channel_name/Y001/sex/1
+     */
+    private void requestLoginData(final int key) {
+        OkHttpUtils.get().url(HttpUrl.API.LOGIN).addParams("version", AppUtils.getVersionCode(this) + "").addParams("devicenumber", AppUtils.getDevice()).addParams("channel_name", AppUtils.getChannelID()).build().execute(new Callback() {
+            @Override
+            public Object parseNetworkResponse(Response response) throws IOException {
+                LoginResponseBean responseBean = new Gson().fromJson(response.body().string(), LoginResponseBean.class);
+                MyUtil.showLog("登录陈宫===" + responseBean);
+                LoginData data = responseBean.getData();
+                if (data != null) {
+                    SharedUtil.setString(PubConst.KEY_UID, data.getUserid());
+                    if (TextUtils.equals(data.getIsUpdate(), "1"))//需要更新
+                    {
+                        doClientUpdate(data);
+                    } else {
+                        if (key == 1) {
+                            ToastUtil.showToast("您当前版本已经是最新版本");
+                        }
+                    }
+
+                }
+                return null;
+            }
+
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
+    }
+
     @Override
     public void setListener() {
         rg.setOnCheckedChangeListener(this);
@@ -288,7 +343,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 //                skip(PicInfoActivity.class, false);
                 break;
             case R.id.tv_versions://版本
-
+                requestLoginData(1);
                 break;
 
             default:
@@ -421,4 +476,57 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         tv.setTextColor(getResources().getColor(R.color.color_333333));
         rl_title.addView(tv);
     }
+
+    /**
+     * 升级操作
+     */
+    private void doClientUpdate(LoginData data) {
+        if (MainActivity.this.isFinishing()) { // 如果页面不在了 直接退出
+            return;
+        }
+        final String downloadUrl = data.getDownload();
+        DialogUtil.showReminder(this, "更新提示：", "有新的版本，是否更新？", "取消", "确定",
+                new ConfirmDialog() {
+                    @Override
+                    public void onOKClick(Bundle data) {
+                        diashowpressBar(downloadUrl);
+                    }
+
+                    @Override
+                    public void onCancleClick() {
+
+                    }
+                });
+    }
+
+    /**
+     * 下载apk
+     *
+     * @param downloadUrl
+     */
+    private void diashowpressBar(String downloadUrl) {
+//        downloadUrl = "http://kgtms.rybbaby.com/upload/apk/homeschool_home_1.3.3.apk";
+        ClientUpgrade cuapk = new ClientUpgrade(MainActivity.this);
+        cuapk.downloadApk(downloadUrl, new ClientUpgrade.ClientUpgradeCallback()
+
+        {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onFailed() {
+                ToastUtil.showToast("下载失败");
+            }
+
+        });
+    }
+
+
 }
