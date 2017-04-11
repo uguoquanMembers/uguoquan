@@ -1267,7 +1267,7 @@ public class CycleGalleryViewPager extends ViewGroup {
             }
         }
         if (needRelayout.mHasReuseItem) {
-            onLayout(false, getLeft(), getTop(), getRight(), getBottom());
+            layout( getLeft(), getTop(), getRight(), getBottom());
         }
     }
 

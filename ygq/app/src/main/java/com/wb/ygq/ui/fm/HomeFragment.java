@@ -1,5 +1,6 @@
 package com.wb.ygq.ui.fm;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -11,19 +12,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.commit451.nativestackblur.NativeStackBlur;
 import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.HomeVideoBean;
 import com.wb.ygq.bean.IBannerBean;
+import com.wb.ygq.ui.act.MainActivity;
+import com.wb.ygq.ui.act.PicInfoActivity;
+import com.wb.ygq.ui.act.SZActivity;
+import com.wb.ygq.ui.act.VideoPlayActivity;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.utils.AppUtils;
 import com.wb.ygq.utils.HttpUrl;
-import com.wb.ygq.utils.MyUtil;
 import com.wb.ygq.widget.CycleGalleryViewPager;
 import com.wb.ygq.widget.autoscrollviewpager.AutoScrollViewPager;
 import com.wb.ygq.widget.autoscrollviewpager.CircleIndicator;
@@ -106,12 +112,31 @@ public class HomeFragment extends BaseFragment {
             public Object instantiateItem(ViewGroup container, final int position) {
                 View view = LayoutInflater.from(mActivity).inflate(R.layout.layout_vp_home_down, container, false);
                 ((TextView) view.findViewById(R.id.tv_vp_title)).setText(vpList.get(position).getTitle() + ">>");
-                ImageView id = (ImageView) view.findViewById(R.id.ima_vp_con);
-                Glide.with(mActivity).load(vpList.get(position).getImg()).crossFade().into(id);
+                final ImageView id = (ImageView) view.findViewById(R.id.ima_vp_con);
+                if ("0".equals(vpList.get(position).getEmpty())) {
+                    Glide.with(mActivity).load(vpList.get(position).getImg()).crossFade().into(id);
+                } else if ("1".equals(vpList.get(position).getEmpty())) {
+                    //当时1的时候图片变虚
+                    Glide.with(getActivity()).load(vpList.get(position).getImg()).asBitmap().into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            Bitmap process = NativeStackBlur.process(resource, 8);
+                            id.setImageBitmap(process);
+                        }
+                    });
+                }
                 id.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getActivity(), "电机的" + position, 1000).show();
+                        if ("99".equals(vpList.get(position).getUrl())) {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("key", 2);
+                            skip(MainActivity.class, bundle, true);
+                        } else {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("index", vpList.get(position).getUrl());
+                            skip(SZActivity.class, bundle, false);
+                        }
                     }
                 });
                 container.addView(view);
@@ -148,13 +173,12 @@ public class HomeFragment extends BaseFragment {
                             @Override
                             public void run() {
                                 mHomeVideoBean = new Gson().fromJson(finalData, HomeVideoBean.class);
-                                MyUtil.showLog("首页返回的数据===" + mHomeVideoBean);
                                 banners = new ArrayList<>();
                                 for (int i = 0; i < mHomeVideoBean.getData().getCarouselList().size(); i++) {
                                     IBannerBean bannerBean = new IBannerBean();
                                     bannerBean.setBannerImg(mHomeVideoBean.getData().getCarouselList().get(i).getImg());
-                                    bannerBean.setBannerLinkId("001");
-                                    bannerBean.setBannerType("005");
+                                    bannerBean.setBannerLinkId(mHomeVideoBean.getData().getCarouselList().get(i).getGo());
+                                    bannerBean.setBannerType(mHomeVideoBean.getData().getCarouselList().get(i).getUrl());
                                     banners.add(bannerBean);
                                 }
                                 initBanner();
@@ -241,12 +265,14 @@ public class HomeFragment extends BaseFragment {
      */
     private void doBannerClick(IBannerBean bannerBean) {
 
-        switch (bannerBean.getBannerType()) {
-            case "005"://
-
-                MyUtil.showLog("点击banner");
-                break;
-
+        if ("99".equals(bannerBean.getBannerType())) {
+            Bundle bundle = new Bundle();
+            bundle.putString("id", bannerBean.getBannerLinkId());
+            skip(VideoPlayActivity.class, bundle, false);
+        } else {
+            Bundle bundle = new Bundle();
+            bundle.putString("id", bannerBean.getBannerLinkId());
+            skip(PicInfoActivity.class, bundle, false);
         }
     }
 }

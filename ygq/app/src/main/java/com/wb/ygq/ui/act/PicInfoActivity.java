@@ -21,6 +21,7 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
@@ -81,6 +82,7 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
     public void initData() {
         Bundle bundle = getIntent().getBundleExtra(PubConst.DATA);
         id = bundle.getString("id");
+        picPathes=new ArrayList<>();
         getNetDatas();
 
     }
@@ -103,7 +105,9 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
                             @Override
                             public void run() {
                                 mImgListBean = new Gson().fromJson(finalData, ImgListBean.class);
-                                picPathes = mImgListBean.getData().getOrderimg();
+                                for (int i = 0; i < mImgListBean.getData().getOrderimg().size(); i++) {
+                                    picPathes.add(mImgListBean.getData().getOrderimg().get(i).getUrl());
+                                }
                                 adapter = new ImagePagerAdapter(PicInfoActivity.this, picPathes);
                                 vp_picinfo.setAdapter(adapter);
                                 vp_picinfo.setCurrentItem(currentPage);

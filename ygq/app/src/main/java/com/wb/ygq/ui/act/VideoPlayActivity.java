@@ -10,7 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -37,12 +37,10 @@ import com.wb.ygq.R;
 import com.wb.ygq.bean.CeshiBean;
 import com.wb.ygq.bean.MediaInfor;
 import com.wb.ygq.bean.VideoContentBean;
-import com.wb.ygq.callback.RecyclerViewItemClickListener;
 import com.wb.ygq.ui.adapter.VideoPlayAdapter;
 import com.wb.ygq.ui.base.BaseActivity;
 import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.utils.HttpUrl;
-import com.wb.ygq.utils.MyUtil;
 import com.wb.ygq.utils.PublicUtil;
 import com.wb.ygq.utils.ToastUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -61,7 +59,9 @@ public class VideoPlayActivity extends BaseActivity {
     /**
      * 视频
      */
-    private String path = "http://download.yxybb.com/bbvideo/web/d1/d13/d11/d1/f11-web.mp4";
+    private String path = "";
+    private String title = "";
+    private String endTime = "";
     private boolean mIsHandPause = false;
     private static final int MSG_SURFACE_PREPARE = 0x00000000;
     private static final int MSG_SURFACE_START = 0x00000001;
@@ -199,8 +199,7 @@ public class VideoPlayActivity extends BaseActivity {
 
         mVideoView = (VideoView) findViewById(R.id.surfaceview);
         ll_bottom_layout = (LinearLayout) findViewById(R.id.ll_bottom_layout);
-        initMediaController();
-        resetProgressAndTimer();
+
 
         recycle_comment = (RecyclerView) findViewById(R.id.recycle_comment);
         tv_input = (TextView) findViewById(R.id.tv_input);
@@ -230,20 +229,22 @@ public class VideoPlayActivity extends BaseActivity {
                             public void run() {
                                 mVideoContentBean = new Gson().fromJson(finalData, VideoContentBean.class);
                                 adapter = new VideoPlayAdapter(VideoPlayActivity.this);
-                                mVideoContentBean=new Gson().fromJson(finalData,VideoContentBean.class);
+                                mVideoContentBean = new Gson().fromJson(finalData, VideoContentBean.class);
                                 adapter.setHeadView(getHeadView());
                                 recycle_comment.setHasFixedSize(true);
-                                recycle_comment.setLayoutManager(new LinearLayoutManager(VideoPlayActivity.this));
+                                recycle_comment.setLayoutManager(new GridLayoutManager(VideoPlayActivity.this,1));
                                 recycle_comment.setAdapter(adapter);
                                 List<VideoContentBean.DataBean.CommentListBean> commentList = mVideoContentBean.getData().getCommentList();
                                 if (commentList != null && !commentList.isEmpty()) {
                                     dataList.addAll(commentList);
-                                    MyUtil.showLog("返回的结果是===" + dataList);
                                     adapter.updateItems(dataList);
                                 }
                                 adapter.updateItems(mVideoContentBean.getData().getCommentList());
-                                playMedia(mVideoContentBean.getData().getVideoMessage().getUrl(),
-                                        mVideoContentBean.getData().getVideoMessage().getName() );
+                                path = mVideoContentBean.getData().getVideoMessage().getUrl();
+                                title = mVideoContentBean.getData().getVideoMessage().getName();
+                                endTime = mVideoContentBean.getData().getVideoMessage().getEndtime();
+                                initMediaController();
+                                resetProgressAndTimer();
                             }
                         });
 
@@ -336,7 +337,7 @@ public class VideoPlayActivity extends BaseActivity {
                     return;
                 }
                 imageFristPlay.setVisibility(View.GONE);
-                playMedia(path, "课后练习题");
+                playMedia(path, title);
             }
         });
     }
@@ -417,7 +418,7 @@ public class VideoPlayActivity extends BaseActivity {
         mSeekBar.setProgress(0);
         mSeekBar.setSecondaryProgress(0);
         mText_Current.setText("00:00");
-        mText_Durtion.setText("00:00");
+        mText_Durtion.setText(endTime);
     }
 
     /**
@@ -482,7 +483,7 @@ public class VideoPlayActivity extends BaseActivity {
     private MediaPlayer.OnErrorListener mOnErrorListener = new MediaPlayer.OnErrorListener() {
         @Override
         public boolean onError(MediaPlayer mp, int what, int extra) {
-
+            ToastUtil.showToast("播放失败", Toast.LENGTH_SHORT);
             return true;
         }
     };
@@ -776,7 +777,7 @@ public class VideoPlayActivity extends BaseActivity {
         View v = LayoutInflater.from(this).inflate(R.layout.headview_videopalyer, null);
         LinearLayout ll_moreaddview = (LinearLayout) v.findViewById(R.id.ll_moreaddview);
         TextView tv_title_num = (TextView) v.findViewById(R.id.tv_title_num);
-        for (int i = 0; i < mVideoContentBean.getData().getVideoMessage().getOrderimg().size(); i++) {
+        for (int i = 0; i < mVideoContentBean.getData().getOrderVideo().size(); i++) {
             ll_moreaddview.addView(foramtSlideView(i));
         }
         String str = "\n" + mVideoContentBean.getData().getVideoMessage().getCount();
@@ -793,13 +794,16 @@ public class VideoPlayActivity extends BaseActivity {
     private View foramtSlideView(final int i) {
         View v = LayoutInflater.from(this).inflate(R.layout.layout_ima_twotext, null);
         ImageView image_head = (ImageView) v.findViewById(R.id.image_head);
-        Glide.with(this).load(mVideoContentBean.getData().getVideoMessage().getOrderimg().get(i)).into(image_head);
-//        text_content.setText(llList.get(i).getName());
-//        text_title.setText(llList.get(i).getName());
+        Glide.with(this).load(mVideoContentBean.getData().getOrderVideo().get(i).getImg()).into(image_head);
+        TextView text_title = (TextView) v.findViewById(R.id.text_title);
+        text_title.setText(mVideoContentBean.getData().getOrderVideo().get(i).getTitle());
+        TextView text_count = (TextView) v.findViewById(R.id.text_count);
+        text_count.setText(mVideoContentBean.getData().getOrderVideo().get(i).getCount());
         image_head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ToastUtil.showToast("点击的item===" + i);
+                Bundle bundle = new Bundle();
+//                bundle.putString();
             }
         });
         return v;

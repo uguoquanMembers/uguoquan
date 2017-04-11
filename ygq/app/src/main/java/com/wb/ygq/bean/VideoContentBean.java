@@ -9,15 +9,16 @@ public class VideoContentBean {
 
     /**
      * Msg : 200
-     * Count : 2
-     * Data : {"videoMessage":{"img":"http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg","headpic":"http://img3.redocn.com/tupian/20150318/zisehuawenyuanxingbiankuang_4021350.jpg","name":"测试一下1","count":"已播放14.6万次","url":"http:/www.abc.com/abc.mp4","orderimg":["http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg","http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg","http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg","http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg"]},"commentList":[{"img":"http://resa.kafeisec.cn/t/1.jpg","message":" SVIP怎么升级？","name":"小骚货","time":"1分钟前"},{"img":"http://img3.redocn.com/tupian/20150318/zisehuawenyuanxingbiankuang_4021350.jpg","message":"测试评论内容","name":"测试用户名","time":"1分钟前"}]}
+     * Count : 3
+     * Data : {"videoMessage":{"img":"http://img.youguoquan.com/uploads/magazine/content/b147130ae8fdbbc55c0a425ec5367a8f_magazine_web_m.jpg","headpic":"http://img.youguoquan.com/uploads/users/header/91a85b836a3b0b74fa4a9192d59e6697.jpg","name":"香川颖","count":"已播放14.6万次","url":"http://i.utop.cc/handao_img/app_img/video/mp4/shikan53.mp4","endtime":"60:33"},"commentList":[{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"1123123","name":"lyangye","time":"3分钟前"}],"orderVideo":[{"img":"http://img.youguoquan.com/uploads/magazine/content/b147130ae8fdbbc55c0a425ec5367a8f_magazine_web_m.jpg","title":"尤果网-美女香川颖COS阿狸 玩弄尾巴特技 精气波再现","count":"已播放14.6万次"},{"img":"http://img.youguoquan.com/uploads/magazine/content/b147130ae8fdbbc55c0a425ec5367a8f_magazine_web_m.jpg","title":"尤果网-美女香川颖COS阿狸 玩弄尾巴特技 精气波再现","count":"已播放14.6万次"}]}
      */
 
     private String Msg;
     private String Count;
     /**
-     * videoMessage : {"img":"http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg","headpic":"http://img3.redocn.com/tupian/20150318/zisehuawenyuanxingbiankuang_4021350.jpg","name":"测试一下1","count":"已播放14.6万次","url":"http:/www.abc.com/abc.mp4","orderimg":["http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg","http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg","http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg","http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg"]}
-     * commentList : [{"img":"http://resa.kafeisec.cn/t/1.jpg","message":" SVIP怎么升级？","name":"小骚货","time":"1分钟前"},{"img":"http://img3.redocn.com/tupian/20150318/zisehuawenyuanxingbiankuang_4021350.jpg","message":"测试评论内容","name":"测试用户名","time":"1分钟前"}]
+     * videoMessage : {"img":"http://img.youguoquan.com/uploads/magazine/content/b147130ae8fdbbc55c0a425ec5367a8f_magazine_web_m.jpg","headpic":"http://img.youguoquan.com/uploads/users/header/91a85b836a3b0b74fa4a9192d59e6697.jpg","name":"香川颖","count":"已播放14.6万次","url":"http://i.utop.cc/handao_img/app_img/video/mp4/shikan53.mp4","endtime":"60:33"}
+     * commentList : [{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"1123123","name":"lyangye","time":"3分钟前"}]
+     * orderVideo : [{"img":"http://img.youguoquan.com/uploads/magazine/content/b147130ae8fdbbc55c0a425ec5367a8f_magazine_web_m.jpg","title":"尤果网-美女香川颖COS阿狸 玩弄尾巴特技 精气波再现","count":"已播放14.6万次"},{"img":"http://img.youguoquan.com/uploads/magazine/content/b147130ae8fdbbc55c0a425ec5367a8f_magazine_web_m.jpg","title":"尤果网-美女香川颖COS阿狸 玩弄尾巴特技 精气波再现","count":"已播放14.6万次"}]
      */
 
     private DataBean Data;
@@ -46,34 +47,32 @@ public class VideoContentBean {
         this.Data = Data;
     }
 
-    @Override
-    public String toString() {
-        return "VideoContentBean{" +
-                "Msg='" + Msg + '\'' +
-                ", Count='" + Count + '\'' +
-                ", Data=" + Data +
-                '}';
-    }
-
     public static class DataBean {
         /**
-         * img : http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg
-         * headpic : http://img3.redocn.com/tupian/20150318/zisehuawenyuanxingbiankuang_4021350.jpg
-         * name : 测试一下1
+         * img : http://img.youguoquan.com/uploads/magazine/content/b147130ae8fdbbc55c0a425ec5367a8f_magazine_web_m.jpg
+         * headpic : http://img.youguoquan.com/uploads/users/header/91a85b836a3b0b74fa4a9192d59e6697.jpg
+         * name : 香川颖
          * count : 已播放14.6万次
-         * url : http:/www.abc.com/abc.mp4
-         * orderimg : ["http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg","http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg","http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg","http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg"]
+         * url : http://i.utop.cc/handao_img/app_img/video/mp4/shikan53.mp4
+         * endtime : 60:33
          */
 
         private VideoMessageBean videoMessage;
         /**
-         * img : http://resa.kafeisec.cn/t/1.jpg
-         * message :  SVIP怎么升级？
-         * name : 小骚货
-         * time : 1分钟前
+         * img : https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg
+         * message : 1123123
+         * name : lyangye
+         * time : 3分钟前
          */
 
         private List<CommentListBean> commentList;
+        /**
+         * img : http://img.youguoquan.com/uploads/magazine/content/b147130ae8fdbbc55c0a425ec5367a8f_magazine_web_m.jpg
+         * title : 尤果网-美女香川颖COS阿狸 玩弄尾巴特技 精气波再现
+         * count : 已播放14.6万次
+         */
+
+        private List<OrderVideoBean> orderVideo;
 
         public VideoMessageBean getVideoMessage() {
             return videoMessage;
@@ -91,12 +90,12 @@ public class VideoContentBean {
             this.commentList = commentList;
         }
 
-        @Override
-        public String toString() {
-            return "DataBean{" +
-                    "videoMessage=" + videoMessage +
-                    ", commentList=" + commentList +
-                    '}';
+        public List<OrderVideoBean> getOrderVideo() {
+            return orderVideo;
+        }
+
+        public void setOrderVideo(List<OrderVideoBean> orderVideo) {
+            this.orderVideo = orderVideo;
         }
 
         public static class VideoMessageBean {
@@ -105,7 +104,7 @@ public class VideoContentBean {
             private String name;
             private String count;
             private String url;
-            private List<String> orderimg;
+            private String endtime;
 
             public String getImg() {
                 return img;
@@ -147,24 +146,12 @@ public class VideoContentBean {
                 this.url = url;
             }
 
-            public List<String> getOrderimg() {
-                return orderimg;
+            public String getEndtime() {
+                return endtime;
             }
 
-            public void setOrderimg(List<String> orderimg) {
-                this.orderimg = orderimg;
-            }
-
-            @Override
-            public String toString() {
-                return "VideoMessageBean{" +
-                        "img='" + img + '\'' +
-                        ", headpic='" + headpic + '\'' +
-                        ", name='" + name + '\'' +
-                        ", count='" + count + '\'' +
-                        ", url='" + url + '\'' +
-                        ", orderimg=" + orderimg +
-                        '}';
+            public void setEndtime(String endtime) {
+                this.endtime = endtime;
             }
         }
 
@@ -205,15 +192,35 @@ public class VideoContentBean {
             public void setTime(String time) {
                 this.time = time;
             }
+        }
 
-            @Override
-            public String toString() {
-                return "CommentListBean{" +
-                        "img='" + img + '\'' +
-                        ", message='" + message + '\'' +
-                        ", name='" + name + '\'' +
-                        ", time='" + time + '\'' +
-                        '}';
+        public static class OrderVideoBean {
+            private String img;
+            private String title;
+            private String count;
+
+            public String getImg() {
+                return img;
+            }
+
+            public void setImg(String img) {
+                this.img = img;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public String getCount() {
+                return count;
+            }
+
+            public void setCount(String count) {
+                this.count = count;
             }
         }
     }
