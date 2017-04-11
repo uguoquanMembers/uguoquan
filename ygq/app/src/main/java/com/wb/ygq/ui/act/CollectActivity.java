@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.wb.ygq.R;
 import com.wb.ygq.ui.base.BaseActivity;
+import com.wb.ygq.ui.fm.CollectFriendFragment;
 import com.wb.ygq.ui.fm.CollectPhotoFragment;
 import com.wb.ygq.ui.fm.CollectVideoFragment;
 
@@ -108,7 +109,7 @@ public class CollectActivity extends BaseActivity {
                 case 1:
                     return new CollectVideoFragment();
                 case 2:
-                    return new CollectVideoFragment();
+                    return new CollectFriendFragment();
             }
             return null;
         }

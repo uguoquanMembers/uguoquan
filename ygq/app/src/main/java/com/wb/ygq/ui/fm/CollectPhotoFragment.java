@@ -15,11 +15,14 @@ import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.CollentBean;
 import com.wb.ygq.bean.CollentResponseBean;
+import com.wb.ygq.bean.CommResponseBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
 import com.wb.ygq.callback.RecyclerViewItemLongClickListener;
 import com.wb.ygq.ui.adapter.CollectPhotoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.ui.constant.PubConst;
+import com.wb.ygq.utils.ConfirmDialog;
+import com.wb.ygq.utils.DialogUtil;
 import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.MyUtil;
 import com.wb.ygq.utils.SharedUtil;
@@ -46,6 +49,7 @@ public class CollectPhotoFragment extends BaseFragment implements RecyclerViewIt
      * 存储 列表数据
      */
     private List<String> dataList = new ArrayList<>();
+    private String userId;
 
 
     @Nullable
@@ -68,7 +72,7 @@ public class CollectPhotoFragment extends BaseFragment implements RecyclerViewIt
      * 请求列表接口
      */
     private void requestCollectListData() {
-        String userId = SharedUtil.getString(PubConst.KEY_UID, "");
+        userId = SharedUtil.getString(PubConst.KEY_UID, "");
         MyUtil.showLog("用户id====" + userId);
         if (TextUtils.isEmpty(userId)) {
             ToastUtil.showToast("您还没有登录");
@@ -160,7 +164,50 @@ public class CollectPhotoFragment extends BaseFragment implements RecyclerViewIt
      * @param position
      */
     @Override
-    public void OnItemLongClick(View view, Object o, int position) {
-        MyUtil.showLog("长按点击事件===" + position);
+    public void OnItemLongClick(View view, Object o, final int position) {
+        DialogUtil.showReminder(mActivity, "提示：", "确定删除？", "取消", "删除", new ConfirmDialog() {
+            @Override
+            public void onOKClick(Bundle data) {
+                //点击确定 请求删除接口
+                requestDeleteListData(position);
+            }
+
+
+            @Override
+            public void onCancleClick() {
+
+            }
+        });
+    }
+
+    /**
+     * 请求删除接口
+     *
+     * @param position
+     */
+    private void requestDeleteListData(final int position) {
+        //TODO 暂时写死  vid  等后台返回数据
+        OkHttpUtils.get().url(HttpUrl.API.DELETE_COLLECT_LIST).addParams("uid", userId).addParams("vid", "18").addParams("type", "1").build().execute(new Callback() {
+            @Override
+            public Object parseNetworkResponse(Response response) throws IOException {
+                CommResponseBean commResponseBean = new Gson().fromJson(response.body().string(), CommResponseBean.class);
+                MyUtil.showLog("请求陈宫====" + commResponseBean.getCount());
+                if (TextUtils.equals(commResponseBean.getCount(), "200")) {
+                    ToastUtil.showToast("删除成功");
+                    adapter.removeItem(position);
+                }
+                return null;
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+                ToastUtil.showToast("删除失败,请稍后重试");
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
     }
 }

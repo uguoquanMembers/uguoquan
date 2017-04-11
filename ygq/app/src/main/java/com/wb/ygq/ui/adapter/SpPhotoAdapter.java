@@ -16,11 +16,19 @@ import com.wb.ygq.bean.FriendListBean;
 import com.wb.ygq.ui.base.BaseRecyclerAdapter;
 import com.wb.ygq.widget.CropCircleTransformation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Description： 私拍朋友圈适配器
  * Created on 2017/4/3
  */
 public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
+    /**
+     * 存储数据
+     */
+    private List<String> urlList = new ArrayList<>();
+
     public SpPhotoAdapter(Context context) {
         super(context);
     }
@@ -38,7 +46,6 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
             ((SpPhotoViewHolder) holder).tv_itemspphoto_name.setText(friendListBean.getName());
             ((SpPhotoViewHolder) holder).tv_time.setText(friendListBean.getTime());
             ((SpPhotoViewHolder) holder).tv_praise_count.setText(friendListBean.getFabulous());
-
             Glide.with(mContext).load(friendListBean.getHeadpic()).bitmapTransform(new CropCircleTransformation(mContext)).crossFade().into(((SpPhotoViewHolder) holder).ima_itemspphoto_head);
             ((SpPhotoViewHolder) holder).ll_container.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -46,13 +53,39 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
                     itemClickListener.onItemClick(((SpPhotoViewHolder) holder).ll_container, friendListBean, position, 0);
                 }
             });
-
+            List<String> imgList = friendListBean.getImg();
+            ////////////////////处理嵌套的gridview
+            GridAdapter adapter = new GridAdapter(mContext);
+            adapter.setData(urlList);
+            ((SpPhotoViewHolder) holder).grid_sp.setClickable(false);
+            ((SpPhotoViewHolder) holder).grid_sp.setPressed(false);
+            ((SpPhotoViewHolder) holder).grid_sp.setEnabled(false);
+            ((SpPhotoViewHolder) holder).grid_sp.setAdapter(adapter);
+            if (imgList != null && !imgList.isEmpty()) {
+                ((SpPhotoViewHolder) holder).grid_sp.setVisibility(View.VISIBLE);
+            //保证最多只有9张图
+                for (int i = 0; i < imgList.size(); i++) {
+                    if (i < 9) {
+                        urlList.addAll(imgList);
+                    }
+                }
+                if (imgList.size() >= 5) {
+                    ((SpPhotoViewHolder) holder).grid_sp.setNumColumns(3);
+                } else if (imgList.size() == 4) {
+                    ((SpPhotoViewHolder) holder).grid_sp.setNumColumns(2);
+                } else {
+                    ((SpPhotoViewHolder) holder).grid_sp.setNumColumns(imgList.size());
+                }
+                adapter.notifyDataSetChanged();
+            } else {
+                ((SpPhotoViewHolder) holder).grid_sp.setVisibility(View.GONE);
+            }
         }
     }
 
     class SpPhotoViewHolder extends RecyclerView.ViewHolder {
         private ImageView ima_itemspphoto_head;
-        private TextView tv_itemspphoto_name, tv_itemspphoto_content,tv_time,tv_praise_count;
+        private TextView tv_itemspphoto_name, tv_itemspphoto_content, tv_time, tv_praise_count;
         private GridView grid_sp;
         private LinearLayout ll_container;
 
@@ -63,8 +96,8 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
             tv_itemspphoto_content = (TextView) itemView.findViewById(R.id.tv_itemspphoto_content);
             ll_container = (LinearLayout) itemView.findViewById(R.id.ll_container);
             grid_sp = (GridView) itemView.findViewById(R.id.grid_sp);
-            tv_time= (TextView) itemView.findViewById(R.id.tv_time);
-            tv_praise_count= (TextView) itemView.findViewById(R.id.tv_praise_count);
+            tv_time = (TextView) itemView.findViewById(R.id.tv_time);
+            tv_praise_count = (TextView) itemView.findViewById(R.id.tv_praise_count);
         }
     }
 }
