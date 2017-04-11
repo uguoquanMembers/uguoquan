@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 
 import com.wb.ygq.R;
 import com.wb.ygq.ui.base.BaseActivity;
-import com.wb.ygq.ui.utils.AppUtils;
+import com.wb.ygq.utils.AppUtils;
 
 /**
  * Description：开屏图

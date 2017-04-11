@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 import com.wb.ygq.R;
 import com.wb.ygq.ui.base.BaseActivity;
 import com.wb.ygq.ui.constant.PubConst;
-import com.wb.ygq.ui.utils.SharedUtil;
+import com.wb.ygq.utils.SharedUtil;
 
 import java.util.ArrayList;
 import java.util.List;

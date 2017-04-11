@@ -1,8 +1,11 @@
 package com.wb.ygq.utils;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
+import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.SpannableString;
@@ -17,9 +20,6 @@ import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import com.wb.ygq.ui.utils.*;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -27,7 +27,6 @@ import java.util.Locale;
 public class PublicUtil {
     private static final String TAG = "PublicUtil";
     public static float density;
-
 
 
     /**
@@ -51,7 +50,32 @@ public class PublicUtil {
         return String.format(Locale.getDefault(), format, obj);
     }
 
+    /**
+     * 判断activity是否存活
+     *
+     */
+    @SuppressLint("NewApi")
+    public static boolean isExistActivity(Context context) {
+        if (context == null) {
+            return false;
+        }
 
+        if (!(context instanceof Activity)) {
+            return false;
+        }
+        Activity activity = (Activity) context;
+        if (activity.isFinishing()) {
+            return false;
+        }
+        // 17以上才有 isDestroy方法
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            if (activity.isDestroyed()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     /**
      * 一个textview显示不同文字颜色大小
@@ -73,12 +97,12 @@ public class PublicUtil {
         return months;
     }
 
-    public static int dip2px(Context context,float dipValue)
-    {
+    public static int dip2px(Context context, float dipValue) {
         DisplayMetrics dm = context.getApplicationContext().getResources().getDisplayMetrics();
         density = dm.density;
         return (int) (dipValue * density + 0.5f);
     }
+
     /**
      * 设置viewpager伴随滚动
      *
@@ -180,11 +204,11 @@ public class PublicUtil {
     }
 
 
-    public static void setImaSize(Context context,ImageView ima, int c, int x) {
-        int screenWidth = com.wb.ygq.ui.utils.AppUtils.getScreenWidth(context);
+    public static void setImaSize(Context context, ImageView ima, int c, int x) {
+        int screenWidth = AppUtils.getScreenWidth(context);
         ViewGroup.LayoutParams layoutParams = ima.getLayoutParams();
-        layoutParams.width = (screenWidth/c)*x;
-        layoutParams.height = (screenWidth/c)*x;
+        layoutParams.width = (screenWidth / c) * x;
+        layoutParams.height = (screenWidth / c) * x;
         ima.setLayoutParams(layoutParams);
     }
 }

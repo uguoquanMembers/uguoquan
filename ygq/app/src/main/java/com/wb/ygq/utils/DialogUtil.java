@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +55,44 @@ public class DialogUtil {
         dialog.show();
     }
 
+    public static void showReminder(final Activity context, String title, String content, String tvLeft, String tvRight, final ConfirmDialog callBack) {
+        final Dialog dialog = new Dialog(context, R.style.NoTitleDialog);
+        setAlpha(context, 50);
+        final View view = LayoutInflater.from(context).inflate(R.layout.dia_reminder, null);
+        RelativeLayout rt_reminder = (RelativeLayout) view.findViewById(R.id.rt_reminder);
+        TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
+        TextView tv_content = (TextView) view.findViewById(R.id.tv_content);
+        TextView tv_sure = (TextView) view.findViewById(R.id.tv_sure);
+        TextView tv_cancel = (TextView) view.findViewById(R.id.tv_cancel);
+        tv_title.setText(title);
+        tv_content.setText(content);
+        int screenWidth = AppUtils.getScreenWidth(context);
+        ViewGroup.LayoutParams params = rt_reminder.getLayoutParams();
+        MyUtil.showLog("屏幕的宽度为====" + screenWidth);
+        params.width = (screenWidth / 3) * 2;
+        params.height = screenWidth/2;
+        view.setLayoutParams(params);
+        showDialog(dialog, view, Gravity.CENTER, false);
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callBack.onOKClick(null);
+                dialog.dismiss();
+            }
+        });
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                setAlpha(context, 1);
+            }
+        });
+    }
 
     /**
      * 男女弹窗

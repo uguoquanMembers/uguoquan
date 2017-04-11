@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import com.bumptech.glide.Glide;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.IBanner;
-import com.wb.ygq.ui.utils.MyUtil;
+import com.wb.ygq.utils.MyUtil;
 import com.wb.ygq.widget.GlideRoundTransform;
 
 import java.util.ArrayList;
