@@ -51,6 +51,10 @@ public class HttpUrl {
          * 删除收藏
          */
         public static final String DELETE_COLLECT_LIST = "http://youguo.fzjydqg.com/index.php/Api/Order/delCollection";
+        /**
+         * 个人朋友圈
+         */
+        public static final String PERSONAL_FRIEND = "http://youguo.fzjydqg.com/index.php/Api/Friend/getFriendListFromUser";
 
     }
 }

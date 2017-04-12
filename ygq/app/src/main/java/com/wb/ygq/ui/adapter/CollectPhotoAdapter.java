@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.wb.ygq.R;
+import com.wb.ygq.bean.CollentBean;
 import com.wb.ygq.ui.base.BaseRecyclerAdapter;
 import com.wb.ygq.utils.PublicUtil;
 
@@ -16,7 +17,7 @@ import com.wb.ygq.utils.PublicUtil;
  * Description： 收藏照片 适配器
  * Created on 2017/4/11
  */
-public class CollectPhotoAdapter extends BaseRecyclerAdapter<String> {
+public class CollectPhotoAdapter extends BaseRecyclerAdapter<CollentBean> {
     public CollectPhotoAdapter(Context context) {
         super(context);
     }
@@ -30,7 +31,7 @@ public class CollectPhotoAdapter extends BaseRecyclerAdapter<String> {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof CollectPhotoViewHolder) {
             PublicUtil.setImaSize(mContext, ((CollectPhotoViewHolder) holder).ima, 2, 1);
-            Glide.with(mContext).load(mItems.get(position)).crossFade().into(((CollectPhotoViewHolder) holder).ima);
+            Glide.with(mContext).load(mItems.get(position).getImg()).crossFade().into(((CollectPhotoViewHolder) holder).ima);
             //长按回调
             ((CollectPhotoViewHolder) holder).ima.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override

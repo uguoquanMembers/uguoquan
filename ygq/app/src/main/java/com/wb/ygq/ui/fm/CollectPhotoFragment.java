@@ -18,6 +18,7 @@ import com.wb.ygq.bean.CollentResponseBean;
 import com.wb.ygq.bean.CommResponseBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
 import com.wb.ygq.callback.RecyclerViewItemLongClickListener;
+import com.wb.ygq.ui.act.PicInfoActivity;
 import com.wb.ygq.ui.adapter.CollectPhotoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.ui.constant.PubConst;
@@ -48,7 +49,7 @@ public class CollectPhotoFragment extends BaseFragment implements RecyclerViewIt
     /**
      * 存储 列表数据
      */
-    private List<String> dataList = new ArrayList<>();
+    private List<CollentBean> dataList = new ArrayList<>();
     private String userId;
 
 
@@ -68,54 +69,6 @@ public class CollectPhotoFragment extends BaseFragment implements RecyclerViewIt
         requestCollectListData();
     }
 
-    /**
-     * 请求列表接口
-     */
-    private void requestCollectListData() {
-        userId = SharedUtil.getString(PubConst.KEY_UID, "");
-        MyUtil.showLog("用户id====" + userId);
-        if (TextUtils.isEmpty(userId)) {
-            ToastUtil.showToast("您还没有登录");
-        } else {
-            OkHttpUtils.get().url(HttpUrl.API.COLLECT_LIST).addParams("uid", userId).build().execute(new Callback() {
-                @Override
-                public Object parseNetworkResponse(Response response) throws IOException {
-                    final CollentResponseBean responseBean = new Gson().fromJson(response.body().string(), CollentResponseBean.class);
-                    mActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            MyUtil.showLog("请求成功====" + responseBean);
-                            //假数据
-                            String s = "http://img.youguoquan.com/uploads/magazine/content/b147130ae8fdbbc55c0a425ec5367a8f_magazine_web_m.jpg";
-                            dataList.add(s);
-                            dataList.add(s);
-                            dataList.add(s);
-                            dataList.add(s);
-                            dataList.add(s);
-                            adapter.updateItems(dataList);
-                            if (responseBean != null) {
-                                CollentBean data = responseBean.getData();
-                                if (data != null) {
-                                    dataList.addAll(data.getImg());
-                                }
-                            }
-                        }
-                    });
-                    return null;
-                }
-
-                @Override
-                public void onError(Request request, Exception e) {
-
-                }
-
-                @Override
-                public void onResponse(Object response) {
-
-                }
-            });
-        }
-    }
 
     @Override
     public void initTitle() {
@@ -153,7 +106,9 @@ public class CollectPhotoFragment extends BaseFragment implements RecyclerViewIt
      */
     @Override
     public void onItemClick(View view, Object o, int position, int eventType) {
-        MyUtil.showLog("点击事件===" + position);
+        Bundle bundle = new Bundle();
+        bundle.putString("id", dataList.get(position).getId());
+        skip(PicInfoActivity.class, bundle, false);
     }
 
     /**
@@ -186,15 +141,19 @@ public class CollectPhotoFragment extends BaseFragment implements RecyclerViewIt
      * @param position
      */
     private void requestDeleteListData(final int position) {
-        //TODO 暂时写死  vid  等后台返回数据
-        OkHttpUtils.get().url(HttpUrl.API.DELETE_COLLECT_LIST).addParams("uid", userId).addParams("vid", "18").addParams("type", "1").build().execute(new Callback() {
+        OkHttpUtils.get().url(HttpUrl.API.DELETE_COLLECT_LIST).addParams("uid", userId).addParams("vid", dataList.get(position).getId()).addParams("type", "1").build().execute(new Callback() {
             @Override
             public Object parseNetworkResponse(Response response) throws IOException {
                 CommResponseBean commResponseBean = new Gson().fromJson(response.body().string(), CommResponseBean.class);
                 MyUtil.showLog("请求陈宫====" + commResponseBean.getCount());
                 if (TextUtils.equals(commResponseBean.getCount(), "200")) {
                     ToastUtil.showToast("删除成功");
-                    adapter.removeItem(position);
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.removeItem(position);
+                        }
+                    });
                 }
                 return null;
             }
@@ -209,5 +168,47 @@ public class CollectPhotoFragment extends BaseFragment implements RecyclerViewIt
 
             }
         });
+    }
+
+    /**
+     * 请求列表接口
+     */
+    private void requestCollectListData() {
+        userId = SharedUtil.getString(PubConst.KEY_UID, "");
+        MyUtil.showLog("用户id====" + userId);
+        if (TextUtils.isEmpty(userId)) {
+            ToastUtil.showToast("您还没有登录");
+        } else {
+            OkHttpUtils.get().url(HttpUrl.API.COLLECT_LIST).addParams("uid", userId).addParams("type", "1").build().execute(new Callback() {
+                @Override
+                public Object parseNetworkResponse(Response response) throws IOException {
+                    final CollentResponseBean responseBean = new Gson().fromJson(response.body().string(), CollentResponseBean.class);
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            MyUtil.showLog("请求成功====" + responseBean);
+                            if (responseBean != null) {
+                                List<CollentBean> data = responseBean.getData();
+                                if (data != null) {
+                                    dataList.addAll(data);
+                                    adapter.updateItems(dataList);
+                                }
+                            }
+                        }
+                    });
+                    return null;
+                }
+
+                @Override
+                public void onError(Request request, Exception e) {
+
+                }
+
+                @Override
+                public void onResponse(Object response) {
+
+                }
+            });
+        }
     }
 }

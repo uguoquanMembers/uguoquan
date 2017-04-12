@@ -2,26 +2,28 @@ package com.wb.ygq.bean;
 
 import com.wb.ygq.ui.base.BaseResponse;
 
+import java.util.List;
+
 /**
  * Description：
  * Created on 2017/4/11
  */
 public class CollentResponseBean extends BaseResponse {
-    private CollentBean Data;
+    private List<CollentBean> Data;
 
     public CollentResponseBean() {
         super();
     }
 
-    public CollentResponseBean(CollentBean data) {
+    public CollentResponseBean(List<CollentBean> data) {
         Data = data;
     }
 
-    public CollentBean getData() {
+    public List<CollentBean> getData() {
         return Data;
     }
 
-    public void setData(CollentBean data) {
+    public void setData(List<CollentBean> data) {
         Data = data;
     }
 
