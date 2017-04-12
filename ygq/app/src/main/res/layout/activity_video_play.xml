@@ -18,7 +18,17 @@
             android:layout_centerInParent="true"
             android:background="#FF333333"
             />
-
+        <ImageView
+            android:id="@+id/iv_empty"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:scaleType="centerCrop"/>
+        <ImageView
+            android:id="@+id/iv_no_empty"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            android:layout_centerInParent="true"/>
         <ProgressBar
             android:id="@+id/image_buffer"
             android:layout_width="28dp"
@@ -242,6 +252,10 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginLeft="10dp">
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/iocn_comment_n"/>
 
             <TextView
                 android:layout_width="wrap_content"

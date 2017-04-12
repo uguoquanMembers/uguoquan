@@ -25,6 +25,7 @@ import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.utils.AppUtils;
 import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.MyUtil;
+import com.wb.ygq.utils.SharedUtil;
 import com.wb.ygq.utils.ToastUtil;
 import com.wb.ygq.widget.autoscrollviewpager.AutoScrollViewPager;
 import com.wb.ygq.widget.autoscrollviewpager.CircleIndicator;
@@ -192,7 +193,7 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
                                 for (int i = 0; i < mVideoFMBean.getData().getCarouselList().size(); i++) {
                                     IBannerBean bannerBean = new IBannerBean();
                                     bannerBean.setBannerImg(mVideoFMBean.getData().getCarouselList().get(i).getImg());
-                                    bannerBean.setBannerLinkId("001");
+                                    bannerBean.setBannerLinkId(mVideoFMBean.getData().getCarouselList().get(i).getGo());
                                     bannerBean.setBannerType("005");
                                     banners.add(bannerBean);
                                 }
@@ -293,8 +294,8 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
 
         switch (bannerBean.getBannerType()) {
             case "005"://
-
-                MyUtil.showLog("点击banner");
+                SharedUtil.setString("VideoId", bannerBean.getBannerLinkId());
+                skip(VideoPlayActivity.class, false);
                 break;
 
         }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_rechange"
@@ -34,65 +34,135 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="VIP会员" />
+                android:text="VIP会员"/>
 
-            <ImageView
-                android:id="@+id/ima_zs"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_ffffff" />
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:id="@+id/ima_zs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_ffffff"/>
+
+                <TextView
+                    android:id="@+id/tv_zhankai1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="40dp"
+                    android:padding="10dp"
+                    android:text="点击展开>"
+                    android:textColor="@android:color/black"
+                    android:textSize="11sp"/>
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/ima_zsopen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_ffffff"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
-            <ImageView
-                android:id="@+id/ima_bj"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_ffffff" />
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:id="@+id/ima_bj"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_ffffff"/>
+
+                <TextView
+                    android:id="@+id/tv_zhankai2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="40dp"
+                    android:padding="10dp"
+                    android:text="点击展开>"
+                    android:textColor="@android:color/black"
+                    android:textSize="11sp"/>
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/ima_bjopen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_ffffff"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="包月会员" />
+                android:text="包月会员"/>
 
-            <ImageView
-                android:id="@+id/ima_sy"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_ffffff" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ima_sy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_ffffff"/>
+
+                <TextView
+                    android:id="@+id/tv_zhankai3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="40dp"
+                    android:padding="10dp"
+                    android:text="点击展开>"
+                    android:textColor="@android:color/black"
+                    android:textSize="11sp"/>
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/ima_syopen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_ffffff"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
-            <ImageView
-                android:id="@+id/ima_dy"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_ffffff" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ima_dy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_ffffff"/>
+
+                <TextView
+                    android:id="@+id/tv_zhankai4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="40dp"
+                    android:padding="10dp"
+                    android:text="点击展开>"
+                    android:textColor="@android:color/black"
+                    android:textSize="11sp"/>
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/ima_dyopen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_ffffff"
-                android:visibility="gone" />
+                android:visibility="gone"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

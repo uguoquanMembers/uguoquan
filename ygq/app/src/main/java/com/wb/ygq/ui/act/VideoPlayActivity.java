@@ -3,6 +3,7 @@ package com.wb.ygq.ui.act;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -13,6 +14,7 @@ import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -30,6 +32,9 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.commit451.nativestackblur.NativeStackBlur;
 import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -39,9 +44,9 @@ import com.wb.ygq.bean.MediaInfor;
 import com.wb.ygq.bean.VideoContentBean;
 import com.wb.ygq.ui.adapter.VideoPlayAdapter;
 import com.wb.ygq.ui.base.BaseActivity;
-import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.PublicUtil;
+import com.wb.ygq.utils.SharedUtil;
 import com.wb.ygq.utils.ToastUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
@@ -96,7 +101,7 @@ public class VideoPlayActivity extends BaseActivity {
     private RelativeLayout mRela_Layout;
     private LinearLayout mLinear_Full_Wrap;
     private ImageView mImage_Full_Screen;
-    private ImageView mImage_Back;
+    private ImageView mImage_Back, iv_empty, iv_no_empty;
     private TextView mText_Current;
     private TextView mText_Durtion;
     private SeekBar mSeekBar;
@@ -194,12 +199,13 @@ public class VideoPlayActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        Bundle bundle = getIntent().getBundleExtra(PubConst.DATA);
-        id = bundle.getString("id");
+
+        id = SharedUtil.getString("VideoId", "");
 
         mVideoView = (VideoView) findViewById(R.id.surfaceview);
         ll_bottom_layout = (LinearLayout) findViewById(R.id.ll_bottom_layout);
-
+        iv_empty = (ImageView) findViewById(R.id.iv_empty);
+        iv_no_empty = (ImageView) findViewById(R.id.iv_no_empty);
 
         recycle_comment = (RecyclerView) findViewById(R.id.recycle_comment);
         tv_input = (TextView) findViewById(R.id.tv_input);
@@ -232,7 +238,7 @@ public class VideoPlayActivity extends BaseActivity {
                                 mVideoContentBean = new Gson().fromJson(finalData, VideoContentBean.class);
                                 adapter.setHeadView(getHeadView());
                                 recycle_comment.setHasFixedSize(true);
-                                recycle_comment.setLayoutManager(new GridLayoutManager(VideoPlayActivity.this,1));
+                                recycle_comment.setLayoutManager(new GridLayoutManager(VideoPlayActivity.this, 1));
                                 recycle_comment.setAdapter(adapter);
                                 List<VideoContentBean.DataBean.CommentListBean> commentList = mVideoContentBean.getData().getCommentList();
                                 if (commentList != null && !commentList.isEmpty()) {
@@ -243,6 +249,15 @@ public class VideoPlayActivity extends BaseActivity {
                                 path = mVideoContentBean.getData().getVideoMessage().getUrl();
                                 title = mVideoContentBean.getData().getVideoMessage().getName();
                                 endTime = mVideoContentBean.getData().getVideoMessage().getEndtime();
+                                Glide.with(VideoPlayActivity.this).load(mVideoContentBean.getData().getVideoMessage().getImg()).asBitmap().into(new SimpleTarget<Bitmap>() {
+                                    @Override
+                                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                        Bitmap process = NativeStackBlur.process(resource, 8);
+                                        iv_empty.setImageBitmap(process);
+                                    }
+                                });
+                                Glide.with(VideoPlayActivity.this).load(mVideoContentBean.getData().getVideoMessage().getImg()).into(iv_no_empty);
+                                Log.e("TAGTAG", "path=" + path + "===title=" + title + "====endtime=" + endTime);
                                 initMediaController();
                                 resetProgressAndTimer();
                             }
@@ -326,6 +341,7 @@ public class VideoPlayActivity extends BaseActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                ToastUtil.showToast("请充值会员");
             }
         });
         final ImageView imageFristPlay = (ImageView) findViewById(R.id.image_frist_play);
@@ -337,6 +353,8 @@ public class VideoPlayActivity extends BaseActivity {
                     return;
                 }
                 imageFristPlay.setVisibility(View.GONE);
+                iv_empty.setVisibility(View.GONE);
+                iv_no_empty.setVisibility(View.GONE);
                 playMedia(path, title);
             }
         });
@@ -802,8 +820,9 @@ public class VideoPlayActivity extends BaseActivity {
         image_head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-//                bundle.putString();
+                id = mVideoContentBean.getData().getOrderVideo().get(i).getId();
+                SharedUtil.setString("VideoId", id);
+                recreate();
             }
         });
         return v;

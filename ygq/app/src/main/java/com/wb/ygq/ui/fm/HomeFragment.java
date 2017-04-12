@@ -30,6 +30,7 @@ import com.wb.ygq.ui.act.VideoPlayActivity;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.utils.AppUtils;
 import com.wb.ygq.utils.HttpUrl;
+import com.wb.ygq.utils.SharedUtil;
 import com.wb.ygq.widget.CycleGalleryViewPager;
 import com.wb.ygq.widget.autoscrollviewpager.AutoScrollViewPager;
 import com.wb.ygq.widget.autoscrollviewpager.CircleIndicator;
@@ -266,9 +267,10 @@ public class HomeFragment extends BaseFragment {
     private void doBannerClick(IBannerBean bannerBean) {
 
         if ("99".equals(bannerBean.getBannerType())) {
-            Bundle bundle = new Bundle();
-            bundle.putString("id", bannerBean.getBannerLinkId());
-            skip(VideoPlayActivity.class, bundle, false);
+//            Bundle bundle = new Bundle();
+//            bundle.putString("id", bannerBean.getBannerLinkId());
+            SharedUtil.setString("VideoId",bannerBean.getBannerLinkId());
+            skip(VideoPlayActivity.class,false);
         } else {
             Bundle bundle = new Bundle();
             bundle.putString("id", bannerBean.getBannerLinkId());
