@@ -61,6 +61,11 @@
             android:name=".ui.act.PersonalActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+        <!-- 视频分类 -->
+        <activity
+            android:name=".ui.act.ClassifyVideoActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

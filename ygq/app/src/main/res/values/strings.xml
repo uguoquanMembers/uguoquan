@@ -7,4 +7,5 @@
     <string name="update_title">"有新版本了"</string>
     <string name="update_download_failed">"下载失败!"</string>
     <string name="basic_next_time">下次再说</string>
+    <string name="basic_exit_app">再按一次退出程序</string>
 </resources>

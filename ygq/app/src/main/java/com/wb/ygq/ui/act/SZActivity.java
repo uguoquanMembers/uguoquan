@@ -3,6 +3,7 @@ package com.wb.ygq.ui.act;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -24,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SZActivity extends BaseActivity {
-    private View view;
 
     private TabLayout sz_tablayout;
     private ViewPager vp_sz;
@@ -36,24 +36,35 @@ public class SZActivity extends BaseActivity {
     private int defIdx = 0;
     private SZListBean mSZListBean;
 
+    private Toolbar toolbar;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sz);
+        initTitle();
         initView();
         getNetDatas();
         setListener();
     }
+
     @Override
     public void initTitle() {
-
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.arror_left);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override
     public void initView() {
         sz_tablayout = (TabLayout) findViewById(R.id.sz_tablayout);
         vp_sz = (ViewPager) findViewById(R.id.vp_sz);
-        defIdx=Integer.parseInt(getIntent().getBundleExtra(PubConst.DATA).getString("index"));
+        defIdx = Integer.parseInt(getIntent().getBundleExtra(PubConst.DATA).getString("index"));
     }
 
     @Override
@@ -65,6 +76,7 @@ public class SZActivity extends BaseActivity {
     public void setListener() {
 
     }
+
     /**
      * 网络接口数据
      */

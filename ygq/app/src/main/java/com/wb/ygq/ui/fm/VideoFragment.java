@@ -19,6 +19,7 @@ import com.wb.ygq.R;
 import com.wb.ygq.bean.IBannerBean;
 import com.wb.ygq.bean.VideoFMBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
+import com.wb.ygq.ui.act.ClassifyVideoActivity;
 import com.wb.ygq.ui.act.VideoPlayActivity;
 import com.wb.ygq.ui.adapter.VideoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
@@ -145,9 +146,9 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
     public void onClick(View view) {
         super.onClick(view);
         switch (view.getId()) {
-            case R.id.ima_videohead_left://统一跳转
+            case R.id.ima_videohead_left://统一跳转 视频分类页面
             case R.id.ima_videohead_right:
-                ToastUtil.showToast("吐司啦啦啦");
+                skip(ClassifyVideoActivity.class, false);
                 break;
 
             default:

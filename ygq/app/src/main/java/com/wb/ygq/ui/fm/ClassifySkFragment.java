@@ -3,31 +3,29 @@ package com.wb.ygq.ui.fm;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
-import com.wb.ygq.bean.CeshiBean;
-import com.wb.ygq.bean.CollcetVideoBean;
-import com.wb.ygq.bean.SpVideoBean;
-import com.wb.ygq.bean.SpVideoResponseBean;
+import com.wb.ygq.bean.ClassifyVideoBean;
+import com.wb.ygq.bean.ClassifyVideoResponseBean;
+import com.wb.ygq.bean.IBannerBean;
+import com.wb.ygq.bean.VideoBannerBean;
 import com.wb.ygq.bean.VideoFMBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
 import com.wb.ygq.ui.act.VideoPlayActivity;
-import com.wb.ygq.ui.adapter.CollectVideoAdapter;
-import com.wb.ygq.ui.adapter.SpVideoAdapter;
 import com.wb.ygq.ui.adapter.VideoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.MyUtil;
 import com.wb.ygq.utils.SharedUtil;
 import com.wb.ygq.utils.ToastUtil;
+import com.wb.ygq.widget.autoscrollviewpager.AutoScrollViewPager;
 import com.wb.ygq.widget.irecycleerview.IRecyclerView;
 import com.wb.ygq.widget.irecycleerview.LoadMoreFooterView;
 import com.wb.ygq.widget.irecycleerview.OnLoadMoreListener;
@@ -40,26 +38,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Description：私拍视频
- * Created on 2017/4/3
+ * Description：//试看
+ * Created on 2017/4/13
  */
-public class SpVideoFragment extends BaseFragment implements RecyclerViewItemClickListener, OnRefreshListener, OnLoadMoreListener {
-    public static SpVideoFragment newInstance() {
-        Bundle args = new Bundle();
-        SpVideoFragment fragment = new SpVideoFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+public class ClassifySkFragment extends BaseFragment implements RecyclerViewItemClickListener, OnRefreshListener, OnLoadMoreListener {
+    private IRecyclerView recyclerView;
     private View view;
-    private int pageNum = 1;
-    private IRecyclerView recycleview;
     private VideoAdapter adapter;
-    /**
-     * 存入集合
-     */
-    private List<VideoFMBean.DataBean.VideoListBean> dataList = new ArrayList();
     private LoadMoreFooterView loadMoreFooterView;
+    /**
+     * 加载轮播图
+     */
+    private LinearLayout ll_single;
+    private int pageNum = 1;
+
+    private AutoScrollViewPager viewPager;
+
+    /**
+     * banner 是否循环播放 默认 true 当只有一条banner时为false
+     */
+    private boolean isInfiniteLoop = true;
+    private List<IBannerBean> banners;
+    /**
+     * 存储视频数据
+     */
+    private List<VideoFMBean.DataBean.VideoListBean> dataList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -71,6 +74,7 @@ public class SpVideoFragment extends BaseFragment implements RecyclerViewItemCli
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initTitle();
         initView();
         initData();
         setListener();
@@ -83,21 +87,24 @@ public class SpVideoFragment extends BaseFragment implements RecyclerViewItemCli
 
     @Override
     public void initView() {
-        recycleview = (IRecyclerView) view.findViewById(R.id.recycle_video);
+        recyclerView = (IRecyclerView) view.findViewById(R.id.recycle_video);
     }
 
     @Override
     public void initData() {
         adapter = new VideoAdapter(mActivity);
-        recycleview.setHasFixedSize(true);
-        recycleview.setLayoutManager(new GridLayoutManager(mActivity, 1));
-        adapter.setItemClickListener(this);
-        loadMoreFooterView = (LoadMoreFooterView) recycleview.getLoadMoreFooterView();
-        recycleview.setIAdapter(adapter);
-        recycleview.post(new Runnable() {
+        View headView = getHeadView();
+        if (headView != null) {
+            recyclerView.addHeaderView(headView);
+        }
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(mActivity, 1));
+        loadMoreFooterView = (LoadMoreFooterView) recyclerView.getLoadMoreFooterView();
+        recyclerView.setIAdapter(adapter);
+        recyclerView.post(new Runnable() {
             @Override
             public void run() {
-                recycleview.setRefreshing(true);
+                recyclerView.setRefreshing(true);
             }
         });
     }
@@ -105,10 +112,15 @@ public class SpVideoFragment extends BaseFragment implements RecyclerViewItemCli
     @Override
     public void setListener() {
         adapter.setItemClickListener(this);
-        recycleview.setOnRefreshListener(this);
-        recycleview.setOnLoadMoreListener(this);
+        recyclerView.setOnRefreshListener(this);
+        recyclerView.setOnLoadMoreListener(this);
     }
 
+    public View getHeadView() {
+        View headView = LayoutInflater.from(mActivity).inflate(R.layout.layout_single_ll, null);
+        ll_single = (LinearLayout) headView.findViewById(R.id.ll_single);
+        return headView;
+    }
 
     /**
      * item点击事件
@@ -131,10 +143,12 @@ public class SpVideoFragment extends BaseFragment implements RecyclerViewItemCli
         requestDataList();
     }
 
+
     @Override
     public void onLoadMore() {
         if (loadMoreFooterView.canLoadMore() && adapter.getItemCount() > 0) {
             loadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
+//            pageNum++;
             requestDataList();
             MyUtil.showLog("上拉加载" + pageNum);
         }
@@ -144,17 +158,21 @@ public class SpVideoFragment extends BaseFragment implements RecyclerViewItemCli
      * 请求网络数据
      */
     private void requestDataList() {
-        OkHttpUtils.get().url(HttpUrl.API.SP_VIDEO).addParams("page", String.valueOf(pageNum)).build().execute(new Callback() {
+        OkHttpUtils.get().url(HttpUrl.API.CLASSIFY_VIDEO).addParams("page", String.valueOf(pageNum)).addParams("type", "1").build().execute(new Callback() {
             @Override
             public Object parseNetworkResponse(final Response response) throws IOException {
-                final SpVideoResponseBean bean = new Gson().fromJson(response.body().string(), SpVideoResponseBean.class);
+                final ClassifyVideoResponseBean responseBean = new Gson().fromJson(response.body().string(), ClassifyVideoResponseBean.class);
                 mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (bean != null) {
-                            List<VideoFMBean.DataBean.VideoListBean> videoList = bean.getData().getVideoList();
+                        if (responseBean != null) {
+                            List<VideoBannerBean> bannerList = responseBean.getData().getCarouselList();
+                            if (bannerList != null) {
+                                MyUtil.showLog("晚安===" + bannerList);
+                            }
+                            List<VideoFMBean.DataBean.VideoListBean> videoList = responseBean.getData().getVideoList();
                             if (pageNum == 1) dataList.clear();
-                            recycleview.setRefreshing(false);
+                            recyclerView.setRefreshing(false);
                             if (videoList != null && !videoList.isEmpty()) {
                                 pageNum++;
                                 dataList.addAll(videoList);
@@ -166,13 +184,12 @@ public class SpVideoFragment extends BaseFragment implements RecyclerViewItemCli
                         }
                     }
                 });
-
                 return null;
             }
 
             @Override
             public void onError(Request request, Exception e) {
-                recycleview.setRefreshing(false);
+                recyclerView.setRefreshing(false);
                 ToastUtil.showToast("数据加载错误，请稍后重试");
             }
 
