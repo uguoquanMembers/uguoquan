@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import com.wb.ygq.R;
+import com.wb.ygq.ui.application.MyApplication;
 import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.utils.MyUtil;
 
@@ -71,12 +72,38 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
 //        setView();
+        registerReceiver(exitReceiver, new IntentFilter(MyApplication.getInstance().getPackageName() + "exit"));
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_DATE_CHANGED);
         filter.addAction(ACTION_TIME_CHANGED);
     }
+    @Override
+    protected void onDestroy()
+    {
+        try
+        {
+            unregisterReceiver(exitReceiver);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        super.onDestroy();
 
+    }
+
+    public BroadcastReceiver exitReceiver = new BroadcastReceiver()
+    {
+
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            MyUtil.showLog("BaseActivity  exitRecevier 接收到结束广播  ");
+            finish();
+            // System.exit(0);
+        }
+    };
     @Override
     protected void onResume() {
         super.onResume();

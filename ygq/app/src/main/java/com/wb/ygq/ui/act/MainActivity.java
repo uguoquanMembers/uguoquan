@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
@@ -25,6 +27,7 @@ import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.LoginData;
 import com.wb.ygq.bean.LoginResponseBean;
+import com.wb.ygq.ui.application.MyApplication;
 import com.wb.ygq.ui.base.BaseActivity;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.ui.constant.PubConst;
@@ -550,5 +553,26 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         if (bundle != null) {
             key = bundle.getInt("key");
         }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if ((keyCode == KeyEvent.KEYCODE_BACK))
+        {
+            long secondTime = System.currentTimeMillis();
+            if (secondTime - firstExitTime <= 2000)
+            {
+                sendBroadcast(new Intent(MyApplication.getInstance().getPackageName() + "exit"));
+            }
+            else
+            {
+                Toast toast = Toast.makeText(this, getString(R.string.basic_exit_app), Toast.LENGTH_SHORT);
+                toast.show();
+
+                firstExitTime = secondTime;
+            }
+            return true;
+        }
+        return false;
     }
 }

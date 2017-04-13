@@ -1,5 +1,7 @@
 package com.wb.ygq.utils;
 
+import com.wb.ygq.bean.VideoFMBean;
+
 /**
  * Created by Administrator on 2017/4/3.
  */
@@ -55,6 +57,14 @@ public class HttpUrl {
          * 个人朋友圈
          */
         public static final String PERSONAL_FRIEND = "http://youguo.fzjydqg.com/index.php/Api/Friend/getFriendListFromUser";
+        /**
+         * 私拍视频
+         */
+        public static final String SP_VIDEO = "http://youguo.fzjydqg.com/index.php/Api/Friend/getDirectSeeding";
+        /**
+         * 分类视频
+         */
+        public static final String CLASSIFY_VIDEO = "http://youguo.fzjydqg.com/index.php/Api/video/getVideoFromType";
 
     }
 }
