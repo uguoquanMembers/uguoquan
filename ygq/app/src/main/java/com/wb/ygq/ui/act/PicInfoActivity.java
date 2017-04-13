@@ -2,6 +2,7 @@ package com.wb.ygq.ui.act;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -17,6 +18,9 @@ import com.wb.ygq.ui.adapter.ImagePagerAdapter;
 import com.wb.ygq.ui.base.BaseActivity;
 import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.utils.HttpUrl;
+import com.wb.ygq.utils.SharedUtil;
+import com.wb.ygq.utils.ToastUtil;
+import com.wb.ygq.widget.HorizontalProgressBar;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 
@@ -26,18 +30,22 @@ import java.util.List;
 
 public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     private ViewPager vp_picinfo;
-    private TextView tv_title, tv_comment_count, tv_collect_count, tv_praise_count;
+    private TextView tv_comment_count, tv_collect_count, tv_praise_count;
     private RelativeLayout rl_top_layout;
     private LinearLayout ll_bottom_layout;
+    private HorizontalProgressBar pb_bar1, pb_bar2;
 
     private List<String> picPathes;
     private List<String> freePicPath;
     private int currentPage;
+    private int freeMax;
     private String id;
     private ImagePagerAdapter adapter;
     private ImgListBean mImgListBean;
     private float x;
     private float moveX;
+    private int vipRange;
+    private boolean flag;
 
 
     @Override
@@ -47,14 +55,49 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
 
     @Override
     public void initView() {
+        vipRange = SharedUtil.getInt("vip", 0);
+
         vp_picinfo = (ViewPager) findViewById(R.id.vp_picinfo);
-        tv_title = (TextView) findViewById(R.id.tv_title);
+        vp_picinfo.setOnClickListener(this);
+        vp_picinfo.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    //当手指按下的时候
+                    x = event.getX();
+
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    moveX = event.getX();
+                    if (vipRange == 0 && (currentPage + 1) == freeMax) {
+                        if (x - moveX > 100) {
+                            ToastUtil.showToast("请充值");
+                        }
+                    }
+                    if (x - moveX < 20) {
+                        if (flag) {
+                            isShowTitle(true);
+                            flag = false;
+                        } else {
+                            isShowTitle(false);
+                            flag = true;
+                        }
+                    }
+
+                }
+                return false;
+            }
+        });
+//        tv_title = (TextView) findViewById(R.id.tv_title);
         rl_top_layout = (RelativeLayout) findViewById(R.id.rl_top_layout);
         ll_bottom_layout = (LinearLayout) findViewById(R.id.ll_bottom_layout);
         tv_comment_count = (TextView) findViewById(R.id.tv_comment_count);
         tv_collect_count = (TextView) findViewById(R.id.tv_collect_count);
         tv_praise_count = (TextView) findViewById(R.id.tv_praise_count);
-
+        pb_bar1 = (HorizontalProgressBar) findViewById(R.id.pb_bar1);
+        pb_bar2 = (HorizontalProgressBar) findViewById(R.id.pb_bar2);
     }
 
     @Override
@@ -92,12 +135,21 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
                                         freePicPath.add(mImgListBean.getData().getOrderimg().get(i).getUrl());
                                     }
                                 }
-
-                                adapter = new ImagePagerAdapter(PicInfoActivity.this, picPathes);
+                                freeMax = freePicPath.size();
+                                pb_bar1.setText("1", picPathes.size() < 10 ? "0" + picPathes.size() : picPathes.size() + "");
+                                pb_bar2.setText("1", freePicPath.size() < 10 ? "0" + freePicPath.size() : freePicPath.size() + "");
+                                if (vipRange == 0) {
+                                    pb_bar2.setMax(freePicPath.size() - 1);
+                                    adapter = new ImagePagerAdapter(PicInfoActivity.this, freePicPath);
+                                } else {
+                                    pb_bar2.setVisibility(View.GONE);
+                                    pb_bar1.setMax(picPathes.size() - 1);
+                                    adapter = new ImagePagerAdapter(PicInfoActivity.this, picPathes);
+                                }
                                 vp_picinfo.setAdapter(adapter);
                                 vp_picinfo.setCurrentItem(currentPage);
                                 vp_picinfo.setOnPageChangeListener(PicInfoActivity.this);
-                                tv_title.setText((currentPage + 1) + "/" + picPathes.size());
+//                                tv_title.setText((currentPage + 1) + "/" + picPathes.size());
                             }
                         });
 
@@ -150,8 +202,12 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
     @Override
     public void onPageSelected(int position) {
         currentPage = position;
-        tv_title.setText((currentPage + 1) + "/" + picPathes.size());
-//        tv_collect_count.setText(mImgListBean.getData().getCharge();
+        if (vipRange == 0) {
+            pb_bar2.setProgress(position);
+//            pb_bar1.setProgress(position + 1);
+        } else {
+            pb_bar1.setProgress(position);
+        }
 
     }
 
@@ -160,5 +216,20 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
 
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
 
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.vp_picinfo:
+
+                break;
+
+        }
+    }
 }

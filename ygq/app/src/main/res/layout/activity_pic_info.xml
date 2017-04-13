@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:attr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black">
@@ -27,12 +28,33 @@
             android:onClick="back"
             android:src="@drawable/back_red"/>
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
+       <com.wb.ygq.widget.HorizontalProgressBar
+           android:id="@+id/pb_bar1"
+           android:layout_width="220dp"
+           android:layout_height="wrap_content"
+           android:layout_centerInParent="true"
+           android:padding="10dp"
+           attr:progress_reach_color="@color/color_press"
+           attr:progress_unreach_color="#e0e0e0"
+           attr:progress_reach_height="1dp"
+           attr:progress_unreach_height="1dp"
+           attr:progress_text_color="#ffffff"
+
+           attr:progress_text_bg_color="@color/color_press"/>
+        <com.wb.ygq.widget.HorizontalProgressBar
+            android:id="@+id/pb_bar2"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textSize="18sp"/>
+            android:layout_alignLeft="@id/pb_bar1"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            attr:progress_reach_color="@color/color_press"
+            attr:progress_unreach_color="#e0e0e0"
+            attr:progress_reach_height="1dp"
+            attr:progress_unreach_height="1dp"
+            attr:progress_text_color="#ffffff"
+
+            attr:progress_text_bg_color="@color/color_press"/>
     </RelativeLayout>
 
     <LinearLayout

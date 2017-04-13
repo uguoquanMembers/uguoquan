@@ -16,4 +16,28 @@
         <!--圆角大小-->
         <attr name="roundCornerRadius" format="dimension"/>
     </declare-styleable>
+
+    <attr name="progress_unreach_color" format="color"></attr>
+    <attr name="progress_unreach_height" format="dimension"></attr>
+    <attr name="progress_reach_color" format="color"></attr>
+    <attr name="progress_reach_height" format="dimension"></attr>
+    <attr name="progress_text_color" format="color"></attr>
+    <attr name="progress_text_size" format="dimension"></attr>
+    <attr name="progress_text_offset" format="dimension"></attr>
+    <attr name="progress_text_bg_color" format="color"></attr>
+    <attr name="progress_text_start" format="string"></attr>
+    <attr name="progress_text_end" format="string"></attr>
+
+    <declare-styleable name="HorizontalProgressBar">
+        <attr name="progress_unreach_color"></attr>
+        <attr name="progress_unreach_height"></attr>
+        <attr name="progress_reach_color"></attr>
+        <attr name="progress_reach_height"></attr>
+        <attr name="progress_text_color"></attr>
+        <attr name="progress_text_size"></attr>
+        <attr name="progress_text_offset"></attr>
+        <attr name="progress_text_bg_color"></attr>
+        <attr name="progress_text_start"></attr>
+        <attr name="progress_text_end"></attr>
+    </declare-styleable>
 </resources>

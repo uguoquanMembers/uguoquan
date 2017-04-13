@@ -47,18 +47,24 @@ public class ImagePagerAdapter extends PagerAdapter {
         final ImageView iv_image = (ImageView) imageLayout.findViewById(R.id.iv_img);
         final ProgressBar spinner = (ProgressBar) imageLayout.findViewById(R.id.pb_loading);
 
-        iv_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (flag){
-                    mActivity.isShowTitle(true);
-                    flag=false;
-                }else {
-                    mActivity.isShowTitle(false);
-                    flag=true;
-                }
-            }
-        });
+//        iv_image.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (flag){
+//                    mActivity.isShowTitle(true);
+//                    flag=false;
+//                }else {
+//                    mActivity.isShowTitle(false);
+//                    flag=true;
+//                }
+//            }
+//        });
+//        iv_image.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                return false;
+//            }
+//        });
         String path = pictureList.get(position);
         Glide.with(mActivity)
                 .load(path)
