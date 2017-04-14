@@ -14,10 +14,12 @@ import com.wb.ygq.R;
 import com.wb.ygq.bean.ClassifyVideoResponseBean;
 import com.wb.ygq.bean.VideoFMBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
+import com.wb.ygq.ui.act.VideoPlayActivity;
 import com.wb.ygq.ui.adapter.VideoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.MyUtil;
+import com.wb.ygq.utils.SharedUtil;
 import com.wb.ygq.utils.ToastUtil;
 import com.wb.ygq.widget.irecycleerview.IRecyclerView;
 import com.wb.ygq.widget.irecycleerview.LoadMoreFooterView;
@@ -95,7 +97,8 @@ public class ClassifyZsFragment extends BaseFragment implements RecyclerViewItem
 
     @Override
     public void onItemClick(View view, Object o, int position, int eventType) {
-        MyUtil.showLog("dianji ");
+        SharedUtil.setString("VideoId", dataList.get(position).getId());
+        skip(VideoPlayActivity.class, false);
     }
 
     @Override

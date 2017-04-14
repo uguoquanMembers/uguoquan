@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -16,7 +17,6 @@ import com.wb.ygq.ui.adapter.SpPhotoAdapter;
 import com.wb.ygq.ui.base.BaseActivity;
 import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.utils.HttpUrl;
-import com.wb.ygq.utils.MyUtil;
 import com.wb.ygq.utils.ToastUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
@@ -94,10 +94,10 @@ public class PersonalActivity extends BaseActivity {
                     @Override
                     public void run() {
                         if (responseBean != null) {
-                            MyUtil.showLog("下载的记录==" + responseBean);
                             List<FriendListBean> recordList = responseBean.getData();
                             if (recordList != null && !recordList.isEmpty()) {
                                 dataList.addAll(recordList);
+
                                 adapter.updateItems(dataList);
                             } else {
                                 ToastUtil.showToast("暂无朋友圈信息");

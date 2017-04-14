@@ -4,11 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,8 +18,8 @@ import com.wb.ygq.bean.FriendListBean;
 import com.wb.ygq.ui.act.PersonalActivity;
 import com.wb.ygq.ui.base.BaseRecyclerAdapter;
 import com.wb.ygq.ui.constant.PubConst;
-import com.wb.ygq.utils.SharedUtil;
 import com.wb.ygq.widget.CropCircleTransformation;
+import com.wb.ygq.widget.MyGridView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +61,7 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
             List<String> imgList = friendListBean.getImg();
             ////////////////////处理嵌套的gridview
             GridAdapter adapter = new GridAdapter(mContext);
-            adapter.setData(urlList);
+
             ((SpPhotoViewHolder) holder).grid_sp.setClickable(false);
             ((SpPhotoViewHolder) holder).grid_sp.setPressed(false);
             ((SpPhotoViewHolder) holder).grid_sp.setEnabled(false);
@@ -70,11 +69,15 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
             if (imgList != null && !imgList.isEmpty()) {
                 ((SpPhotoViewHolder) holder).grid_sp.setVisibility(View.VISIBLE);
                 //保证最多只有9张图
+                urlList.clear();
                 for (int i = 0; i < imgList.size(); i++) {
                     if (i < 9) {
-                        urlList.addAll(imgList);
+                        urlList.add(imgList.get(i));
+                    }else {
+                        return;
                     }
                 }
+                adapter.setData(urlList);
                 if (imgList.size() >= 5) {
                     ((SpPhotoViewHolder) holder).grid_sp.setNumColumns(3);
                 } else if (imgList.size() == 4) {
@@ -97,7 +100,8 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
                     //跳转个人朋友圈页面
                     Intent intent = new Intent();
                     Bundle bundle = new Bundle();
-                    bundle.putString("uid", friendListBean.getId());
+                    bundle.putString("uid", friendListBean.getUserid());
+                    Log.e("TAG",friendListBean.getUserid());
                     intent.putExtra(PubConst.DATA, bundle);
                     intent.setClass(mContext, PersonalActivity.class);
                     mContext.startActivity(intent);
@@ -110,7 +114,7 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
     class SpPhotoViewHolder extends RecyclerView.ViewHolder {
         private ImageView ima_itemspphoto_head;
         private TextView tv_itemspphoto_name, tv_itemspphoto_content, tv_time, tv_praise_count;
-        private GridView grid_sp;
+        private MyGridView grid_sp;
         private LinearLayout ll_container;
 
         public SpPhotoViewHolder(View itemView) {
@@ -119,7 +123,7 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
             tv_itemspphoto_name = (TextView) itemView.findViewById(R.id.tv_itemspphoto_name);
             tv_itemspphoto_content = (TextView) itemView.findViewById(R.id.tv_itemspphoto_content);
             ll_container = (LinearLayout) itemView.findViewById(R.id.ll_container);
-            grid_sp = (GridView) itemView.findViewById(R.id.grid_sp);
+            grid_sp = (MyGridView) itemView.findViewById(R.id.grid_sp);
             tv_time = (TextView) itemView.findViewById(R.id.tv_time);
             tv_praise_count = (TextView) itemView.findViewById(R.id.tv_praise_count);
         }

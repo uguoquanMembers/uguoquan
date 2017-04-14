@@ -57,7 +57,7 @@
         android:paddingTop="5dp"
         android:text="11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111" />
 
-    <GridView
+    <com.wb.ygq.widget.MyGridView
         android:id="@+id/grid_sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -66,12 +66,13 @@
         android:layout_marginRight="14dp"
         android:layout_toRightOf="@id/ima_itemspphoto_head"
         android:background="@color/color_ffffff"
-        android:columnWidth="0.5dp"
+        android:horizontalSpacing="5dp"
+        android:verticalSpacing="5dp"
         android:numColumns="2"
         android:scrollbars="none"
         android:visibility="gone">
 
-    </GridView>
+    </com.wb.ygq.widget.MyGridView>
 
     <TextView
         android:id="@+id/tv_reward"
