@@ -31,6 +31,7 @@ import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.utils.AppUtils;
 import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.SharedUtil;
+import com.wb.ygq.utils.VipDialog;
 import com.wb.ygq.widget.CycleGalleryViewPager;
 import com.wb.ygq.widget.autoscrollviewpager.AutoScrollViewPager;
 import com.wb.ygq.widget.autoscrollviewpager.CircleIndicator;
@@ -129,12 +130,16 @@ public class HomeFragment extends BaseFragment {
                 id.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if ("99".equals(vpList.get(position).getUrl())) {
-                            skip(VideoActivity.class, false);
-                        } else {
-                            Bundle bundle = new Bundle();
-                            bundle.putString("index", vpList.get(position).getUrl());
-                            skip(SZActivity.class, bundle, false);
+                        if ("1".equals(vpList.get(position).getEmpty())){
+                            VipDialog.showVipDialog(mActivity);
+                        }else {
+                            if ("99".equals(vpList.get(position).getUrl())) {
+                                skip(VideoActivity.class, false);
+                            } else {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("index", vpList.get(position).getUrl());
+                                skip(SZActivity.class, bundle, false);
+                            }
                         }
                     }
                 });
@@ -185,10 +190,6 @@ public class HomeFragment extends BaseFragment {
                                 vpList.clear();
                                 List<HomeVideoBean.DataBean.IndexImgListBean> indexImgList = mHomeVideoBean.getData().getIndexImgList();
                                 if (indexImgList != null && !indexImgList.isEmpty()) {
-                                    vpList.addAll(indexImgList);
-                                    vpList.addAll(indexImgList);
-                                    vpList.addAll(indexImgList);
-                                    vpList.addAll(indexImgList);
                                     vpList.addAll(indexImgList);
                                     initDownVpData();
                                 }

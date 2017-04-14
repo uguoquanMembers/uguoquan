@@ -59,7 +59,7 @@
         android:drawableRight="@drawable/arrors_right"
         android:gravity="center_vertical"
         android:padding="10dp"
-        android:text="已购买的" />
+        android:text="购买记录" />
 
     <View
         android:layout_width="match_parent"

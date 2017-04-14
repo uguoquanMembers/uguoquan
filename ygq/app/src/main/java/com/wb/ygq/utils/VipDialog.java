@@ -2,6 +2,7 @@ package com.wb.ygq.utils;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.wb.ygq.R;
+import com.wb.ygq.ui.act.RechargeActivity;
 
 /**
  * Created by xiaohe on 2017/4/14 0014.
@@ -47,7 +49,10 @@ public class VipDialog {
         tv_ensure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent=new Intent(activity,)
+                Intent intent=new Intent(activity, RechargeActivity.class);
+                activity.startActivity(intent);
+                dialog.dismiss();
+
             }
         });
         tv_cancel.setOnClickListener(new View.OnClickListener() {

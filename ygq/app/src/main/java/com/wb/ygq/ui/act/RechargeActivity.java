@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.wb.ygq.R;
 import com.wb.ygq.ui.base.BaseActivity;
-import com.wb.ygq.utils.MyUtil;
 
 /**
  * Description：充值
@@ -98,7 +97,7 @@ public class RechargeActivity extends BaseActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.ima_zs:
-                MyUtil.showLog("点击的==" + ima_zsopen);
+
 
                 break;
             case R.id.ima_bj:

@@ -111,9 +111,9 @@ public class SZActivity extends BaseActivity {
                                 vp_sz.setOffscreenPageLimit(3);
                                 vp_sz.setAdapter(adapter);
                                 sz_tablayout.setupWithViewPager(vp_sz);
-                                if (defIdx >= holders.size()) {
+//                                if (defIdx >= holders.size()) {
                                     vp_sz.setCurrentItem(defIdx);
-                                }
+//                                }
                             }
                         });
 
