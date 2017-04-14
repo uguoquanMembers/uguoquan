@@ -1,35 +1,44 @@
 package com.wb.ygq.ui.act;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
+import com.wb.ygq.bean.AlreadyBuyBean;
+import com.wb.ygq.bean.AlreadyBuyListResponseBean;
+import com.wb.ygq.ui.adapter.AlreadyBuyAdapter;
 import com.wb.ygq.ui.base.BaseActivity;
 import com.wb.ygq.ui.constant.PubConst;
+import com.wb.ygq.utils.HttpUrl;
+import com.wb.ygq.utils.MyUtil;
 import com.wb.ygq.utils.SharedUtil;
+import com.wb.ygq.utils.ToastUtil;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Description：
+ * Description：购买记录
  * Created on 2017/4/8
- * Author : 郭
  */
 public class AlreadyBuyActivity extends BaseActivity {
     private Toolbar toolbar;
-    private LinearLayout ll_addima;
-
+    private RecyclerView recycler;
     /**
      * 存储数据
      */
-    private List<String> dataList = new ArrayList<>();
+    private List<AlreadyBuyBean> dataList = new ArrayList<>();
+    private AlreadyBuyAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,7 +48,9 @@ public class AlreadyBuyActivity extends BaseActivity {
         initView();
         initData();
         setListener();
+        requestDataList();
     }
+
 
     @Override
     public void initTitle() {
@@ -55,57 +66,66 @@ public class AlreadyBuyActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        ll_addima = (LinearLayout) findViewById(R.id.ll_addima);
+        recycler = (RecyclerView) findViewById(R.id.recycler);
     }
 
     @Override
     public void initData() {
-        String viptype_zs = SharedUtil.getString(PubConst.VIP_KEY_ZS, "");
-        String viptype_bj = SharedUtil.getString(PubConst.VIP_KEY_BJ, "");
-        String viptype_sy = SharedUtil.getString(PubConst.VIP_KEY_SY, "");
-        String viptype_dy = SharedUtil.getString(PubConst.VIP_KEY_DY, "");
-        if (!TextUtils.isEmpty(viptype_zs)) {
-            dataList.add(viptype_zs);
-        }
-        if (!TextUtils.isEmpty(viptype_bj)) {
-            dataList.add(viptype_bj);
-        }
-        if (!TextUtils.isEmpty(viptype_sy)) {
-            dataList.add(viptype_sy);
-        }
-        if (!TextUtils.isEmpty(viptype_dy)) {
-            dataList.add(viptype_dy);
-        }
-        showImaToUi();
+        recycler.setLayoutManager(new LinearLayoutManager(this));
+        recycler.setHasFixedSize(true);
+        adapter = new AlreadyBuyAdapter(this);
+        adapter.updateItems(dataList);
+        recycler.setAdapter(adapter);
 
-    }
-
-    /**
-     * 展示图片
-     */
-    private void showImaToUi() {
-        if (dataList != null && !dataList.isEmpty()) {
-            for (int i = 0; i < dataList.size(); i++) {
-                ll_addima.addView(formatDataList(dataList.get(i)));
-            }
-        }
-    }
-
-    /**
-     * 加载布局 显示图片
-     *
-     * @param s
-     * @return
-     */
-    private View formatDataList(String s) {
-        View inflate = LayoutInflater.from(this).inflate(R.layout.layout_single_ima, null);
-        ImageView ima = (ImageView) inflate.findViewById(R.id.single_ima);
-        Glide.with(this).load(s).crossFade().into(ima);
-        return inflate;
     }
 
     @Override
     public void setListener() {
 
     }
+
+    /**
+     * 请求数据
+     */
+    private void requestDataList() {
+        String uid = SharedUtil.getString(PubConst.KEY_UID, "");
+        if (TextUtils.isEmpty(uid)) {
+            ToastUtil.showToast("您还没有登录");
+            return;
+        } else {
+            // TODO 暂时写死1  其他没有数据
+            OkHttpUtils.get().url(HttpUrl.API.ALREADY_BUY).addParams("uid", "1").build().execute(new Callback() {
+                @Override
+                public Object parseNetworkResponse(Response response) throws IOException {
+                    final AlreadyBuyListResponseBean bean = new Gson().fromJson(response.body().string(), AlreadyBuyListResponseBean.class);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (bean != null) {
+                                List<AlreadyBuyBean> recordList = bean.getData();
+                                MyUtil.showLog("返回的数据==" + recordList);
+                                if (recordList != null && !recordList.isEmpty()) {
+                                    dataList.addAll(recordList);
+                                    adapter.updateItems(dataList);
+                                }
+                            }
+                        }
+                    });
+
+                    return null;
+                }
+
+                @Override
+                public void onError(Request request, Exception e) {
+                    ToastUtil.showToast("数据加载失败");
+                }
+
+                @Override
+                public void onResponse(Object response) {
+
+                }
+            });
+        }
+    }
+
 }
