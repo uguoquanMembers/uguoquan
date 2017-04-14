@@ -32,7 +32,8 @@
         <activity
             android:name=".ui.act.PicInfoActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <!-- 充值页面 -->
         <activity

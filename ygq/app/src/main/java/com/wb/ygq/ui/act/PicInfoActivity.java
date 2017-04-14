@@ -1,5 +1,6 @@
 package com.wb.ygq.ui.act;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -20,10 +23,12 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.ImgListBean;
+import com.wb.ygq.bean.VideoContentBean;
 import com.wb.ygq.ui.adapter.ImagePagerAdapter;
 import com.wb.ygq.ui.base.BaseActivity;
 import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.utils.HttpUrl;
+import com.wb.ygq.utils.MyUtil;
 import com.wb.ygq.utils.SharedUtil;
 import com.wb.ygq.utils.ToastUtil;
 import com.wb.ygq.widget.HorizontalProgressBar;
@@ -36,7 +41,7 @@ import java.util.List;
 
 public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     private ViewPager vp_picinfo;
-    private TextView tv_comment_count, tv_collect_count, tv_praise_count;
+    private TextView tv_comment_count, tv_collect_count, tv_praise_count, tv_comment;
     private RelativeLayout rl_top_layout, rl_container;
     private LinearLayout ll_bottom_layout, ll_container;
     private HorizontalProgressBar pb_bar1, pb_bar2;
@@ -60,7 +65,10 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
     private List<ImgListBean.DataBean.CommentListBean> datas;
     private List<ImgListBean.DataBean.CommentListBean> allData;
     private int initCount;
-
+    //输入框
+    private RelativeLayout rl_input;
+    private EditText et_input;
+    private TextView tv_button_send;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -105,7 +113,6 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
         vipRange = SharedUtil.getInt("vip", 0);
 
         vp_picinfo = (ViewPager) findViewById(R.id.vp_picinfo);
-        vp_picinfo.setOnClickListener(this);
         vp_picinfo.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -142,11 +149,18 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
         ll_bottom_layout = (LinearLayout) findViewById(R.id.ll_bottom_layout);
         tv_comment_count = (TextView) findViewById(R.id.tv_comment_count);
         tv_collect_count = (TextView) findViewById(R.id.tv_collect_count);
+        tv_comment = (TextView) findViewById(R.id.tv_comment);
         tv_praise_count = (TextView) findViewById(R.id.tv_praise_count);
         pb_bar1 = (HorizontalProgressBar) findViewById(R.id.pb_bar1);
         pb_bar2 = (HorizontalProgressBar) findViewById(R.id.pb_bar2);
         ll_container = (LinearLayout) findViewById(R.id.ll_container);
         rl_container = (RelativeLayout) findViewById(R.id.rl_container);
+
+        tv_button_send = (TextView) findViewById(R.id.tv_button_send);
+        rl_input = (RelativeLayout) findViewById(R.id.rl_input);
+        et_input = (EditText) findViewById(R.id.et_input);
+
+
         allData = new ArrayList<>();
         datas = new ArrayList<>();
     }
@@ -239,6 +253,8 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
 
     @Override
     public void setListener() {
+        tv_comment.setOnClickListener(this);
+        tv_button_send.setOnClickListener(this);
 
     }
 
@@ -250,6 +266,8 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
         initView();
         initData();
         initTitle();
+        setListener();
+
     }
 
     @Override
@@ -276,15 +294,77 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
     }
 
 
-
     @Override
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.vp_picinfo:
-
+            case R.id.tv_comment:
+                inPutComment();
+                break;
+            case R.id.tv_button_send://发送按钮
+                String etString = et_input.getText().toString().trim();
+                if (TextUtils.isEmpty(etString)) {
+                    ToastUtil.showToast("请输入您的评论内容");
+                    return;
+                } else {
+                    saveTOList(etString);
+                }
                 break;
 
+        }
+    }
+
+    /**
+     * 输入评论
+     */
+    private void inPutComment() {
+        rl_input.setVisibility(View.VISIBLE);
+        et_input.setFocusable(true);
+        et_input.requestFocus();
+        et_input.setText("");
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    /**
+     * 存到集合
+     *
+     * @param etString
+     */
+    private void saveTOList(String etString) {
+        ImgListBean.DataBean.CommentListBean cb = new ImgListBean.DataBean.CommentListBean();
+        cb.setImg(HttpUrl.API.HEAD);
+        cb.setMessage(etString);
+        cb.setName("我");
+        cb.setTime("刚刚");
+        if (isStop) {
+            allData.clear();
+            allData.add(cb);
+            datas.add(cb);
+            initCount = 0;
+            removeCount = 0;
+            mHandler.sendEmptyMessage(1);
+            isStop = false;
+        } else {
+            allData.add(cb);
+        }
+        String s = tv_comment_count.getText().toString().toString();
+        tv_comment_count.setText((Integer.valueOf(s) + 1) + "");
+        rl_input.setVisibility(View.GONE);
+        et_input.setText("");
+        colseKeyBoard();
+
+
+    }
+
+    /**
+     * 关闭软键盘
+     */
+    private void colseKeyBoard() {
+        View view = getWindow().peekDecorView();
+        if (view != null) {
+            InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
