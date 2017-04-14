@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:attr="http://schemas.android.com/apk/res-auto"
+              android:layout_width="wrap_content"
+              android:layout_height="30dp"
+              android:background="@android:color/transparent"
+              android:orientation="horizontal">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_danmu_corner"
+    android:paddingRight="10dp">
+
+
+    <com.wb.ygq.widget.RoundCornerImageView
+        android:id="@+id/iv_head"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_launcher"
+        attr:roundCornerRadius="30dp"/>
+
+    <TextView
+        android:id="@+id/tv_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginLeft="5dp"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/white"
+        android:text="哈哈哈哈"/>
+</LinearLayout>
+</LinearLayout>

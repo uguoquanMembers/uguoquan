@@ -5,12 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black">
+
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_picinfo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"/>
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_container"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="150dp"
+        android:layout_marginRight="15dp">
+
+        <LinearLayout
+            android:id="@+id/ll_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/rl_top_layout"
         android:layout_width="match_parent"
@@ -23,24 +46,25 @@
             android:layout_height="45dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:padding="14dp"
             android:clickable="true"
             android:onClick="back"
+            android:padding="14dp"
             android:src="@drawable/back_red"/>
 
-       <com.wb.ygq.widget.HorizontalProgressBar
-           android:id="@+id/pb_bar1"
-           android:layout_width="220dp"
-           android:layout_height="wrap_content"
-           android:layout_centerInParent="true"
-           android:padding="10dp"
-           attr:progress_reach_color="@color/color_press"
-           attr:progress_unreach_color="#e0e0e0"
-           attr:progress_reach_height="1dp"
-           attr:progress_unreach_height="1dp"
-           attr:progress_text_color="#ffffff"
+        <com.wb.ygq.widget.HorizontalProgressBar
+            android:id="@+id/pb_bar1"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:padding="10dp"
+            attr:progress_reach_color="@color/color_press"
+            attr:progress_reach_height="1dp"
+            attr:progress_text_bg_color="@color/color_press"
+            attr:progress_text_color="#ffffff"
+            attr:progress_unreach_color="#e0e0e0"
 
-           attr:progress_text_bg_color="@color/color_press"/>
+            attr:progress_unreach_height="1dp"/>
+
         <com.wb.ygq.widget.HorizontalProgressBar
             android:id="@+id/pb_bar2"
             android:layout_width="100dp"
@@ -49,97 +73,125 @@
             android:layout_centerVertical="true"
             android:padding="10dp"
             attr:progress_reach_color="@color/color_press"
-            attr:progress_unreach_color="#e0e0e0"
             attr:progress_reach_height="1dp"
-            attr:progress_unreach_height="1dp"
+            attr:progress_text_bg_color="@color/color_press"
             attr:progress_text_color="#ffffff"
+            attr:progress_unreach_color="#e0e0e0"
 
-            attr:progress_text_bg_color="@color/color_press"/>
+            attr:progress_unreach_height="1dp"/>
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ll_bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@android:color/white"
         android:layout_alignParentBottom="true"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:background="@android:color/white"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
         <TextView
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="#999999"
+            android:background="@drawable/tv_comment_bg_corner"
+            android:paddingBottom="5dp"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:background="@drawable/tv_comment_bg_corner"
-            android:text="评论吧"/>
+            android:text="评论吧"
+            android:textColor="#999999"
+            android:textSize="14sp"/>
+
         <RelativeLayout
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginLeft="10dp">
+
             <ImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@drawable/iocn_comment_n"/>
-            <TextView
-                android:id="@+id/tv_comment_count"
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:background="@android:color/white"
-                android:layout_marginBottom="7dp"
-                android:layout_marginRight="5dp"
-                android:textSize="10dp"
-                android:textColor="#666666"
-                android:text="312"/>
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/tv_comment_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="7dp"
+                    android:background="@android:color/white"
+                    android:text="0"
+                    android:textColor="#666666"
+                    android:textSize="10dp"/>
+            </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginLeft="15dp">
+
             <ImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@drawable/icon_favorite_n"/>
-            <TextView
-                android:id="@+id/tv_collect_count"
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:background="@android:color/white"
-                android:layout_marginBottom="7dp"
-                android:layout_marginRight="5dp"
-                android:textSize="10dp"
-                android:textColor="#666666"
-                android:text="312"/>
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_collect_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="7dp"
+                    android:background="@android:color/white"
+                    android:text="312"
+                    android:textColor="#666666"
+                    android:textSize="10dp"/>
+            </LinearLayout>
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginLeft="15dp">
+
             <ImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@drawable/icon_praise_n"/>
-            <TextView
-                android:id="@+id/tv_praise_count"
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:background="@android:color/white"
-                android:layout_marginBottom="7dp"
-                android:layout_marginRight="5dp"
-                android:textSize="10dp"
-                android:textColor="#666666"
-                android:text="312"/>
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_praise_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="7dp"
+                    android:background="@android:color/white"
+                    android:text="312"
+                    android:textColor="#666666"
+                    android:textSize="10dp"/>
+            </LinearLayout>
         </RelativeLayout>
 
 

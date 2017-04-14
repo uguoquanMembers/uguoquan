@@ -10,8 +10,8 @@ public class ImgListBean {
 
     /**
      * Msg : 200
-     * Count : 6
-     * Data : {"headpic":"http://img.youguoquan.com/uploads/users/header/3b40f19f581443299cf71b633a278046_header_l.jpg","orderimg":[{"ischarge":1,"url":"http://img.youguoquan.com/uploads/magazine/content/b147130ae8fdbbc55c0a425ec5367a8f_magazine_web_m.jpg"},{"ischarge":1,"url":"http://img.youguoquan.com/uploads/magazine/content/af4d6b124adc3537520163332ecadc9a_magazine_web_m.jpg"},{"ischarge":2,"url":"http://img.youguoquan.com/uploads/magazine/content/f74a2a9161f5730836550ff05e197bdb_magazine_web_m.jpg"},{"ischarge":2,"url":"http://img.youguoquan.com/uploads/magazine/content/beb76c539dfc72638b658aea4121d01c_magazine_web_m.jpg"}],"charge":"2","comment":"0","fabulous":"0","collection":"0"}
+     * Count : 7
+     * Data : {"headpic":"http://img.youguoquan.com/uploads/users/header/3b40f19f581443299cf71b633a278046_header_l.jpg","orderimg":[{"ischarge":1,"url":"http://img.youguoquan.com/uploads/magazine/content/b147130ae8fdbbc55c0a425ec5367a8f_magazine_web_m.jpg"},{"ischarge":1,"url":"http://img.youguoquan.com/uploads/magazine/content/af4d6b124adc3537520163332ecadc9a_magazine_web_m.jpg"},{"ischarge":2,"url":"http://img.youguoquan.com/uploads/magazine/content/f74a2a9161f5730836550ff05e197bdb_magazine_web_m.jpg"},{"ischarge":2,"url":"http://img.youguoquan.com/uploads/magazine/content/beb76c539dfc72638b658aea4121d01c_magazine_web_m.jpg"}],"charge":"2","comment":"0","fabulous":"0","collection":"0","commentList":[{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"}]}
      */
 
     private String Msg;
@@ -23,6 +23,7 @@ public class ImgListBean {
      * comment : 0
      * fabulous : 0
      * collection : 0
+     * commentList : [{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"},{"img":"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg","message":"测试2","name":"lyangye","time":"3分钟前"}]
      */
 
     private DataBean Data;
@@ -63,6 +64,14 @@ public class ImgListBean {
          */
 
         private List<OrderimgBean> orderimg;
+        /**
+         * img : https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1491547419&di=19b52e8c3d531216360539816bcf75aa&src=http://i1.sanwen8.cn/doc/1612/907-161216162R3-50.jpg
+         * message : 测试2
+         * name : lyangye
+         * time : 3分钟前
+         */
+
+        private List<CommentListBean> commentList;
 
         public String getHeadpic() {
             return headpic;
@@ -112,6 +121,14 @@ public class ImgListBean {
             this.orderimg = orderimg;
         }
 
+        public List<CommentListBean> getCommentList() {
+            return commentList;
+        }
+
+        public void setCommentList(List<CommentListBean> commentList) {
+            this.commentList = commentList;
+        }
+
         public static class OrderimgBean {
             private int ischarge;
             private String url;
@@ -130,6 +147,45 @@ public class ImgListBean {
 
             public void setUrl(String url) {
                 this.url = url;
+            }
+        }
+
+        public static class CommentListBean {
+            private String img;
+            private String message;
+            private String name;
+            private String time;
+
+            public String getImg() {
+                return img;
+            }
+
+            public void setImg(String img) {
+                this.img = img;
+            }
+
+            public String getMessage() {
+                return message;
+            }
+
+            public void setMessage(String message) {
+                this.message = message;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getTime() {
+                return time;
+            }
+
+            public void setTime(String time) {
+                this.time = time;
             }
         }
     }
