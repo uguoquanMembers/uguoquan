@@ -8,22 +8,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
+import com.wb.ygq.bean.ClassifyVideoResponseBean;
 import com.wb.ygq.bean.IBannerBean;
+import com.wb.ygq.bean.VideoBannerBean;
+import com.wb.ygq.bean.VideoFMBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
 import com.wb.ygq.ui.adapter.VideoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
+import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.MyUtil;
+import com.wb.ygq.utils.ToastUtil;
 import com.wb.ygq.widget.autoscrollviewpager.AutoScrollViewPager;
 import com.wb.ygq.widget.irecycleerview.IRecyclerView;
 import com.wb.ygq.widget.irecycleerview.LoadMoreFooterView;
 import com.wb.ygq.widget.irecycleerview.OnLoadMoreListener;
 import com.wb.ygq.widget.irecycleerview.OnRefreshListener;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Description：//试看
+ * Description：//白金
  * Created on 2017/4/13
  */
 public class ClassifyBjFragment extends BaseFragment implements RecyclerViewItemClickListener, OnRefreshListener, OnLoadMoreListener {
@@ -34,16 +46,11 @@ public class ClassifyBjFragment extends BaseFragment implements RecyclerViewItem
     /**
      * 加载轮播图
      */
-    private LinearLayout ll_single;
     private int pageNum = 1;
-
-    private AutoScrollViewPager viewPager;
-
     /**
-     * banner 是否循环播放 默认 true 当只有一条banner时为false
+     * 存储视频数据
      */
-    private boolean isInfiniteLoop = true;
-    private List<IBannerBean> banners;
+    private List<VideoFMBean.DataBean.VideoListBean> dataList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -74,10 +81,6 @@ public class ClassifyBjFragment extends BaseFragment implements RecyclerViewItem
     @Override
     public void initData() {
         adapter = new VideoAdapter(mActivity);
-        View headView = getHeadView();
-        if (headView != null) {
-            recyclerView.addHeaderView(headView);
-        }
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(mActivity, 1));
         loadMoreFooterView = (LoadMoreFooterView) recyclerView.getLoadMoreFooterView();
@@ -97,12 +100,6 @@ public class ClassifyBjFragment extends BaseFragment implements RecyclerViewItem
         recyclerView.setOnLoadMoreListener(this);
     }
 
-    public View getHeadView() {
-        View headView = LayoutInflater.from(mActivity).inflate(R.layout.layout_single_ll, null);
-        ll_single = (LinearLayout) headView.findViewById(R.id.ll_single);
-        return headView;
-    }
-
     @Override
     public void onItemClick(View view, Object o, int position, int eventType) {
         MyUtil.showLog("dianji ");
@@ -120,7 +117,6 @@ public class ClassifyBjFragment extends BaseFragment implements RecyclerViewItem
     public void onLoadMore() {
         if (loadMoreFooterView.canLoadMore() && adapter.getItemCount() > 0) {
             loadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
-//            pageNum++;
             requestDataList();
             MyUtil.showLog("上拉加载" + pageNum);
         }
@@ -130,10 +126,42 @@ public class ClassifyBjFragment extends BaseFragment implements RecyclerViewItem
      * 请求网络数据
      */
     private void requestDataList() {
-//        OkHttpUtils.get()
-//                .url(String.format(HttpUrl.API.CLASSIFY_VIDEO, pageNum))
-//                .build()
-//                .execute
+        OkHttpUtils.get().url(HttpUrl.API.CLASSIFY_VIDEO).addParams("page", String.valueOf(pageNum)).addParams("type", "2").build().execute(new Callback() {
+            @Override
+            public Object parseNetworkResponse(final Response response) throws IOException {
+                final ClassifyVideoResponseBean responseBean = new Gson().fromJson(response.body().string(), ClassifyVideoResponseBean.class);
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (responseBean != null) {
+                            List<VideoFMBean.DataBean.VideoListBean> videoList = responseBean.getData().getVideoList();
+                            if (pageNum == 1) dataList.clear();
+                            recyclerView.setRefreshing(false);
+                            if (videoList != null && !videoList.isEmpty()) {
+                                pageNum++;
+                                dataList.addAll(videoList);
+                                adapter.updateItems(dataList);
+                                loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                            } else {
+                                loadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+                            }
+                        }
+                    }
+                });
+                return null;
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+                recyclerView.setRefreshing(false);
+                ToastUtil.showToast("数据加载错误，请稍后重试");
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
     }
 
 }

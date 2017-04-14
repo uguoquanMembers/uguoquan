@@ -6,7 +6,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
@@ -18,14 +20,18 @@ import com.wb.ygq.bean.IBannerBean;
 import com.wb.ygq.bean.VideoBannerBean;
 import com.wb.ygq.bean.VideoFMBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
+import com.wb.ygq.ui.act.PicInfoActivity;
 import com.wb.ygq.ui.act.VideoPlayActivity;
 import com.wb.ygq.ui.adapter.VideoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
+import com.wb.ygq.utils.AppUtils;
 import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.MyUtil;
 import com.wb.ygq.utils.SharedUtil;
 import com.wb.ygq.utils.ToastUtil;
 import com.wb.ygq.widget.autoscrollviewpager.AutoScrollViewPager;
+import com.wb.ygq.widget.autoscrollviewpager.CircleIndicator;
+import com.wb.ygq.widget.autoscrollviewpager.ImagePagerAdapter;
 import com.wb.ygq.widget.irecycleerview.IRecyclerView;
 import com.wb.ygq.widget.irecycleerview.LoadMoreFooterView;
 import com.wb.ygq.widget.irecycleerview.OnLoadMoreListener;
@@ -63,6 +69,7 @@ public class ClassifySkFragment extends BaseFragment implements RecyclerViewItem
      * 存储视频数据
      */
     private List<VideoFMBean.DataBean.VideoListBean> dataList = new ArrayList<>();
+    RelativeLayout layout_banner;
 
     @Nullable
     @Override
@@ -166,8 +173,17 @@ public class ClassifySkFragment extends BaseFragment implements RecyclerViewItem
                     @Override
                     public void run() {
                         if (responseBean != null) {
+                            banners = new ArrayList<>();
                             List<VideoBannerBean> bannerList = responseBean.getData().getCarouselList();
-                            if (bannerList != null) {
+                            if (bannerList != null && !bannerList.isEmpty()) {
+                                for (int i = 0; i < bannerList.size(); i++) {
+                                    IBannerBean bannerBean = new IBannerBean();
+                                    bannerBean.setBannerImg(bannerList.get(i).getImg());
+                                    bannerBean.setBannerLinkId(bannerList.get(i).getGo());
+//                                    bannerBean.setBannerType(mHomeVideoBean.getData().getCarouselList().get(i).getUrl());
+                                    banners.add(bannerBean);
+                                }
+                                initBanner();
                                 MyUtil.showLog("晚安===" + bannerList);
                             }
                             List<VideoFMBean.DataBean.VideoListBean> videoList = responseBean.getData().getVideoList();
@@ -200,4 +216,63 @@ public class ClassifySkFragment extends BaseFragment implements RecyclerViewItem
         });
     }
 
+    /**
+     * 添加轮播
+     */
+    private void initBanner() {
+        if (banners != null && banners.size() > 0) {
+            View header = LayoutInflater.from(mActivity).inflate(R.layout.layout_banner_viewpager_small, null);
+            layout_banner = (RelativeLayout) header.findViewById(R.id.layout_banner);
+            viewPager = (AutoScrollViewPager) layout_banner.findViewById(R.id.viewPager);
+            int width = AppUtils.getScreenWidth(mActivity);
+            int height = (int) (width * 8f / 16f);
+            AbsListView.LayoutParams rlp = new AbsListView.LayoutParams(width, height);
+            layout_banner.setLayoutParams(rlp);
+            isInfiniteLoop = banners.size() > 1;
+
+            viewPager.setAdapter(new ImagePagerAdapter<>(0,mActivity, banners, new ImagePagerAdapter.onBannerItemClickListenter<IBannerBean>() {
+                @Override
+                public void onItemClick(IBannerBean bannerBean) {
+                    doBannerClick(bannerBean);
+                }
+            }).setInfiniteLoop(isInfiniteLoop));
+
+            if (isInfiniteLoop) {
+//                viewPager.setSlideBorderMode(AutoScrollViewPager.SLIDE_BORDER_MODE_CYCLE);
+                viewPager.setInterval(3000);
+                viewPager.startAutoScroll();
+            }
+            viewPager.setCurrentItem(Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % banners.size());
+
+            final LinearLayout pageDotGroup = (LinearLayout) layout_banner.findViewById(R.id.viewGroup);
+
+            layout_banner.setVisibility(View.VISIBLE);
+
+            CircleIndicator indicator = new CircleIndicator(mActivity);
+            indicator.setViewPager(viewPager);
+            indicator.setPageDotGroup(pageDotGroup);
+            indicator.setItemsCount(banners.size());
+            indicator.init();
+            ll_single.addView(layout_banner);
+        }
+    }
+
+    /**
+     * 处理banner 点击事件
+     *
+     * @param bannerBean
+     */
+    private void doBannerClick(IBannerBean bannerBean) {
+
+        if ("99".equals(bannerBean.getBannerType())) {
+//            Bundle bundle = new Bundle();
+//            bundle.putString("id", bannerBean.getBannerLinkId());
+            SharedUtil.setString("VideoId", bannerBean.getBannerLinkId());
+            skip(VideoPlayActivity.class, false);
+        } else {
+            Bundle bundle = new Bundle();
+            bundle.putString("id", bannerBean.getBannerLinkId());
+            skip(PicInfoActivity.class, bundle, false);
+        }
+    }
 }
