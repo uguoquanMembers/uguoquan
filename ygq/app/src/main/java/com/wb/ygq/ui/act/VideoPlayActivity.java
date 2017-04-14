@@ -234,32 +234,36 @@ public class VideoPlayActivity extends BaseActivity {
                             @Override
                             public void run() {
                                 mVideoContentBean = new Gson().fromJson(finalData, VideoContentBean.class);
-                                adapter = new VideoPlayAdapter(VideoPlayActivity.this);
-                                mVideoContentBean = new Gson().fromJson(finalData, VideoContentBean.class);
-                                adapter.setHeadView(getHeadView());
-                                recycle_comment.setHasFixedSize(true);
-                                recycle_comment.setLayoutManager(new GridLayoutManager(VideoPlayActivity.this, 1));
-                                recycle_comment.setAdapter(adapter);
-                                List<VideoContentBean.DataBean.CommentListBean> commentList = mVideoContentBean.getData().getCommentList();
-                                if (commentList != null && !commentList.isEmpty()) {
-                                    dataList.addAll(commentList);
-                                    adapter.updateItems(dataList);
-                                }
-                                adapter.updateItems(mVideoContentBean.getData().getCommentList());
-                                path = mVideoContentBean.getData().getVideoMessage().getUrl();
-                                title = mVideoContentBean.getData().getVideoMessage().getName();
-                                endTime = mVideoContentBean.getData().getVideoMessage().getEndtime();
-                                Glide.with(VideoPlayActivity.this).load(mVideoContentBean.getData().getVideoMessage().getImg()).asBitmap().into(new SimpleTarget<Bitmap>() {
-                                    @Override
-                                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                        Bitmap process = NativeStackBlur.process(resource, 8);
-                                        iv_empty.setImageBitmap(process);
+                                if (!mVideoContentBean.getMsg().equals("0")) {
+                                    adapter = new VideoPlayAdapter(VideoPlayActivity.this);
+                                    mVideoContentBean = new Gson().fromJson(finalData, VideoContentBean.class);
+                                    adapter.setHeadView(getHeadView());
+                                    recycle_comment.setHasFixedSize(true);
+                                    recycle_comment.setLayoutManager(new GridLayoutManager(VideoPlayActivity.this, 1));
+                                    recycle_comment.setAdapter(adapter);
+                                    List<VideoContentBean.DataBean.CommentListBean> commentList = mVideoContentBean.getData().getCommentList();
+                                    if (commentList != null && !commentList.isEmpty()) {
+                                        dataList.addAll(commentList);
+                                        adapter.updateItems(dataList);
                                     }
-                                });
-                                Glide.with(VideoPlayActivity.this).load(mVideoContentBean.getData().getVideoMessage().getImg()).into(iv_no_empty);
-                                Log.e("TAGTAG", "path=" + path + "===title=" + title + "====endtime=" + endTime);
-                                initMediaController();
-                                resetProgressAndTimer();
+                                    adapter.updateItems(mVideoContentBean.getData().getCommentList());
+                                    path = mVideoContentBean.getData().getVideoMessage().getUrl();
+                                    title = mVideoContentBean.getData().getVideoMessage().getName();
+                                    endTime = mVideoContentBean.getData().getVideoMessage().getEndtime();
+                                    Glide.with(VideoPlayActivity.this).load(mVideoContentBean.getData().getVideoMessage().getImg()).asBitmap().into(new SimpleTarget<Bitmap>() {
+                                        @Override
+                                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                            Bitmap process = NativeStackBlur.process(resource, 8);
+                                            iv_empty.setImageBitmap(process);
+                                        }
+                                    });
+                                    Glide.with(VideoPlayActivity.this).load(mVideoContentBean.getData().getVideoMessage().getImg()).into(iv_no_empty);
+                                    Log.e("TAGTAG", "path=" + path + "===title=" + title + "====endtime=" + endTime);
+                                    initMediaController();
+                                    resetProgressAndTimer();
+                                }else {
+                                    ToastUtil.showToast("数据错误");
+                                }
                             }
                         });
 

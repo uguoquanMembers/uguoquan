@@ -14,13 +14,11 @@ import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
-import com.wb.ygq.bean.ClassifyVideoBean;
 import com.wb.ygq.bean.ClassifyVideoResponseBean;
 import com.wb.ygq.bean.IBannerBean;
 import com.wb.ygq.bean.VideoBannerBean;
 import com.wb.ygq.bean.VideoFMBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
-import com.wb.ygq.ui.act.PicInfoActivity;
 import com.wb.ygq.ui.act.VideoPlayActivity;
 import com.wb.ygq.ui.adapter.VideoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
@@ -184,7 +182,6 @@ public class ClassifySkFragment extends BaseFragment implements RecyclerViewItem
                                     banners.add(bannerBean);
                                 }
                                 initBanner();
-                                MyUtil.showLog("晚安===" + bannerList);
                             }
                             List<VideoFMBean.DataBean.VideoListBean> videoList = responseBean.getData().getVideoList();
                             if (pageNum == 1) dataList.clear();
@@ -264,15 +261,15 @@ public class ClassifySkFragment extends BaseFragment implements RecyclerViewItem
      */
     private void doBannerClick(IBannerBean bannerBean) {
 
-        if ("99".equals(bannerBean.getBannerType())) {
-//            Bundle bundle = new Bundle();
-//            bundle.putString("id", bannerBean.getBannerLinkId());
+//        if ("99".equals(bannerBean.getBannerType())) {
+////            Bundle bundle = new Bundle();
+////            bundle.putString("id", bannerBean.getBannerLinkId());
             SharedUtil.setString("VideoId", bannerBean.getBannerLinkId());
             skip(VideoPlayActivity.class, false);
-        } else {
-            Bundle bundle = new Bundle();
-            bundle.putString("id", bannerBean.getBannerLinkId());
-            skip(PicInfoActivity.class, bundle, false);
-        }
+//        } else {
+//            Bundle bundle = new Bundle();
+//            bundle.putString("id", bannerBean.getBannerLinkId());
+//            skip(PicInfoActivity.class, bundle, false);
+//        }
     }
 }

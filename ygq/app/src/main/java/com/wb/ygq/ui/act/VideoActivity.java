@@ -82,7 +82,7 @@ public class VideoActivity extends BaseActivity implements RecyclerViewItemClick
     @Override
     public void initTitle() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.arror_left);
+        toolbar.setNavigationIcon(R.drawable.back_black);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

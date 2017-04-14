@@ -15,13 +15,18 @@ public class FriendListBean {
     private String empty;
     private String reward;
     private String fabulous;
+    private String comment;
+    private String userid;
+    private String imgCount;
     private List<String> img;
 
     public FriendListBean() {
         super();
     }
 
-    public FriendListBean(String id, String headpic, String name, String time, String title, String empty, String reward, String fabulous, List<String> img) {
+    public FriendListBean(String id, String headpic, String name, String time, String title,
+                          String empty, String reward, String fabulous, List<String> img,
+                          String comment, String userid, String imgCount) {
         this.id = id;
         this.headpic = headpic;
         this.name = name;
@@ -31,6 +36,10 @@ public class FriendListBean {
         this.reward = reward;
         this.fabulous = fabulous;
         this.img = img;
+        this.comment = comment;
+        this.userid = userid;
+        this.imgCount = imgCount;
+
     }
 
     public String getId() {
@@ -103,6 +112,30 @@ public class FriendListBean {
 
     public void setImg(List<String> img) {
         this.img = img;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public String getImgCount() {
+        return imgCount;
+    }
+
+    public void setImgCount(String imgCount) {
+        this.imgCount = imgCount;
     }
 
     @Override

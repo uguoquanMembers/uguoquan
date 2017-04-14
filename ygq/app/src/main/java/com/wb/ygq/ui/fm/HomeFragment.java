@@ -23,7 +23,6 @@ import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.HomeVideoBean;
 import com.wb.ygq.bean.IBannerBean;
-import com.wb.ygq.ui.act.MainActivity;
 import com.wb.ygq.ui.act.PicInfoActivity;
 import com.wb.ygq.ui.act.SZActivity;
 import com.wb.ygq.ui.act.VideoActivity;
@@ -122,7 +121,7 @@ public class HomeFragment extends BaseFragment {
                     Glide.with(getActivity()).load(vpList.get(position).getImg()).asBitmap().into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                            Bitmap process = NativeStackBlur.process(resource, 10);
+                            Bitmap process = NativeStackBlur.process(resource, 30);
                             id.setImageBitmap(process);
                         }
                     });
