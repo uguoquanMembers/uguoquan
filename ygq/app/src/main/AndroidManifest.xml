@@ -72,6 +72,11 @@
             android:name=".ui.act.VideoActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+        <!-- 充值 -->
+        <activity
+            android:name=".ui.act.PayActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
