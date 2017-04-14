@@ -167,7 +167,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         int sex = SharedUtil.getInt(PubConst.KEY_SEX, 0);
         if (sex == 0) //没存 弹出男女
         {
-            DialogUtil.showSex(this, "取消", "确定");
+            DialogUtil.showSex(this, "", "确定");
         }
         setListener();
     }

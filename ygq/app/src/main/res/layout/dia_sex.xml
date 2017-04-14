@@ -65,6 +65,7 @@
             android:layout_toLeftOf="@id/tv_sure"
             android:background="@drawable/list_selector"
             android:padding="10dp"
+            android:visibility="gone"
             android:text="取消"
             android:textColor="@color/color_press" />
     </RelativeLayout>
