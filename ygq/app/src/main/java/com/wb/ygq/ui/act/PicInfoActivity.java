@@ -267,7 +267,7 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
         } else {
             pb_bar1.setProgress(position);
         }
-        
+
     }
 
     @Override
