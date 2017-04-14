@@ -17,6 +17,7 @@ import com.wb.ygq.ui.adapter.SpPhotoAdapter;
 import com.wb.ygq.ui.base.BaseActivity;
 import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.utils.HttpUrl;
+import com.wb.ygq.utils.MyUtil;
 import com.wb.ygq.utils.ToastUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
@@ -46,7 +47,7 @@ public class PersonalActivity extends BaseActivity {
         getBundleData();
         initTitle();
         initView();
-        initView();
+        initData();
         setListener();
         requestPersonalListData();
     }
@@ -97,7 +98,7 @@ public class PersonalActivity extends BaseActivity {
                             List<FriendListBean> recordList = responseBean.getData();
                             if (recordList != null && !recordList.isEmpty()) {
                                 dataList.addAll(recordList);
-
+                                MyUtil.showLog("adapter==="+adapter);
                                 adapter.updateItems(dataList);
                             } else {
                                 ToastUtil.showToast("暂无朋友圈信息");

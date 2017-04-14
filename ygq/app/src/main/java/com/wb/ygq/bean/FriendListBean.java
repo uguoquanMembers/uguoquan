@@ -24,9 +24,7 @@ public class FriendListBean {
         super();
     }
 
-    public FriendListBean(String id, String headpic, String name, String time, String title,
-                          String empty, String reward, String fabulous, List<String> img,
-                          String comment, String userid, String imgCount) {
+    public FriendListBean(String id, String headpic, String name, String time, String title, String empty, String reward, String fabulous, String comment, String userid, String imgCount, List<String> img) {
         this.id = id;
         this.headpic = headpic;
         this.name = name;
@@ -35,11 +33,10 @@ public class FriendListBean {
         this.empty = empty;
         this.reward = reward;
         this.fabulous = fabulous;
-        this.img = img;
         this.comment = comment;
         this.userid = userid;
         this.imgCount = imgCount;
-
+        this.img = img;
     }
 
     public String getId() {
@@ -106,14 +103,6 @@ public class FriendListBean {
         this.fabulous = fabulous;
     }
 
-    public List<String> getImg() {
-        return img;
-    }
-
-    public void setImg(List<String> img) {
-        this.img = img;
-    }
-
     public String getComment() {
         return comment;
     }
@@ -138,6 +127,14 @@ public class FriendListBean {
         this.imgCount = imgCount;
     }
 
+    public List<String> getImg() {
+        return img;
+    }
+
+    public void setImg(List<String> img) {
+        this.img = img;
+    }
+
     @Override
     public String toString() {
         return "FriendListBean{" +
@@ -149,6 +146,9 @@ public class FriendListBean {
                 ", empty='" + empty + '\'' +
                 ", reward='" + reward + '\'' +
                 ", fabulous='" + fabulous + '\'' +
+                ", comment='" + comment + '\'' +
+                ", userid='" + userid + '\'' +
+                ", imgCount='" + imgCount + '\'' +
                 ", img=" + img +
                 '}';
     }
