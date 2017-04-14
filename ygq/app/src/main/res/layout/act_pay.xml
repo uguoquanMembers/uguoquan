@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/color_ffffff"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_rechange"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_gravity="center"
@@ -27,6 +28,7 @@
         android:background="@color/color_ededed" />
 
     <RelativeLayout
+        android:id="@+id/rl_alpay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
@@ -42,6 +44,7 @@
             android:text="支付宝支付" />
 
         <ImageView
+            android:id="@+id/ima_alpay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -55,6 +58,7 @@
         android:background="@color/color_ededed" />
 
     <RelativeLayout
+        android:id="@+id/rl_wxpay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
@@ -70,10 +74,21 @@
             android:text="微信支付" />
 
         <ImageView
+            android:id="@+id/ima_wxpay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/check_box_false" />
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/button_pay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:background="@drawable/green_pay_bg"
+        android:gravity="center"
+        android:text="立即支付"
+        android:textColor="@color/color_ffffff" />
 </LinearLayout>
