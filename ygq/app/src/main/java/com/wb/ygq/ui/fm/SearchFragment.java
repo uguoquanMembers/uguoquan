@@ -22,9 +22,10 @@ public class SearchFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fm_sp, null);
+        view = inflater.inflate(R.layout.fm_search, null);
         return view;
     }
+
     @Override
     public void initTitle() {
 

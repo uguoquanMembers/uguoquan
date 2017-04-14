@@ -2,7 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:background="@color/color_ffffff"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/rl_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="视频"
+            android:textSize="17sp"></TextView>
+    </android.support.v7.widget.Toolbar>
 
     <com.wb.ygq.widget.irecycleerview.IRecyclerView
         android:id="@+id/recycle_video"
@@ -11,6 +30,5 @@
         app:loadMoreEnabled="true"
         app:loadMoreFooterLayout="@layout/layout_irecyclerview_load_more_footer"
         app:refreshEnabled="true"
-        app:refreshHeaderLayout="@layout/layout_irecyclerview_refresh_header">
-    </com.wb.ygq.widget.irecycleerview.IRecyclerView>
+        app:refreshHeaderLayout="@layout/layout_irecyclerview_refresh_header"></com.wb.ygq.widget.irecycleerview.IRecyclerView>
 </LinearLayout>

@@ -752,7 +752,7 @@ public class VideoPlayActivity extends BaseActivity {
      */
     private void saveTOList(String etString) {
         VideoContentBean.DataBean.CommentListBean cb = new VideoContentBean.DataBean.CommentListBean();
-        cb.setImg("http://shtml.asia-cloud.com/ZZSY/list_test1.png");
+        cb.setImg(HttpUrl.API.HEAD);
         cb.setMessage(etString);
         cb.setName("我");
         cb.setTime("刚刚");

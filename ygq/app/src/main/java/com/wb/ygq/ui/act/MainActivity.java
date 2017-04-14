@@ -150,7 +150,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getBundleData();
+//        getBundleData();
         if (savedInstanceState != null) {// 判断是恢复状态情况，还是重新建立情况  首页  私照  视频  私拍  搜索    我的
             FragmentManager fragmentManager = getSupportFragmentManager();
             homeFragment = (HomeFragment) fragmentManager.findFragmentByTag(HOMEFRAGMENT_TAG);
@@ -548,12 +548,12 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
 
-    public void getBundleData() {
-        Bundle bundle = getIntent().getBundleExtra(PubConst.DATA);
-        if (bundle != null) {
-            key = bundle.getInt("key");
-        }
-    }
+//    public void getBundleData() {
+//        Bundle bundle = getIntent().getBundleExtra(PubConst.DATA);
+//        if (bundle != null) {
+//            key = bundle.getInt("key");
+//        }
+//    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {

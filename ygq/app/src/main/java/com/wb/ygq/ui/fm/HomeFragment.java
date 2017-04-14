@@ -26,6 +26,7 @@ import com.wb.ygq.bean.IBannerBean;
 import com.wb.ygq.ui.act.MainActivity;
 import com.wb.ygq.ui.act.PicInfoActivity;
 import com.wb.ygq.ui.act.SZActivity;
+import com.wb.ygq.ui.act.VideoActivity;
 import com.wb.ygq.ui.act.VideoPlayActivity;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.utils.AppUtils;
@@ -121,7 +122,7 @@ public class HomeFragment extends BaseFragment {
                     Glide.with(getActivity()).load(vpList.get(position).getImg()).asBitmap().into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                            Bitmap process = NativeStackBlur.process(resource, 8);
+                            Bitmap process = NativeStackBlur.process(resource, 10);
                             id.setImageBitmap(process);
                         }
                     });
@@ -130,9 +131,7 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     public void onClick(View v) {
                         if ("99".equals(vpList.get(position).getUrl())) {
-                            Bundle bundle = new Bundle();
-                            bundle.putInt("key", 2);
-                            skip(MainActivity.class, bundle, true);
+                            skip(VideoActivity.class, false);
                         } else {
                             Bundle bundle = new Bundle();
                             bundle.putString("index", vpList.get(position).getUrl());

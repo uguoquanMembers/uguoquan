@@ -1,7 +1,5 @@
 package com.wb.ygq.utils;
 
-import com.wb.ygq.bean.VideoFMBean;
-
 /**
  * Created by Administrator on 2017/4/3.
  */
@@ -65,6 +63,14 @@ public class HttpUrl {
          * 分类视频
          */
         public static final String CLASSIFY_VIDEO = "http://youguo.fzjydqg.com/index.php/Api/video/getVideoFromType";
+        /**
+         * 已购买的
+         */
+        public static final String ALREADY_BUY = "http://youguo.fzjydqg.com/index.php/Api/Order/buy";
+        /**
+         * 头像
+         */
+        public static final String HEAD = "http://shtml.asia-cloud.com/ZZSY/list_test1.png";
 
     }
 }
