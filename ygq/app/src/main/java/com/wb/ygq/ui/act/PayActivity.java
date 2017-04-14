@@ -53,7 +53,7 @@ public class PayActivity extends BaseActivity {
         rl_alpay = (RelativeLayout) findViewById(R.id.rl_alpay);
         rl_wxpay = (RelativeLayout) findViewById(R.id.rl_wxpay);
         ima_wxpay = (ImageView) findViewById(R.id.ima_wxpay);
-        ima_alpay = (ImageView) findViewById(R.id.ima_wxpay);
+        ima_alpay = (ImageView) findViewById(R.id.ima_alpay);
         button_pay = (Button) findViewById(R.id.button_pay);
     }
 

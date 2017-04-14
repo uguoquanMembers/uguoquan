@@ -97,31 +97,32 @@ public class RechargeActivity extends BaseActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.ima_zs:
-
-
+                skip(PayActivity.class, false);
                 break;
             case R.id.ima_bj:
-
+                skip(PayActivity.class, false);
                 break;
             case R.id.ima_sy:
+                skip(PayActivity.class, false);
                 break;
             case R.id.ima_dy:
+                skip(PayActivity.class, false);
                 break;
             case R.id.tv_zhankai1:
                 ima_zsopen.setVisibility(ima_zsopen.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-                tv_zhankai1.setText(ima_zsopen.getVisibility() == View.VISIBLE ?"点击关闭>":"点击展开>");
+                tv_zhankai1.setText(ima_zsopen.getVisibility() == View.VISIBLE ? "点击关闭>" : "点击展开>");
                 break;
             case R.id.tv_zhankai2:
                 ima_bjopen.setVisibility(ima_bjopen.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-                tv_zhankai2.setText(ima_bjopen.getVisibility() == View.VISIBLE ?"点击关闭>":"点击展开>");
+                tv_zhankai2.setText(ima_bjopen.getVisibility() == View.VISIBLE ? "点击关闭>" : "点击展开>");
                 break;
             case R.id.tv_zhankai3:
                 ima_syopen.setVisibility(ima_syopen.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-                tv_zhankai3.setText(ima_syopen.getVisibility() == View.VISIBLE ?"点击关闭>":"点击展开>");
+                tv_zhankai3.setText(ima_syopen.getVisibility() == View.VISIBLE ? "点击关闭>" : "点击展开>");
                 break;
             case R.id.tv_zhankai4:
                 ima_dyopen.setVisibility(ima_dyopen.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-                tv_zhankai4.setText(ima_dyopen.getVisibility() == View.VISIBLE ?"点击关闭>":"点击展开>");
+                tv_zhankai4.setText(ima_dyopen.getVisibility() == View.VISIBLE ? "点击关闭>" : "点击展开>");
                 break;
 
             default:
