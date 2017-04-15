@@ -219,7 +219,6 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
                                 datas.addAll(mImgListBean.getData().getCommentList());
                                 allData.addAll(datas);
                                 mHandler.sendEmptyMessage(1);
-
                                 tv_comment_count.setText(mImgListBean.getData().getComment());
                                 tv_praise_count.setText(mImgListBean.getData().getFabulous());
                                 tv_collect_count.setText(mImgListBean.getData().getCollection());
