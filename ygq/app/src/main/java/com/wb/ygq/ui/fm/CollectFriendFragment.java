@@ -73,7 +73,7 @@ public class CollectFriendFragment extends BaseFragment implements RecyclerViewI
     @Override
     public void initView() {
         recycleview = (RecyclerView) view.findViewById(R.id.recycleview);
-        adapter = new SpPhotoAdapter(mActivity);
+        adapter = new SpPhotoAdapter(mActivity,mActivity);
         recycleview.setHasFixedSize(true);
         recycleview.setLayoutManager(new GridLayoutManager(mActivity, 1));
         adapter.updateItems(dataList);

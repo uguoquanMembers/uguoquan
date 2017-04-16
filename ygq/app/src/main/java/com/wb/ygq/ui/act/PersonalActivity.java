@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -55,7 +54,7 @@ public class PersonalActivity extends BaseActivity {
     @Override
     public void initTitle() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.arror_left);
+        toolbar.setNavigationIcon(R.drawable.back_black);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,7 +70,7 @@ public class PersonalActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        adapter = new SpPhotoAdapter(this);
+        adapter = new SpPhotoAdapter(this,this);
         recycler.setHasFixedSize(true);
         recycler.setLayoutManager(new LinearLayoutManager(this));
         adapter.updateItems(dataList);

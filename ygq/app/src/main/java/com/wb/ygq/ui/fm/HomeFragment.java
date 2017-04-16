@@ -28,6 +28,7 @@ import com.wb.ygq.ui.act.SZActivity;
 import com.wb.ygq.ui.act.VideoActivity;
 import com.wb.ygq.ui.act.VideoPlayActivity;
 import com.wb.ygq.ui.base.BaseFragment;
+import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.utils.AppUtils;
 import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.SharedUtil;
@@ -66,6 +67,7 @@ public class HomeFragment extends BaseFragment {
      */
     private List<HomeVideoBean.DataBean.IndexImgListBean> vpList = new ArrayList<>();
     private CycleGalleryViewPager viewpager_down;
+
 
     @Nullable
     @Override
@@ -115,30 +117,44 @@ public class HomeFragment extends BaseFragment {
                 View view = LayoutInflater.from(mActivity).inflate(R.layout.layout_vp_home_down, container, false);
                 ((TextView) view.findViewById(R.id.tv_vp_title)).setText(vpList.get(position).getTitle() + ">>");
                 final ImageView id = (ImageView) view.findViewById(R.id.ima_vp_con);
-                if ("0".equals(vpList.get(position).getEmpty())) {
+                if (PubConst.ZUANSHI.equals(SharedUtil.getString("vip", ""))) {
                     Glide.with(mActivity).load(vpList.get(position).getImg()).crossFade().into(id);
-                } else if ("1".equals(vpList.get(position).getEmpty())) {
-                    //当时1的时候图片变虚
-                    Glide.with(getActivity()).load(vpList.get(position).getImg()).asBitmap().into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                            Bitmap process = NativeStackBlur.process(resource, 30);
-                            id.setImageBitmap(process);
-                        }
-                    });
+                } else {
+                    if ("0".equals(vpList.get(position).getEmpty())) {
+                        Glide.with(mActivity).load(vpList.get(position).getImg()).crossFade().into(id);
+                    } else if ("1".equals(vpList.get(position).getEmpty())) {
+                        //当时1的时候图片变虚
+                        Glide.with(getActivity()).load(vpList.get(position).getImg()).asBitmap().into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                Bitmap process = NativeStackBlur.process(resource, 30);
+                                id.setImageBitmap(process);
+                            }
+                        });
+                    }
                 }
                 id.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if ("1".equals(vpList.get(position).getEmpty())){
-                            VipDialog.showVipDialog(mActivity);
-                        }else {
+                        if (PubConst.ZUANSHI.equals(SharedUtil.getString("vip", ""))) {
                             if ("99".equals(vpList.get(position).getUrl())) {
                                 skip(VideoActivity.class, false);
                             } else {
                                 Bundle bundle = new Bundle();
                                 bundle.putString("index", vpList.get(position).getUrl());
                                 skip(SZActivity.class, bundle, false);
+                            }
+                        } else {
+                            if ("1".equals(vpList.get(position).getEmpty())) {
+                                VipDialog.showVipDialog(mActivity, false);
+                            } else {
+                                if ("99".equals(vpList.get(position).getUrl())) {
+                                    skip(VideoActivity.class, false);
+                                } else {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("index", vpList.get(position).getUrl());
+                                    skip(SZActivity.class, bundle, false);
+                                }
                             }
                         }
                     }
@@ -265,8 +281,8 @@ public class HomeFragment extends BaseFragment {
         if ("99".equals(bannerBean.getBannerType())) {
 //            Bundle bundle = new Bundle();
 //            bundle.putString("id", bannerBean.getBannerLinkId());
-            SharedUtil.setString("VideoId",bannerBean.getBannerLinkId());
-            skip(VideoPlayActivity.class,false);
+            SharedUtil.setString("VideoId", bannerBean.getBannerLinkId());
+            skip(VideoPlayActivity.class, false);
         } else {
             Bundle bundle = new Bundle();
             bundle.putString("id", bannerBean.getBannerLinkId());

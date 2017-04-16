@@ -1,11 +1,15 @@
 package com.wb.ygq.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.commit451.nativestackblur.NativeStackBlur;
 import com.wb.ygq.R;
 import com.wb.ygq.ui.base.BaseAdapter;
 import com.wb.ygq.utils.AppUtils;
@@ -15,8 +19,11 @@ import com.wb.ygq.utils.AppUtils;
  * Created on 2017/4/11
  */
 public class GridAdapter extends BaseAdapter {
-    public GridAdapter(Context context) {
+    private String isEmpty;
+
+    public GridAdapter(Context context, String isEmpty) {
         super(context);
+        this.isEmpty = isEmpty;
     }
 
     @Override
@@ -52,7 +59,19 @@ public class GridAdapter extends BaseAdapter {
             holder.ima.setLayoutParams(p);
         }
         holder.ima.setLayoutParams(params);
-        Glide.with(context).load(str).crossFade().error(R.drawable.default_image).into(holder.ima);
+        if ("0".equals(isEmpty)) {
+            Glide.with(context).load(str).crossFade().error(R.drawable.default_image).into(holder.ima);
+        } else {
+            //当时1的时候图片变虚
+            final ViewHolder finalHolder = holder;
+            Glide.with(context).load(str).asBitmap().into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    Bitmap process = NativeStackBlur.process(resource, 30);
+                    finalHolder.ima.setImageBitmap(process);
+                }
+            });
+        }
         return convertView;
     }
 

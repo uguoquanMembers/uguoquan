@@ -41,16 +41,19 @@ public class VipDialog {
 //        <!--<item name="android:windowCloseOnTouchOutside">false</item>-->
 //    </style>
 
-    public static void showVipDialog(final Activity activity) {
+    public static void showVipDialog(final Activity activity, final boolean flag) {
         final Dialog dialog = new Dialog(activity, R.style.MyDialog);
         View view = LayoutInflater.from(activity).inflate(R.layout.dialog_vip, null);
-        TextView tv_ensure= (TextView) view.findViewById(R.id.tv_ensure);
-        TextView tv_cancel= (TextView) view.findViewById(R.id.tv_cancel);
+        TextView tv_ensure = (TextView) view.findViewById(R.id.tv_ensure);
+        TextView tv_cancel = (TextView) view.findViewById(R.id.tv_cancel);
         tv_ensure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(activity, RechargeActivity.class);
+                Intent intent = new Intent(activity, RechargeActivity.class);
                 activity.startActivity(intent);
+                if (flag) {
+                    activity.finish();
+                }
                 dialog.dismiss();
 
             }
