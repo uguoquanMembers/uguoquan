@@ -39,11 +39,13 @@ import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
+import com.wb.ygq.bean.AddCollenResponseBeant;
 import com.wb.ygq.bean.CeshiBean;
 import com.wb.ygq.bean.MediaInfor;
 import com.wb.ygq.bean.VideoContentBean;
 import com.wb.ygq.ui.adapter.VideoPlayAdapter;
 import com.wb.ygq.ui.base.BaseActivity;
+import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.PublicUtil;
 import com.wb.ygq.utils.SharedUtil;
@@ -108,6 +110,9 @@ public class VideoPlayActivity extends BaseActivity {
     private ProgressBar mPro_Buffer;
     private ImageView mImage_PlayOrPause;
     private TextView mText_Title;
+    private TextView tv_collect_count;
+    private TextView tv_comment_count;
+    private TextView tv_zan_count;
 
     private LinearLayout ll_bottom_layout;
 
@@ -182,6 +187,7 @@ public class VideoPlayActivity extends BaseActivity {
             }
         }
     };
+    private RelativeLayout rl_addcollent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -210,7 +216,11 @@ public class VideoPlayActivity extends BaseActivity {
         recycle_comment = (RecyclerView) findViewById(R.id.recycle_comment);
         tv_input = (TextView) findViewById(R.id.tv_input);
         tv_button_send = (TextView) findViewById(R.id.tv_button_send);
+        tv_collect_count = (TextView) findViewById(R.id.tv_collect_count);
+        tv_zan_count = (TextView) findViewById(R.id.tv_zan_count);
+        tv_comment_count = (TextView) findViewById(R.id.tv_comment_count);
         rl_input = (RelativeLayout) findViewById(R.id.rl_input);
+        rl_addcollent = (RelativeLayout) findViewById(R.id.rl_addcollent);
         et_input = (EditText) findViewById(R.id.et_input);
     }
 
@@ -261,7 +271,7 @@ public class VideoPlayActivity extends BaseActivity {
                                     Log.e("TAGTAG", "path=" + path + "===title=" + title + "====endtime=" + endTime);
                                     initMediaController();
                                     resetProgressAndTimer();
-                                }else {
+                                } else {
                                     ToastUtil.showToast("数据错误");
                                 }
                             }
@@ -725,6 +735,8 @@ public class VideoPlayActivity extends BaseActivity {
         mVideoView.setOnPreparedListener(mOnPreparedListener);
         tv_input.setOnClickListener(this);
         tv_button_send.setOnClickListener(this);
+        rl_addcollent.setOnClickListener(this);
+        tv_zan_count.setOnClickListener(this);
     }
 
     @Override
@@ -733,6 +745,14 @@ public class VideoPlayActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.tv_input://点击弹出输入框
                 inPutComment();
+                break;
+            case R.id.tv_zan_count://赞
+                tv_zan_count.setText(Integer.valueOf(tv_zan_count.getText().toString().trim()) + 1 + "");
+                tv_zan_count.setEnabled(false);
+                tv_zan_count.setFocusable(false);
+                break;
+            case R.id.rl_addcollent://点击收藏
+                requestAddCollect();
                 break;
             case R.id.tv_button_send://发送按钮
                 String etString = et_input.getText().toString().trim();
@@ -750,6 +770,42 @@ public class VideoPlayActivity extends BaseActivity {
     }
 
     /**
+     * 添加收藏接口
+     */
+    private void requestAddCollect() {
+        String uid = SharedUtil.getString(PubConst.KEY_UID, "0");
+        OkHttpUtils.get().url(HttpUrl.API.ADD_COLLECT).addParams("uid", uid).addParams("vid", id).addParams("type", "2").build().execute(new Callback() {
+            @Override
+            public Object parseNetworkResponse(Response response) throws IOException {
+                final AddCollenResponseBeant bean = new Gson().fromJson(response.body().string(), AddCollenResponseBeant.class);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String msg = bean.getMsg();
+                        if (TextUtils.equals(msg, "200")) {
+                            ToastUtil.showToast("收藏成功");
+                            tv_collect_count.setText(Integer.valueOf(tv_collect_count.getText().toString().trim()) + 1 + "");
+                        } else if (TextUtils.equals(msg, "0")) {
+                            ToastUtil.showToast(bean.getMessage());
+                        }
+                    }
+                });
+                return null;
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
+    }
+
+    /**
      * 存到集合
      *
      * @param etString
@@ -762,6 +818,8 @@ public class VideoPlayActivity extends BaseActivity {
         cb.setTime("刚刚");
         dataList.add(cb);
         adapter.updateItems(dataList);
+        //更新评论数目
+        tv_comment_count.setText(Integer.valueOf(tv_comment_count.getText().toString().trim()) + 1 + "");
         rl_input.setVisibility(View.GONE);
         et_input.setText("");
         colseKeyBoard();

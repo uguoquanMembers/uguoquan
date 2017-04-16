@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wb.ygq.R;
+import com.wb.ygq.callback.OnClickCallBackListener;
 import com.wb.ygq.ui.act.PayActivity;
 import com.wb.ygq.ui.constant.PubConst;
 
@@ -104,7 +105,7 @@ public class DialogUtil {
      * @param tvLeft
      * @param tvRight
      */
-    public static void showSex(final Activity context, String tvLeft, String tvRight) {
+    public static void showSex(final Activity context, String tvLeft, String tvRight, final OnClickCallBackListener onClickCallBackListener) {
         final Dialog dialog = new Dialog(context, R.style.NoTitleDialog);
         setAlpha(context, 50);
         //默认男 1 男  2女
@@ -135,14 +136,15 @@ public class DialogUtil {
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedUtil.setInt(PubConst.KEY_SEX, key_sex[0]);
+                SharedUtil.setString(PubConst.KEY_SEX, key_sex[0]+"");
+                onClickCallBackListener.onClickCallBack(null);
                 dialog.dismiss();
             }
         });
         tv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedUtil.setInt(PubConst.KEY_SEX, key_sex[0]);
+                SharedUtil.setString(PubConst.KEY_SEX, key_sex[0]+"");
                 dialog.dismiss();
             }
         });
