@@ -3,21 +3,29 @@ package com.wb.ygq.utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.wb.ygq.R;
+import com.wb.ygq.callback.OnClickCallBackListener;
 import com.wb.ygq.ui.constant.PubConst;
 
 /**
@@ -150,5 +158,88 @@ public class DialogUtil {
         });
     }
 
+    private static String[] number = {"1", "2", "5", "18", "52", "88"};
+    private static int[] res_back = {R.drawable.bg_dashang, R.drawable.bg_dashang_press};
+
+    /**
+     * @param context
+     * @param title   标题
+     */
+    public static void showDaShangDia(final Activity context, final String id, String title, final OnClickCallBackListener onClickCallBackListener) {
+        final Dialog dialog = new Dialog(context, R.style.NoTitleDialog);
+        //默认1元
+        final String[] key_choose = {"1"};
+        setAlpha(context, 50);
+        final View[] view = {LayoutInflater.from(context).inflate(R.layout.layout_dialog_dashang, null)};
+        TextView tv_dianame = (TextView) view[0].findViewById(R.id.tv_dianame);
+        TextView text_pay_1 = (TextView) view[0].findViewById(R.id.text_pay_1);
+        TextView text_pay_2 = (TextView) view[0].findViewById(R.id.text_pay_2);
+        TextView text_pay_5 = (TextView) view[0].findViewById(R.id.text_pay_5);
+        TextView text_pay_18 = (TextView) view[0].findViewById(R.id.text_pay_18);
+        TextView text_pay_52 = (TextView) view[0].findViewById(R.id.text_pay_52);
+        TextView text_pay_88 = (TextView) view[0].findViewById(R.id.text_pay_88);
+        TextView tv_cancel = (TextView) view[0].findViewById(R.id.tv_cancel);
+        TextView tv_ok = (TextView) view[0].findViewById(R.id.tv_ok);
+        final EditText et_money = (EditText) view[0].findViewById(R.id.et_money);
+        textViews = new TextView[]{text_pay_1, text_pay_2, text_pay_5, text_pay_18, text_pay_52, text_pay_88};
+        setTextColorSize(context, 0);//默认选中第一个
+        tv_dianame.setText(title);
+        for (int i = 0; i < textViews.length; i++) {
+            final int finalI = i;
+            textViews[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setTextColorSize(context, finalI);
+                    key_choose[0] = number[finalI];
+                }
+            });
+        }
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        //确定
+        tv_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String et_text = et_money.getText().toString().trim();
+                Bundle bundle = new Bundle();
+                bundle.putString("MONEY",TextUtils.isEmpty(et_text)?key_choose[0]:et_text);
+                onClickCallBackListener.onClickCallBack(bundle);
+                dialog.dismiss();
+            }
+        });
+        showDialog(dialog, view[0], Gravity.CENTER, true);
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                setAlpha(context, 1f);
+            }
+        });
+    }
+
+    /**
+     * 设置文字大小颜色
+     *
+     * @param key
+     */
+    private static void setTextColorSize(Context context, int key) {
+        for (int i = 0; i < textViews.length; i++) {
+            if (i == key) {//默认30
+                textViews[i].setText(PublicUtil.formatTextView(context, number[i] + "", "RMB", R.style.textstyle_14_press, R.style.textstyle_14_press, 3));
+            } else {
+                textViews[i].setText(PublicUtil.formatTextView(context, number[i] + "", "RMB", R.style.textstyle_14_666666, R.style.textstyle_14_666666, 3));
+            }
+        }
+        for (int i = 0; i < textViews.length; i++) {//设置点击背景颜色
+            if (i == key) {
+                textViews[i].setBackgroundResource(res_back[1]);
+            } else {
+                textViews[i].setBackgroundResource(res_back[0]);
+            }
+        }
+    }
 
 }

@@ -10,17 +10,20 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.wb.ygq.R;
+import com.wb.ygq.callback.OnClickCallBackListener;
 import com.wb.ygq.ui.act.AlreadyBuyActivity;
 import com.wb.ygq.ui.act.CollectActivity;
 import com.wb.ygq.ui.act.RechargeActivity;
 import com.wb.ygq.ui.base.BaseFragment;
+import com.wb.ygq.utils.DialogUtil;
 import com.wb.ygq.utils.PublicUtil;
+import com.wb.ygq.utils.ToastUtil;
 
 /**
  * Description：
  * Created on 2017/4/2
  */
-public class MineFragment extends BaseFragment {
+public class MineFragment extends BaseFragment implements OnClickCallBackListener {
 
     private View view;
     /**
@@ -107,11 +110,16 @@ public class MineFragment extends BaseFragment {
                 skip(CollectActivity.class, false);
                 break;
             case R.id.ima_recharge://图片点击
-
+//                DialogUtil.showPlaytour(mActivity, "id", "我的傻逼崔", this);
                 break;
-
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onClickCallBack(Bundle data) {
+        String money = data.getString("MONEY");
+        ToastUtil.showToast("金额：" + money);
     }
 }
