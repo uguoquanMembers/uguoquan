@@ -15,6 +15,7 @@ import com.wb.ygq.bean.ClassifyVideoResponseBean;
 import com.wb.ygq.bean.VideoFMBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
 import com.wb.ygq.ui.act.VideoPlayActivity;
+import com.wb.ygq.ui.adapter.ClassifyBjAdapter;
 import com.wb.ygq.ui.adapter.VideoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.utils.HttpUrl;
@@ -39,7 +40,7 @@ import java.util.List;
 public class ClassifyBjFragment extends BaseFragment implements RecyclerViewItemClickListener, OnRefreshListener, OnLoadMoreListener {
     private IRecyclerView recyclerView;
     private View view;
-    private VideoAdapter adapter;
+    private ClassifyBjAdapter adapter;
     private LoadMoreFooterView loadMoreFooterView;
     /**
      * 加载轮播图
@@ -78,9 +79,9 @@ public class ClassifyBjFragment extends BaseFragment implements RecyclerViewItem
 
     @Override
     public void initData() {
-        adapter = new VideoAdapter(mActivity);
+        adapter = new ClassifyBjAdapter(mActivity);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(mActivity, 1));
+        recyclerView.setLayoutManager(new GridLayoutManager(mActivity, 2));
         loadMoreFooterView = (LoadMoreFooterView) recyclerView.getLoadMoreFooterView();
         recyclerView.setIAdapter(adapter);
         recyclerView.post(new Runnable() {

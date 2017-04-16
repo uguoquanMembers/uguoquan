@@ -172,6 +172,7 @@ public class ClassifySkFragment extends BaseFragment implements RecyclerViewItem
                     public void run() {
                         if (responseBean != null) {
                             banners = new ArrayList<>();
+                            banners.clear();
                             List<VideoBannerBean> bannerList = responseBean.getData().getCarouselList();
                             if (bannerList != null && !bannerList.isEmpty()) {
                                 for (int i = 0; i < bannerList.size(); i++) {
@@ -181,6 +182,7 @@ public class ClassifySkFragment extends BaseFragment implements RecyclerViewItem
 //                                    bannerBean.setBannerType(mHomeVideoBean.getData().getCarouselList().get(i).getUrl());
                                     banners.add(bannerBean);
                                 }
+                                ll_single.removeAllViews();
                                 initBanner();
                             }
                             List<VideoFMBean.DataBean.VideoListBean> videoList = responseBean.getData().getVideoList();
