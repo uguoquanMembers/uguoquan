@@ -1,5 +1,9 @@
 package com.wb.ygq.ui.fm;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,11 +31,14 @@ import com.wb.ygq.ui.act.PicInfoActivity;
 import com.wb.ygq.ui.act.SZActivity;
 import com.wb.ygq.ui.act.VideoActivity;
 import com.wb.ygq.ui.act.VideoPlayActivity;
+import com.wb.ygq.ui.application.MyApplication;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.utils.AppUtils;
 import com.wb.ygq.utils.HttpUrl;
+import com.wb.ygq.utils.MyUtil;
 import com.wb.ygq.utils.SharedUtil;
+import com.wb.ygq.utils.ToastUtil;
 import com.wb.ygq.utils.VipDialog;
 import com.wb.ygq.widget.CycleGalleryViewPager;
 import com.wb.ygq.widget.autoscrollviewpager.AutoScrollViewPager;
@@ -83,6 +90,29 @@ public class HomeFragment extends BaseFragment {
         initData();
         setListener();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mActivity.registerReceiver(Receiver, new IntentFilter(PubConst.BROADCAST_REFAUSH + "111"));
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mActivity.unregisterReceiver(Receiver);
+    }
+
+    public BroadcastReceiver Receiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ToastUtil.showToast("刷新页面+接受的广播");
+            //重新请求接口
+            initData();
+        }
+    };
 
     @Override
     public void initTitle() {
@@ -180,47 +210,49 @@ public class HomeFragment extends BaseFragment {
     public void initData() {
 
         OkHttpUtils.get().url(HttpUrl.API.SHOUYE).build().execute(new Callback() {
+            @Override
+            public Object parseNetworkResponse(final Response response) throws IOException {
+                String data = null;
+                data = response.body().string();
+
+                final String finalData = data;
+                mActivity.runOnUiThread(new Runnable() {
                     @Override
-                    public Object parseNetworkResponse(final Response response) throws IOException {
-                        String data = null;
-                        data = response.body().string();
+                    public void run() {
+                        mHomeVideoBean = new Gson().fromJson(finalData, HomeVideoBean.class);
+                        banners = new ArrayList<>();
 
-                        final String finalData = data;
-                        mActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mHomeVideoBean = new Gson().fromJson(finalData, HomeVideoBean.class);
-                                banners = new ArrayList<>();
-                                for (int i = 0; i < mHomeVideoBean.getData().getCarouselList().size(); i++) {
-                                    IBannerBean bannerBean = new IBannerBean();
-                                    bannerBean.setBannerImg(mHomeVideoBean.getData().getCarouselList().get(i).getImg());
-                                    bannerBean.setBannerLinkId(mHomeVideoBean.getData().getCarouselList().get(i).getGo());
-                                    bannerBean.setBannerType(mHomeVideoBean.getData().getCarouselList().get(i).getUrl());
-                                    banners.add(bannerBean);
-                                }
-                                initBanner();
-                                //下面vp
-                                vpList.clear();
-                                List<HomeVideoBean.DataBean.IndexImgListBean> indexImgList = mHomeVideoBean.getData().getIndexImgList();
-                                if (indexImgList != null && !indexImgList.isEmpty()) {
-                                    vpList.addAll(indexImgList);
-                                    initDownVpData();
-                                }
-                            }
-                        });
-
-                        return null;
-                    }
-
-                    @Override
-                    public void onError(Request request, Exception e) {
-                    }
-
-                    @Override
-                    public void onResponse(Object response) {
-
+                        for (int i = 0; i < mHomeVideoBean.getData().getCarouselList().size(); i++) {
+                            IBannerBean bannerBean = new IBannerBean();
+                            bannerBean.setBannerImg(mHomeVideoBean.getData().getCarouselList().get(i).getImg());
+                            bannerBean.setBannerLinkId(mHomeVideoBean.getData().getCarouselList().get(i).getGo());
+                            bannerBean.setBannerType(mHomeVideoBean.getData().getCarouselList().get(i).getUrl());
+                            banners.add(bannerBean);
+                        }
+                        ll_home_addbanner.removeAllViews();
+                        initBanner();
+                        //下面vp
+                        vpList.clear();
+                        List<HomeVideoBean.DataBean.IndexImgListBean> indexImgList = mHomeVideoBean.getData().getIndexImgList();
+                        if (indexImgList != null && !indexImgList.isEmpty()) {
+                            vpList.addAll(indexImgList);
+                            initDownVpData();
+                        }
                     }
                 });
+
+                return null;
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
     }
 
     @Override

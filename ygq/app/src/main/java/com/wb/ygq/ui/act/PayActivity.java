@@ -1,5 +1,6 @@
 package com.wb.ygq.ui.act;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.wb.ygq.R;
+import com.wb.ygq.ui.application.MyApplication;
 import com.wb.ygq.ui.base.BaseActivity;
 import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.utils.SharedUtil;
@@ -114,16 +116,24 @@ public class PayActivity extends BaseActivity {
     private void gotoPay() {
         if (pay_way == 1) {
             ToastUtil.showToast("支付宝支付===");
-
+            sendGuangBo();
         } else if (pay_way == 2) {
             ToastUtil.showToast("微信支付===");
+            sendGuangBo();
         }
         if (!TextUtils.isEmpty(type)) {
-            if (Integer.parseInt(type)<0) {
+            if (Integer.parseInt(type) < 0) {
                 SharedUtil.setString("vip", type);
-            }else {
-                SharedUtil.setBoolean("friendId",true);
+            } else {
+                SharedUtil.setBoolean("friendId", true);
             }
         }
+    }
+
+    /**
+     * 发送广播  homefm接受广播  111为key值 用于却分那个页面接受广波
+     */
+    private void sendGuangBo() {
+        sendBroadcast(new Intent(PubConst.BROADCAST_REFAUSH + "111"));
     }
 }

@@ -30,15 +30,19 @@ public class PubConst {
      * -4：钻石会员
      * -5：打赏
      */
-    public static final String GENERAL="0";
-    public static final String ONEMONTH="-1";
-    public static final String TWOMONTH="-2";
-    public static final String BAIJIN="-3";
-    public static final String ZUANSHI="-4";
-    public static final String DASHANG="-5";
+    public static final String GENERAL = "0";
+    public static final String ONEMONTH = "-1";
+    public static final String TWOMONTH = "-2";
+    public static final String BAIJIN = "-3";
+    public static final String ZUANSHI = "-4";
+    public static final String DASHANG = "-5";
 
     /**
      * 工程包名：SD卡保存路径时使用
      */
     public static final String PACKAGE_NAME = "com.ugq";
+    /**
+     * 广播传值
+     */
+    public static final String BROADCAST_REFAUSH = "broad_refaush";
 }

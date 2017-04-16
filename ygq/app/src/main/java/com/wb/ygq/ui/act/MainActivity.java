@@ -27,6 +27,7 @@ import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.LoginData;
 import com.wb.ygq.bean.LoginResponseBean;
+import com.wb.ygq.callback.OnClickCallBackListener;
 import com.wb.ygq.ui.application.MyApplication;
 import com.wb.ygq.ui.base.BaseActivity;
 import com.wb.ygq.ui.base.BaseFragment;
@@ -52,7 +53,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
+public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, OnClickCallBackListener {
 
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
 
@@ -164,10 +165,10 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         initTitle();
         initView();
         initData();
-        int sex = SharedUtil.getInt(PubConst.KEY_SEX, 0);
-        if (sex == 0) //没存 弹出男女
+        String sex = SharedUtil.getString(PubConst.KEY_SEX, "0");
+        if (TextUtils.equals(sex , "0")) //没存 弹出男女
         {
-            DialogUtil.showSex(this, "", "确定");
+            DialogUtil.showSex(this, "", "确定", this);
         }
         setListener();
     }
@@ -233,7 +234,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     @Override
     public void initData() {
-        requestLoginData(0);
+
         instance = this;
         if (homeFragment == null) homeFragment = new HomeFragment();// 主页
         if (szFragment == null) szFragment = new SzFragment();
@@ -286,7 +287,14 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
      * 请求登录接口http://youguo.fzjydqg.com/index.php/Api/User/login/version/2/devicenumber/36521/channel_name/Y001/sex/1
      */
     private void requestLoginData(final int key) {
-        OkHttpUtils.get().url(HttpUrl.API.LOGIN).addParams("version", AppUtils.getVersionCode(this) + "").addParams("devicenumber", AppUtils.getDevice()).addParams("channel_name", AppUtils.getChannelID()).build().execute(new Callback() {
+        String sex = SharedUtil.getString(PubConst.KEY_SEX, "");
+//        1男性 0 女性 可选参数
+        String input_sex = "1";
+        if (TextUtils.equals("2", sex)) {
+            input_sex = "0";
+        }
+        MyUtil.showLog("======="+input_sex);
+        OkHttpUtils.get().url(HttpUrl.API.LOGIN).addParams("version", AppUtils.getVersionCode(this) + "").addParams("devicenumber", AppUtils.getDevice()).addParams("channel_name", AppUtils.getChannelID()).addParams("sex", input_sex).build().execute(new Callback() {
             @Override
             public Object parseNetworkResponse(Response response) throws IOException {
                 final LoginResponseBean responseBean = new Gson().fromJson(response.body().string(), LoginResponseBean.class);
@@ -548,24 +556,19 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
 
-//    public void getBundleData() {
+    //    public void getBundleData() {
 //        Bundle bundle = getIntent().getBundleExtra(PubConst.DATA);
 //        if (bundle != null) {
 //            key = bundle.getInt("key");
 //        }
 //    }
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if ((keyCode == KeyEvent.KEYCODE_BACK))
-        {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             long secondTime = System.currentTimeMillis();
-            if (secondTime - firstExitTime <= 2000)
-            {
+            if (secondTime - firstExitTime <= 2000) {
                 sendBroadcast(new Intent(MyApplication.getInstance().getPackageName() + "exit"));
-            }
-            else
-            {
+            } else {
                 Toast toast = Toast.makeText(this, getString(R.string.basic_exit_app), Toast.LENGTH_SHORT);
                 toast.show();
 
@@ -574,5 +577,10 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onClickCallBack(Bundle data) {
+        requestLoginData(0);
     }
 }
