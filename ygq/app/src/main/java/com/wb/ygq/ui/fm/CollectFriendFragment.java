@@ -16,6 +16,7 @@ import com.wb.ygq.R;
 import com.wb.ygq.bean.CommResponseBean;
 import com.wb.ygq.bean.FriendListBean;
 import com.wb.ygq.bean.SpFriendListResponseBean;
+import com.wb.ygq.callback.OnCommentListener;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
 import com.wb.ygq.callback.RecyclerViewItemLongClickListener;
 import com.wb.ygq.ui.adapter.SpPhotoAdapter;
@@ -38,7 +39,7 @@ import java.util.List;
  * Description：
  * Created on 2017/4/11
  */
-public class CollectFriendFragment extends BaseFragment implements RecyclerViewItemClickListener, RecyclerViewItemLongClickListener {
+public class CollectFriendFragment extends BaseFragment implements RecyclerViewItemClickListener, RecyclerViewItemLongClickListener, OnCommentListener {
     private View view;
     private RecyclerView recycleview;
     private SpPhotoAdapter adapter;
@@ -73,7 +74,7 @@ public class CollectFriendFragment extends BaseFragment implements RecyclerViewI
     @Override
     public void initView() {
         recycleview = (RecyclerView) view.findViewById(R.id.recycleview);
-        adapter = new SpPhotoAdapter(mActivity,mActivity);
+        adapter = new SpPhotoAdapter(mActivity,mActivity,this);
         recycleview.setHasFixedSize(true);
         recycleview.setLayoutManager(new GridLayoutManager(mActivity, 1));
         adapter.updateItems(dataList);
@@ -188,5 +189,10 @@ public class CollectFriendFragment extends BaseFragment implements RecyclerViewI
 
             }
         });
+    }
+
+    @Override
+    public void getComment(int position) {
+
     }
 }

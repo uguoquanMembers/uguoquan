@@ -1,5 +1,6 @@
 package com.wb.ygq.ui.adapter;
 
+import android.app.Activity;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
@@ -14,7 +15,6 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.wb.ygq.R;
-import com.wb.ygq.ui.act.PicInfoActivity;
 
 import java.util.List;
 
@@ -22,11 +22,11 @@ import java.util.List;
  * Created by Administrator on 2017/4/4.
  */
 public class ImagePagerAdapter extends PagerAdapter {
-    private PicInfoActivity mActivity;
+    private Activity mActivity;
     private List<String> pictureList;
     private boolean flag;
 
-    public ImagePagerAdapter(PicInfoActivity mActivity, List<String> pictureList) {
+    public ImagePagerAdapter(Activity mActivity, List<String> pictureList) {
         this.mActivity = mActivity;
         this.pictureList = pictureList;
     }

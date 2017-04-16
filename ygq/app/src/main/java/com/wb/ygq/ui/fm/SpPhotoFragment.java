@@ -1,11 +1,17 @@
 package com.wb.ygq.ui.fm;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
@@ -13,6 +19,7 @@ import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.FriendListBean;
 import com.wb.ygq.bean.SpFriendListResponseBean;
+import com.wb.ygq.callback.OnCommentListener;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
 import com.wb.ygq.ui.adapter.SpPhotoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
@@ -34,7 +41,7 @@ import java.util.List;
  * Description：
  * Created on 2017/4/3
  */
-public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemClickListener, OnRefreshListener, OnLoadMoreListener {
+public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemClickListener, OnRefreshListener, OnLoadMoreListener, OnCommentListener {
 
     public static SpPhotoFragment newInstance() {
 
@@ -63,6 +70,13 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
      */
     private SpFriendListResponseBean responseBean;
     private LoadMoreFooterView loadMoreFooterView;
+
+    //输入框
+    private RelativeLayout rl_input;
+    private EditText et_input;
+    private TextView tv_button_send;
+
+    private int commentPosition;
 
     @Nullable
     @Override
@@ -128,11 +142,14 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
     @Override
     public void initView() {
         recycleview = (IRecyclerView) view.findViewById(R.id.recycle_video);
+        tv_button_send = (TextView) view.findViewById(R.id.tv_button_send);
+        rl_input = (RelativeLayout) view.findViewById(R.id.rl_input);
+        et_input = (EditText) view.findViewById(R.id.et_input);
     }
 
     @Override
     public void initData() {
-        adapter = new SpPhotoAdapter(mActivity, mActivity);
+        adapter = new SpPhotoAdapter(mActivity, mActivity, this);
         recycleview.setHasFixedSize(true);
         recycleview.setLayoutManager(new GridLayoutManager(mActivity, 1));
         adapter.setItemClickListener(this);
@@ -151,6 +168,45 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
         adapter.setItemClickListener(this);
         recycleview.setOnRefreshListener(this);
         recycleview.setOnLoadMoreListener(this);
+        recycleview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (rl_input.getVisibility()==View.VISIBLE){
+                    rl_input.setVisibility(View.GONE);
+                    et_input.setText("");
+                    colseKeyBoard();
+                }
+                return false;
+            }
+        });
+        tv_button_send.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        super.onClick(view);
+        switch (view.getId()) {
+            case R.id.tv_button_send:
+                dataList.get(commentPosition).setComment(Integer.parseInt(dataList.get(commentPosition).getComment()) + 1 + "");
+                adapter.notifyDataSetChanged();
+                rl_input.setVisibility(View.GONE);
+                et_input.setText("");
+                colseKeyBoard();
+                break;
+
+        }
+    }
+
+    /**
+     * 输入评论
+     */
+    public void inPutComment() {
+        rl_input.setVisibility(View.VISIBLE);
+        et_input.setFocusable(true);
+        et_input.requestFocus();
+        et_input.setText("");
+        InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     /**
@@ -181,4 +237,22 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
             MyUtil.showLog("上拉加载" + pageNum);
         }
     }
+
+    /**
+     * 关闭软键盘
+     */
+    private void colseKeyBoard() {
+        View view = mActivity.getWindow().peekDecorView();
+        if (view != null) {
+            InputMethodManager inputmanger = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    @Override
+    public void getComment(int position) {
+        this.commentPosition = position;
+        inPutComment();
+    }
+
 }
