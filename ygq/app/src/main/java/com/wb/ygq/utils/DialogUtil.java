@@ -206,7 +206,7 @@ public class DialogUtil {
             public void onClick(View view) {
                 String et_text = et_money.getText().toString().trim();
                 Bundle bundle = new Bundle();
-                bundle.putString("MONEY",TextUtils.isEmpty(et_text)?key_choose[0]:et_text);
+                bundle.putString("MONEY", TextUtils.isEmpty(et_text) ? key_choose[0] : et_text);
                 onClickCallBackListener.onClickCallBack(bundle);
                 dialog.dismiss();
             }
@@ -242,4 +242,34 @@ public class DialogUtil {
         }
     }
 
+    /**
+     * 打赏
+     *
+     * @param context
+     * @param text
+     */
+    public static void showSingleText(final Activity context, String text, final OnClickCallBackListener onClickCallBackListener) {
+        final Dialog dialog = new Dialog(context, R.style.NoTitleDialog);
+        setAlpha(context, 50);
+        final View view = LayoutInflater.from(context).inflate(R.layout.dia_ds, null);
+        TextView tv_dia_money = (TextView) view.findViewById(R.id.tv_dia_money);
+        TextView tv_btn_ok = (TextView) view.findViewById(R.id.tv_btn_ok);
+        tv_dia_money.setText(text + "RMB");
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                setAlpha(context, 1);
+            }
+        });
+        tv_btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickCallBackListener.onClickCallBack(null);
+                dialog.dismiss();
+            }
+        });
+        showDialog(dialog, view, Gravity.CENTER, true);
+
+
+    }
 }

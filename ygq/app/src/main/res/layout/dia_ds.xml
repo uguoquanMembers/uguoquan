@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/ll_dia"
+        android:layout_width="240dp"
+        android:layout_height="180dp"
+        android:background="@drawable/white_background"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/tv_dia_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="100RMB"
+            android:textSize="17sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_above="@+id/tv_btn_ok"
+            android:layout_marginBottom="20dp"
+            android:background="@color/color_ededed" />
+
+        <TextView
+            android:id="@+id/tv_btn_ok"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bg_comment_border"
+            android:gravity="center"
+            android:text="打赏"
+            android:textColor="@color/color_press" />
+    </RelativeLayout>
+
+</LinearLayout>

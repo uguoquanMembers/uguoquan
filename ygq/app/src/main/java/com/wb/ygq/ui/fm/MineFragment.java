@@ -23,7 +23,7 @@ import com.wb.ygq.utils.ToastUtil;
  * Description：
  * Created on 2017/4/2
  */
-public class MineFragment extends BaseFragment implements OnClickCallBackListener {
+public class MineFragment extends BaseFragment  {
 
     private View view;
     /**
@@ -111,15 +111,17 @@ public class MineFragment extends BaseFragment implements OnClickCallBackListene
                 break;
             case R.id.ima_recharge://图片点击
 //                DialogUtil.showPlaytour(mActivity, "id", "我的傻逼崔", this);
+//                DialogUtil.showSingleText(mActivity,"50",this);
                 break;
             default:
                 break;
         }
     }
 
-    @Override
-    public void onClickCallBack(Bundle data) {
-        String money = data.getString("MONEY");
-        ToastUtil.showToast("金额：" + money);
-    }
+//    @Override
+//    public void onClickCallBack(Bundle data) {
+////        String money = data.getString("MONEY");
+//        ToastUtil.showToast("金额：" + 666666666);
+//
+//    }
 }
