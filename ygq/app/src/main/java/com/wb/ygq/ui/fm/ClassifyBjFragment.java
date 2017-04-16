@@ -16,12 +16,13 @@ import com.wb.ygq.bean.VideoFMBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
 import com.wb.ygq.ui.act.VideoPlayActivity;
 import com.wb.ygq.ui.adapter.ClassifyBjAdapter;
-import com.wb.ygq.ui.adapter.VideoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
+import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.MyUtil;
 import com.wb.ygq.utils.SharedUtil;
 import com.wb.ygq.utils.ToastUtil;
+import com.wb.ygq.utils.VipDialog;
 import com.wb.ygq.widget.irecycleerview.IRecyclerView;
 import com.wb.ygq.widget.irecycleerview.LoadMoreFooterView;
 import com.wb.ygq.widget.irecycleerview.OnLoadMoreListener;
@@ -101,8 +102,13 @@ public class ClassifyBjFragment extends BaseFragment implements RecyclerViewItem
 
     @Override
     public void onItemClick(View view, Object o, int position, int eventType) {
-        SharedUtil.setString("VideoId", dataList.get(position).getId());
-        skip(VideoPlayActivity.class, false);
+        if (PubConst.BAIJIN.equals(SharedUtil.getString("vip",""))
+                ||PubConst.ZUANSHI.equals(SharedUtil.getString("vip",""))) {
+            SharedUtil.setString("VideoId", dataList.get(position).getId());
+            skip(VideoPlayActivity.class, false);
+        }else {
+            VipDialog.showVipDialog(mActivity, false);
+        }
     }
 
     @Override

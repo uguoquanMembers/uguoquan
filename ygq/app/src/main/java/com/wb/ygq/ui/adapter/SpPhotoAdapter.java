@@ -21,6 +21,7 @@ import com.wb.ygq.ui.act.PersonalActivity;
 import com.wb.ygq.ui.base.BaseRecyclerAdapter;
 import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.utils.DialogUtil;
+import com.wb.ygq.utils.SharedUtil;
 import com.wb.ygq.widget.CropCircleTransformation;
 import com.wb.ygq.widget.MyGridView;
 
@@ -58,15 +59,15 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
             ((SpPhotoViewHolder) holder).tv_praise_count.setText(friendListBean.getFabulous());
             ((SpPhotoViewHolder) holder).tv_reward.setText("打赏总金额" + friendListBean.getReward() + "RMB");
             Glide.with(mContext).load(friendListBean.getHeadpic()).bitmapTransform(new CropCircleTransformation(mContext)).crossFade().into(((SpPhotoViewHolder) holder).ima_itemspphoto_head);
-//            ((SpPhotoViewHolder) holder).ll_container.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    itemClickListener.onItemClick(((SpPhotoViewHolder) holder).ll_container, friendListBean, position, 0);
-//                }
-//            });
+
             List<String> imgList = friendListBean.getImg();
             ////////////////////处理嵌套的gridview
-            GridAdapter adapter = new GridAdapter(mContext, friendListBean.getEmpty());
+            GridAdapter adapter;
+            if (SharedUtil.getBoolean("friendId", false)) {
+                adapter = new GridAdapter(mContext, "2");
+            } else {
+                adapter = new GridAdapter(mContext, friendListBean.getEmpty());
+            }
 
 //            ((SpPhotoViewHolder) holder).grid_sp.setClickable(true);
 //            ((SpPhotoViewHolder) holder).grid_sp.setPressed(false);
@@ -137,15 +138,15 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
                 @Override
                 public void onClick(View v) {
                     if (isPrise[0]) {
-                        Toast.makeText(mContext,"取消点赞",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "取消点赞", Toast.LENGTH_SHORT).show();
                         ((SpPhotoViewHolder) holder).iv_praise.setImageResource(R.drawable.img_praise);
                         isPrise[0] = false;
                         ((SpPhotoViewHolder) holder).tv_praise_count.setText(friendListBean.getFabulous());
                     } else {
-                        Toast.makeText(mContext,"点赞成功",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "点赞成功", Toast.LENGTH_SHORT).show();
                         ((SpPhotoViewHolder) holder).iv_praise.setImageResource(R.drawable.img_praise_click);
                         isPrise[0] = true;
-                        ((SpPhotoViewHolder) holder).tv_praise_count.setText((Integer.parseInt(friendListBean.getFabulous())+1)+"");
+                        ((SpPhotoViewHolder) holder).tv_praise_count.setText((Integer.parseInt(friendListBean.getFabulous()) + 1) + "");
                     }
                 }
             });

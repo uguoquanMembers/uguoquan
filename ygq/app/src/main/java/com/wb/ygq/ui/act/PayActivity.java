@@ -119,7 +119,11 @@ public class PayActivity extends BaseActivity {
             ToastUtil.showToast("微信支付===");
         }
         if (!TextUtils.isEmpty(type)) {
-            SharedUtil.setString("vip", type);
+            if (Integer.parseInt(type)<0) {
+                SharedUtil.setString("vip", type);
+            }else {
+                SharedUtil.setBoolean("friendId",true);
+            }
         }
     }
 }
