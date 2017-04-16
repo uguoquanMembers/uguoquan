@@ -22,11 +22,10 @@ import com.wb.ygq.widget.EmptyViewHolder;
  */
 public class VideoAdapter extends BaseRecyclerAdapter<VideoFMBean.DataBean.VideoListBean> {
 
-    private View headView;
-
     public VideoAdapter(Context context) {
         super(context);
     }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new VideoHolder(LayoutInflater.from(mContext).inflate(R.layout.item_sp_video, null));

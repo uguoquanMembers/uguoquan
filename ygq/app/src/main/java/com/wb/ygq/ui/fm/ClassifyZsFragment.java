@@ -15,6 +15,7 @@ import com.wb.ygq.bean.ClassifyVideoResponseBean;
 import com.wb.ygq.bean.VideoFMBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
 import com.wb.ygq.ui.act.VideoPlayActivity;
+import com.wb.ygq.ui.adapter.ClassifyZSAdapter;
 import com.wb.ygq.ui.adapter.VideoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.utils.HttpUrl;
@@ -33,13 +34,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Description：//试看
+ * Description：//钻石
  * Created on 2017/4/13
  */
 public class ClassifyZsFragment extends BaseFragment implements RecyclerViewItemClickListener, OnRefreshListener, OnLoadMoreListener {
     private IRecyclerView recyclerView;
     private View view;
-    private VideoAdapter adapter;
+    private ClassifyZSAdapter adapter;
     private LoadMoreFooterView loadMoreFooterView;
     private int pageNum = 1;
     /**
@@ -75,9 +76,9 @@ public class ClassifyZsFragment extends BaseFragment implements RecyclerViewItem
 
     @Override
     public void initData() {
-        adapter = new VideoAdapter(mActivity);
+        adapter = new ClassifyZSAdapter(mActivity);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(mActivity, 1));
+        recyclerView.setLayoutManager(new GridLayoutManager(mActivity, 3));
         loadMoreFooterView = (LoadMoreFooterView) recyclerView.getLoadMoreFooterView();
         recyclerView.setIAdapter(adapter);
         recyclerView.post(new Runnable() {
