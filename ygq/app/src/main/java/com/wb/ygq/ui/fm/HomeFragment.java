@@ -31,14 +31,11 @@ import com.wb.ygq.ui.act.PicInfoActivity;
 import com.wb.ygq.ui.act.SZActivity;
 import com.wb.ygq.ui.act.VideoActivity;
 import com.wb.ygq.ui.act.VideoPlayActivity;
-import com.wb.ygq.ui.application.MyApplication;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.utils.AppUtils;
 import com.wb.ygq.utils.HttpUrl;
-import com.wb.ygq.utils.MyUtil;
 import com.wb.ygq.utils.SharedUtil;
-import com.wb.ygq.utils.ToastUtil;
 import com.wb.ygq.utils.VipDialog;
 import com.wb.ygq.widget.CycleGalleryViewPager;
 import com.wb.ygq.widget.autoscrollviewpager.AutoScrollViewPager;
@@ -94,7 +91,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        mActivity.registerReceiver(Receiver, new IntentFilter(PubConst.BROADCAST_REFAUSH + "111"));
+        mActivity.registerReceiver(Receiver, new IntentFilter(PubConst.BROADCAST_REFAUSH + PubConst.ZUANSHI));
     }
 
 
@@ -108,7 +105,6 @@ public class HomeFragment extends BaseFragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            ToastUtil.showToast("刷新页面+接受的广播");
             //重新请求接口
             initData();
         }

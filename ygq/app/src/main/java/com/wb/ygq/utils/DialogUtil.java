@@ -267,7 +267,7 @@ public class DialogUtil {
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putString("money",text );
-                bundle.putString("style", PubConst.DASHANG);
+                bundle.putString("type", PubConst.DASHANG);
                 Intent intent = new Intent(context, PayActivity.class);
                 intent.putExtra(PubConst.DATA, bundle);
                 context.startActivity(intent);

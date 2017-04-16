@@ -1,6 +1,5 @@
 package com.wb.ygq.ui.fm;
 
-import android.content.Context;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +29,7 @@ import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.MyUtil;
+import com.wb.ygq.utils.SharedUtil;
 import com.wb.ygq.utils.ToastUtil;
 import com.wb.ygq.widget.irecycleerview.IRecyclerView;
 import com.wb.ygq.widget.irecycleerview.LoadMoreFooterView;
@@ -171,7 +171,7 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
     @Override
     public void onResume() {
         super.onResume();
-        mActivity.registerReceiver(Receiver, new IntentFilter(PubConst.BROADCAST_REFAUSH + "111"));
+        mActivity.registerReceiver(Receiver, new IntentFilter(PubConst.BROADCAST_REFAUSH + PubConst.DASHANG));
     }
 
 
@@ -185,12 +185,12 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            ToastUtil.showToast("sp刷新页面+接受的广播");
             pageNum = 1;
-            requestDataList();
+            adapter.getIsEmpty(SharedUtil.getString("vip", ""));
             //重新请求接口
         }
     };
+
     @Override
     public void setListener() {
         adapter.setItemClickListener(this);
@@ -199,7 +199,7 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
         recycleview.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (rl_input.getVisibility()==View.VISIBLE){
+                if (rl_input.getVisibility() == View.VISIBLE) {
                     rl_input.setVisibility(View.GONE);
                     et_input.setText("");
                     colseKeyBoard();
@@ -247,7 +247,7 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
      */
     @Override
     public void onItemClick(View view, Object o, int position, int eventType) {
-        MyUtil.showLog("点击的iem==" + position);
+
     }
 
     @Override
