@@ -141,6 +141,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_collect"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginLeft="15dp">

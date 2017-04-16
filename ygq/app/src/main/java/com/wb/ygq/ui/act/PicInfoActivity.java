@@ -22,6 +22,8 @@ import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
+import com.wb.ygq.bean.AddCollenResponseBeant;
+import com.wb.ygq.bean.CommResponseBean;
 import com.wb.ygq.bean.ImgListBean;
 import com.wb.ygq.ui.adapter.ImagePagerAdapter;
 import com.wb.ygq.ui.base.BaseActivity;
@@ -101,6 +103,7 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
             }
         }
     };
+    private RelativeLayout rl_collect;
 
     @Override
     public void initTitle() {
@@ -126,7 +129,7 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
                     moveX = event.getX();
                     if ("".equals(vipRange) && (currentPage + 1) == freeMax) {
                         if (x - moveX > 100) {
-                            VipDialog.showVipDialog(PicInfoActivity.this,true);
+                            VipDialog.showVipDialog(PicInfoActivity.this, true);
                         }
                     }
                     if (x - moveX < 20 && x - moveX >= 0) {
@@ -145,6 +148,9 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
         });
 //        tv_title = (TextView) findViewById(R.id.tv_title);
         rl_top_layout = (RelativeLayout) findViewById(R.id.rl_top_layout);
+        rl_collect = (RelativeLayout) findViewById(R.id.rl_collect);
+
+
         ll_bottom_layout = (LinearLayout) findViewById(R.id.ll_bottom_layout);
         tv_comment_count = (TextView) findViewById(R.id.tv_comment_count);
         tv_collect_count = (TextView) findViewById(R.id.tv_collect_count);
@@ -253,6 +259,8 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
     public void setListener() {
         tv_comment.setOnClickListener(this);
         tv_button_send.setOnClickListener(this);
+        rl_collect.setOnClickListener(this);
+        tv_praise_count.setOnClickListener(this);
 
     }
 
@@ -299,6 +307,14 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
             case R.id.tv_comment:
                 inPutComment();
                 break;
+            case R.id.tv_praise_count:
+                tv_praise_count.setText(Integer.valueOf(tv_praise_count.getText().toString().trim()) + 1 + "");
+                tv_praise_count.setEnabled(false);
+                tv_praise_count.setFocusable(false);
+                break;
+            case R.id.rl_collect://添加收藏
+                requestAddCollect();
+                break;
             case R.id.tv_button_send://发送按钮
                 String etString = et_input.getText().toString().trim();
                 if (TextUtils.isEmpty(etString)) {
@@ -310,6 +326,42 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
                 break;
 
         }
+    }
+
+    /**
+     * 添加收藏接口
+     */
+    private void requestAddCollect() {
+        String uid = SharedUtil.getString(PubConst.KEY_UID, "0");
+        OkHttpUtils.get().url(HttpUrl.API.ADD_COLLECT).addParams("uid", uid).addParams("vid", id).addParams("type", "1").build().execute(new Callback() {
+            @Override
+            public Object parseNetworkResponse(Response response) throws IOException {
+                final AddCollenResponseBeant bean = new Gson().fromJson(response.body().string(), AddCollenResponseBeant.class);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String msg = bean.getMsg();
+                        if (TextUtils.equals(msg, "200")) {
+                            ToastUtil.showToast("收藏成功");
+                            tv_collect_count.setText(Integer.valueOf(tv_collect_count.getText().toString().trim())+1+"");
+                        } else if (TextUtils.equals(msg, "0")) {
+                            ToastUtil.showToast(bean.getMessage());
+                        }
+                    }
+                });
+                return null;
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
     }
 
     /**
@@ -346,8 +398,7 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
         } else {
             allData.add(cb);
         }
-        String s = tv_comment_count.getText().toString().toString();
-        tv_comment_count.setText((Integer.valueOf(s) + 1) + "");
+        tv_comment_count.setText((Integer.valueOf(tv_comment_count.getText().toString().toString()) + 1) + "");
         rl_input.setVisibility(View.GONE);
         et_input.setText("");
         colseKeyBoard();

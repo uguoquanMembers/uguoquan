@@ -68,6 +68,10 @@ public class HttpUrl {
          */
         public static final String ALREADY_BUY = "http://youguo.fzjydqg.com/index.php/Api/Order/buy";
         /**
+         * 添加收藏
+         */
+        public static final String ADD_COLLECT = "http://youguo.fzjydqg.com/index.php/Api/Order/collection";
+        /**
          * 头像
          */
         public static final String HEAD = "http://shtml.asia-cloud.com/ZZSY/list_test1.png";
