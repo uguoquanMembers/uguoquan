@@ -23,14 +23,13 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.ImgListBean;
-import com.wb.ygq.bean.VideoContentBean;
 import com.wb.ygq.ui.adapter.ImagePagerAdapter;
 import com.wb.ygq.ui.base.BaseActivity;
 import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.utils.HttpUrl;
-import com.wb.ygq.utils.MyUtil;
 import com.wb.ygq.utils.SharedUtil;
 import com.wb.ygq.utils.ToastUtil;
+import com.wb.ygq.utils.VipDialog;
 import com.wb.ygq.widget.HorizontalProgressBar;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
@@ -55,7 +54,7 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
     private ImgListBean mImgListBean;
     private float x;
     private float moveX;
-    private int vipRange;
+    private String vipRange;
     private boolean flag;
 
     //弹幕相关
@@ -110,7 +109,7 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
 
     @Override
     public void initView() {
-        vipRange = SharedUtil.getInt("vip", 0);
+        vipRange = SharedUtil.getString("vip", "");
 
         vp_picinfo = (ViewPager) findViewById(R.id.vp_picinfo);
         vp_picinfo.setOnTouchListener(new View.OnTouchListener() {
@@ -125,9 +124,9 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     moveX = event.getX();
-                    if (vipRange == 0 && (currentPage + 1) == freeMax) {
+                    if ("".equals(vipRange) && (currentPage + 1) == freeMax) {
                         if (x - moveX > 100) {
-                            ToastUtil.showToast("请充值");
+                            VipDialog.showVipDialog(PicInfoActivity.this,true);
                         }
                     }
                     if (x - moveX < 20 && x - moveX >= 0) {
@@ -203,7 +202,7 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
                                 freeMax = freePicPath.size();
                                 pb_bar1.setText("1", picPathes.size() < 10 ? "0" + picPathes.size() : picPathes.size() + "");
                                 pb_bar2.setText("1", freePicPath.size() < 10 ? "0" + freePicPath.size() : freePicPath.size() + "");
-                                if (vipRange == 0) {
+                                if ("".equals(vipRange)) {
                                     pb_bar2.setMax(freePicPath.size() - 1);
                                     adapter = new ImagePagerAdapter(PicInfoActivity.this, freePicPath);
                                 } else {
@@ -278,7 +277,7 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
     @Override
     public void onPageSelected(int position) {
         currentPage = position;
-        if (vipRange == 0) {
+        if ("".equals(vipRange)) {
             pb_bar2.setProgress(position);
 //            pb_bar1.setProgress(position + 1);
         } else {

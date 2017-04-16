@@ -131,7 +131,7 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     public void onClick(View v) {
                         if ("1".equals(vpList.get(position).getEmpty())){
-                            VipDialog.showVipDialog(mActivity);
+                            VipDialog.showVipDialog(mActivity,false);
                         }else {
                             if ("99".equals(vpList.get(position).getUrl())) {
                                 skip(VideoActivity.class, false);

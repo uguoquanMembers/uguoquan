@@ -132,7 +132,7 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
 
     @Override
     public void initData() {
-        adapter = new SpPhotoAdapter(mActivity);
+        adapter = new SpPhotoAdapter(mActivity, mActivity);
         recycleview.setHasFixedSize(true);
         recycleview.setLayoutManager(new GridLayoutManager(mActivity, 1));
         adapter.setItemClickListener(this);

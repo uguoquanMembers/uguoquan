@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.wb.ygq.R;
 import com.wb.ygq.ui.base.BaseActivity;
+import com.wb.ygq.ui.constant.PubConst;
 
 /**
  * Description：充值
@@ -95,18 +96,31 @@ public class RechargeActivity extends BaseActivity {
     @Override
     public void onClick(View v) {
         super.onClick(v);
+        Bundle bundle;
         switch (v.getId()) {
             case R.id.ima_zs:
-                skip(PayActivity.class, false);
+                bundle=new Bundle();
+                bundle.putString("type", PubConst.ZUANSHI);
+                bundle.putString("money","888");
+                skip(PayActivity.class,bundle, false);
                 break;
             case R.id.ima_bj:
-                skip(PayActivity.class, false);
+                bundle=new Bundle();
+                bundle.putString("type", PubConst.BAIJIN);
+                bundle.putString("money","568");
+                skip(PayActivity.class,bundle, false);
                 break;
             case R.id.ima_sy:
-                skip(PayActivity.class, false);
+                bundle=new Bundle();
+                bundle.putString("type", PubConst.TWOMONTH);
+                bundle.putString("money","168");
+                skip(PayActivity.class,bundle, false);
                 break;
             case R.id.ima_dy:
-                skip(PayActivity.class, false);
+                bundle=new Bundle();
+                bundle.putString("type", PubConst.ONEMONTH);
+                bundle.putString("money","99");
+                skip(PayActivity.class,bundle, false);
                 break;
             case R.id.tv_zhankai1:
                 ima_zsopen.setVisibility(ima_zsopen.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);

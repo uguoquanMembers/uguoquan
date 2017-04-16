@@ -5,27 +5,23 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.wb.ygq.R;
-import com.wb.ygq.callback.OnClickCallBackListener;
+import com.wb.ygq.ui.act.PayActivity;
 import com.wb.ygq.ui.constant.PubConst;
 
 /**
@@ -165,7 +161,7 @@ public class DialogUtil {
      * @param context
      * @param title   标题
      */
-    public static void showDaShangDia(final Activity context, final String id, String title, final OnClickCallBackListener onClickCallBackListener) {
+    public static void showDaShangDia(final Activity context, final String id, String title) {
         final Dialog dialog = new Dialog(context, R.style.NoTitleDialog);
         //默认1元
         final String[] key_choose = {"1"};
@@ -206,8 +202,11 @@ public class DialogUtil {
             public void onClick(View view) {
                 String et_text = et_money.getText().toString().trim();
                 Bundle bundle = new Bundle();
-                bundle.putString("MONEY", TextUtils.isEmpty(et_text) ? key_choose[0] : et_text);
-                onClickCallBackListener.onClickCallBack(bundle);
+                bundle.putString("money", TextUtils.isEmpty(et_text) ? key_choose[0] : et_text);
+                bundle.putString("style", id);
+                Intent intent = new Intent(context, PayActivity.class);
+                intent.putExtra(PubConst.DATA, bundle);
+                context.startActivity(intent);
                 dialog.dismiss();
             }
         });
@@ -248,7 +247,7 @@ public class DialogUtil {
      * @param context
      * @param text
      */
-    public static void showSingleText(final Activity context, String text, final OnClickCallBackListener onClickCallBackListener) {
+    public static void showSingleText(final Activity context, final String text) {
         final Dialog dialog = new Dialog(context, R.style.NoTitleDialog);
         setAlpha(context, 50);
         final View view = LayoutInflater.from(context).inflate(R.layout.dia_ds, null);
@@ -264,12 +263,15 @@ public class DialogUtil {
         tv_btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onClickCallBackListener.onClickCallBack(null);
+                Bundle bundle = new Bundle();
+                bundle.putString("money",text );
+                bundle.putString("style", PubConst.DASHANG);
+                Intent intent = new Intent(context, PayActivity.class);
+                intent.putExtra(PubConst.DATA, bundle);
+                context.startActivity(intent);
                 dialog.dismiss();
             }
         });
         showDialog(dialog, view, Gravity.CENTER, true);
-
-
     }
 }

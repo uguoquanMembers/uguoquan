@@ -2,6 +2,7 @@ package com.wb.ygq.ui.act;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -9,6 +10,8 @@ import android.widget.RelativeLayout;
 
 import com.wb.ygq.R;
 import com.wb.ygq.ui.base.BaseActivity;
+import com.wb.ygq.ui.constant.PubConst;
+import com.wb.ygq.utils.SharedUtil;
 import com.wb.ygq.utils.ToastUtil;
 
 /**
@@ -24,6 +27,14 @@ public class PayActivity extends BaseActivity {
      * 区分支付方式 1 支付宝 2微信  默认支付宝
      */
     private int pay_way = 1;
+    /**
+     * 支付的钱数
+     */
+    private String money;
+    /**
+     * 支付类型
+     */
+    private String type;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +61,10 @@ public class PayActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        Bundle bundle = getIntent().getBundleExtra(PubConst.DATA);
+        money = bundle.getString("money");
+        type = bundle.getString("type");
+
         rl_alpay = (RelativeLayout) findViewById(R.id.rl_alpay);
         rl_wxpay = (RelativeLayout) findViewById(R.id.rl_wxpay);
         ima_wxpay = (ImageView) findViewById(R.id.ima_wxpay);
@@ -77,6 +92,7 @@ public class PayActivity extends BaseActivity {
                 ima_alpay.setBackgroundResource(R.drawable.check_box_true);
                 ima_wxpay.setBackgroundResource(R.drawable.check_box_false);
                 pay_way = 1;
+
                 break;
             case R.id.rl_wxpay://微信
                 ima_alpay.setBackgroundResource(R.drawable.check_box_false);
@@ -98,8 +114,12 @@ public class PayActivity extends BaseActivity {
     private void gotoPay() {
         if (pay_way == 1) {
             ToastUtil.showToast("支付宝支付===");
+
         } else if (pay_way == 2) {
             ToastUtil.showToast("微信支付===");
+        }
+        if (!TextUtils.isEmpty(type)) {
+            SharedUtil.setString("vip", type);
         }
     }
 }
