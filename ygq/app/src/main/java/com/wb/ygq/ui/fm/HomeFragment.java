@@ -163,10 +163,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void initData() {
 
-        OkHttpUtils.get()
-                .url(HttpUrl.API.SHOUYE)
-                .build()
-                .execute(new Callback() {
+        OkHttpUtils.get().url(HttpUrl.API.SHOUYE).build().execute(new Callback() {
                     @Override
                     public Object parseNetworkResponse(final Response response) throws IOException {
                         String data = null;
