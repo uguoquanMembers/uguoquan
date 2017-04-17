@@ -229,7 +229,7 @@ public class ClassifySkFragment extends BaseFragment implements RecyclerViewItem
             layout_banner.setLayoutParams(rlp);
             isInfiniteLoop = banners.size() > 1;
 
-            viewPager.setAdapter(new ImagePagerAdapter<>(0,mActivity, banners, new ImagePagerAdapter.onBannerItemClickListenter<IBannerBean>() {
+            viewPager.setAdapter(new ImagePagerAdapter<>(0, mActivity, banners, new ImagePagerAdapter.onBannerItemClickListenter<IBannerBean>() {
                 @Override
                 public void onItemClick(IBannerBean bannerBean) {
                     doBannerClick(bannerBean);
@@ -262,16 +262,7 @@ public class ClassifySkFragment extends BaseFragment implements RecyclerViewItem
      * @param bannerBean
      */
     private void doBannerClick(IBannerBean bannerBean) {
-
-//        if ("99".equals(bannerBean.getBannerType())) {
-////            Bundle bundle = new Bundle();
-////            bundle.putString("id", bannerBean.getBannerLinkId());
-            SharedUtil.setString("VideoId", bannerBean.getBannerLinkId());
-            skip(VideoPlayActivity.class, false);
-//        } else {
-//            Bundle bundle = new Bundle();
-//            bundle.putString("id", bannerBean.getBannerLinkId());
-//            skip(PicInfoActivity.class, bundle, false);
-//        }
+        SharedUtil.setString("VideoId", bannerBean.getBannerLinkId());
+        skip(VideoPlayActivity.class, false);
     }
 }

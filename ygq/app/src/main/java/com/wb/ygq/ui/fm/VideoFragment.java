@@ -27,7 +27,6 @@ import com.wb.ygq.utils.AppUtils;
 import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.MyUtil;
 import com.wb.ygq.utils.SharedUtil;
-import com.wb.ygq.utils.ToastUtil;
 import com.wb.ygq.widget.autoscrollviewpager.AutoScrollViewPager;
 import com.wb.ygq.widget.autoscrollviewpager.CircleIndicator;
 import com.wb.ygq.widget.autoscrollviewpager.ImagePagerAdapter;
@@ -167,9 +166,8 @@ public class VideoFragment extends BaseFragment implements RecyclerViewItemClick
     @Override
     public void onItemClick(View view, Object o, int position, int eventType) {
         VideoFMBean.DataBean.VideoListBean mVideoBean = (VideoFMBean.DataBean.VideoListBean) o;
-        Bundle bundle = new Bundle();
-        bundle.putString("id", mVideoBean.getId());
-        skip(VideoPlayActivity.class, bundle, false);
+        SharedUtil.setString("VideoId", mVideoBean.getId());
+        skip(VideoPlayActivity.class, false);
     }
 
     public void getNetDatas() {

@@ -265,11 +265,11 @@ public class HomeFragment extends BaseFragment {
             layout_banner = (RelativeLayout) header.findViewById(R.id.layout_banner);
             viewPager = (AutoScrollViewPager) layout_banner.findViewById(R.id.viewPager);
             int width = AppUtils.getScreenWidth(mActivity);
-            int height = (int) (width * 8f / 16f);
+            int height = (int) (width * 7f / 16f);
             AbsListView.LayoutParams rlp = new AbsListView.LayoutParams(width, height);
             layout_banner.setLayoutParams(rlp);
             layout_banner.setPadding(45, 0, 45, 0);
-            viewPager.setPadding(0, 0, 0, 60);
+//            viewPager.setPadding(0, 0, 0, 60);
             isInfiniteLoop = banners.size() > 1;
 
             viewPager.setAdapter(new ImagePagerAdapter<>(1, mActivity, banners, new ImagePagerAdapter.onBannerItemClickListenter<IBannerBean>() {

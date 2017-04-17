@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -38,6 +37,11 @@ public class PayActivity extends BaseActivity {
      */
     private String type;
 
+    /**
+     * 当是开虚图时接收id
+     */
+    private String id;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +70,9 @@ public class PayActivity extends BaseActivity {
         Bundle bundle = getIntent().getBundleExtra(PubConst.DATA);
         money = bundle.getString("money");
         type = bundle.getString("type");
+        if (PubConst.DASHANG.equals(type)){
+            id=bundle.getString("id");
+        }
 
         rl_alpay = (RelativeLayout) findViewById(R.id.rl_alpay);
         rl_wxpay = (RelativeLayout) findViewById(R.id.rl_wxpay);
@@ -122,7 +129,10 @@ public class PayActivity extends BaseActivity {
         if (!TextUtils.isEmpty(type)) {
             if (Integer.parseInt(type) < 0) {
                 SharedUtil.setString("vip", type);
-                Log.e("AAA",type);
+                if (PubConst.DASHANG.equals(type)){
+                   SharedUtil.setBoolean(id,true);
+                }
+
             } else {
                 SharedUtil.setBoolean("friendId", true);
             }

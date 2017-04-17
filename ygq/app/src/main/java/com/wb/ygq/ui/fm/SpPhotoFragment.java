@@ -29,7 +29,6 @@ import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.MyUtil;
-import com.wb.ygq.utils.SharedUtil;
 import com.wb.ygq.utils.ToastUtil;
 import com.wb.ygq.widget.irecycleerview.IRecyclerView;
 import com.wb.ygq.widget.irecycleerview.LoadMoreFooterView;
@@ -186,7 +185,9 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
         @Override
         public void onReceive(Context context, Intent intent) {
             pageNum = 1;
-            adapter.getIsEmpty(SharedUtil.getString("vip", ""));
+            adapter = new SpPhotoAdapter(mActivity, mActivity, SpPhotoFragment.this);
+            recycleview.setIAdapter(adapter);
+            adapter.updateItems(dataList);
             //重新请求接口
         }
     };
