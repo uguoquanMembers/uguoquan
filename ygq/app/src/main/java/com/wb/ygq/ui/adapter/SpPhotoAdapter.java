@@ -41,11 +41,13 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
     private Activity mActivity;
     private ArrayList<String> urlList = new ArrayList<>();
     private OnCommentListener listener;
+    private String isEmpty;
 
-    public SpPhotoAdapter(Context context, Activity mActivity,OnCommentListener listener) {
+    public SpPhotoAdapter(Context context, Activity mActivity, OnCommentListener listener) {
         super(context);
         this.mActivity = mActivity;
-        this.listener=listener;
+        this.listener = listener;
+        this.isEmpty = SharedUtil.getString("vip", "");
     }
 
     @Override
@@ -68,8 +70,8 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
             List<String> imgList = friendListBean.getImg();
             ////////////////////处理嵌套的gridview
             GridAdapter adapter;
-            if (SharedUtil.getBoolean("friendId", false)) {
-                adapter = new GridAdapter(mContext, "2");
+            if (PubConst.DASHANG.equals(isEmpty)) {
+                adapter = new GridAdapter(mContext, "0");
             } else {
                 adapter = new GridAdapter(mContext, friendListBean.getEmpty());
             }
@@ -107,11 +109,11 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
                     if ("1".equals(friendListBean.getEmpty())) {
                         DialogUtil.showSingleText(mActivity, "9");
                     } else {
-                        Intent intent=new Intent(mActivity, BigPicActivity.class);
-                        Bundle bundle=new Bundle();
-                        bundle.putInt("position",position);
-                        bundle.putStringArrayList("picPath",urlList);
-                        intent.putExtra(PubConst.DATA,bundle);
+                        Intent intent = new Intent(mActivity, BigPicActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("position", position);
+                        bundle.putStringArrayList("picPath", urlList);
+                        intent.putExtra(PubConst.DATA, bundle);
                         mActivity.startActivity(intent);
                     }
                 }
@@ -172,9 +174,9 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
     class SpPhotoViewHolder extends RecyclerView.ViewHolder {
         private ImageView ima_itemspphoto_head, iv_praise;
         private TextView tv_itemspphoto_name, tv_itemspphoto_content,
-                tv_time, tv_praise_count, tv_reward,tv_comment_count;
+                tv_time, tv_praise_count, tv_reward, tv_comment_count;
         private MyGridView grid_sp;
-        private LinearLayout ll_container, ll_dashang, ll_praise,ll_comment;
+        private LinearLayout ll_container, ll_dashang, ll_praise, ll_comment;
 
         public SpPhotoViewHolder(View itemView) {
             super(itemView);
@@ -189,8 +191,13 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
             ll_praise = (LinearLayout) itemView.findViewById(R.id.ll_praise);
             tv_reward = (TextView) itemView.findViewById(R.id.tv_reward);
             iv_praise = (ImageView) itemView.findViewById(R.id.iv_praise);
-            ll_comment= (LinearLayout) itemView.findViewById(R.id.ll_comment);
-            tv_comment_count= (TextView) itemView.findViewById(R.id.tv_comment_count);
+            ll_comment = (LinearLayout) itemView.findViewById(R.id.ll_comment);
+            tv_comment_count = (TextView) itemView.findViewById(R.id.tv_comment_count);
         }
+    }
+
+    public void getIsEmpty(String isEmpty) {
+        this.isEmpty = isEmpty;
+        notifyDataSetChanged();
     }
 }
