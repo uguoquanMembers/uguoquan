@@ -41,13 +41,13 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
     private Activity mActivity;
     private ArrayList<String> urlList = new ArrayList<>();
     private OnCommentListener listener;
-    private String isEmpty;
+    private boolean isRealImg;
 
     public SpPhotoAdapter(Context context, Activity mActivity, OnCommentListener listener) {
         super(context);
         this.mActivity = mActivity;
         this.listener = listener;
-        this.isEmpty = SharedUtil.getString("vip", "");
+
     }
 
     @Override
@@ -70,7 +70,7 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
             List<String> imgList = friendListBean.getImg();
             ////////////////////处理嵌套的gridview
             GridAdapter adapter;
-            if (PubConst.DASHANG.equals(isEmpty)) {
+            if (SharedUtil.getBoolean(friendListBean.getId(),false)) {
                 adapter = new GridAdapter(mContext, "0");
             } else {
                 adapter = new GridAdapter(mContext, friendListBean.getEmpty());
@@ -107,7 +107,7 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if ("1".equals(friendListBean.getEmpty())) {
-                        DialogUtil.showSingleText(mActivity, "9");
+                        DialogUtil.showSingleText(mActivity, "9",friendListBean.getId());
                     } else {
                         Intent intent = new Intent(mActivity, BigPicActivity.class);
                         Bundle bundle = new Bundle();
@@ -196,8 +196,5 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
         }
     }
 
-    public void getIsEmpty(String isEmpty) {
-        this.isEmpty = isEmpty;
-        notifyDataSetChanged();
-    }
+
 }

@@ -53,6 +53,9 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
+            android:maxEms="7"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:layout_toRightOf="@id/ima_video_head"
             android:text="name"
             android:textColor="@color/color_333333" />

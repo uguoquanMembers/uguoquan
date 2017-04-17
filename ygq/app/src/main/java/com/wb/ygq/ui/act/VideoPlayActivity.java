@@ -816,7 +816,7 @@ public class VideoPlayActivity extends BaseActivity {
         cb.setMessage(etString);
         cb.setName("我");
         cb.setTime("刚刚");
-        dataList.add(cb);
+        dataList.add(0,cb);
         adapter.updateItems(dataList);
         //更新评论数目
         tv_comment_count.setText(Integer.valueOf(tv_comment_count.getText().toString().trim()) + 1 + "");

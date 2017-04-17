@@ -249,7 +249,7 @@ public class DialogUtil {
      * @param context
      * @param text
      */
-    public static void showSingleText(final Activity context, final String text) {
+    public static void showSingleText(final Activity context, final String text, final String id) {
         final Dialog dialog = new Dialog(context, R.style.NoTitleDialog);
         setAlpha(context, 50);
         final View view = LayoutInflater.from(context).inflate(R.layout.dia_ds, null);
@@ -268,6 +268,7 @@ public class DialogUtil {
                 Bundle bundle = new Bundle();
                 bundle.putString("money",text );
                 bundle.putString("type", PubConst.DASHANG);
+                bundle.putString("id",id);
                 Intent intent = new Intent(context, PayActivity.class);
                 intent.putExtra(PubConst.DATA, bundle);
                 context.startActivity(intent);

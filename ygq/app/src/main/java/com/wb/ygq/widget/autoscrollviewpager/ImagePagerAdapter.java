@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.IBanner;
 import com.wb.ygq.utils.MyUtil;
-import com.wb.ygq.widget.GlideRoundTransform;
+import com.wb.ygq.widget.RoundCornerImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +99,7 @@ public class ImagePagerAdapter<T extends IBanner> extends RecyclingPagerAdapter 
         if (view == null) {
             holder = new ViewHolder();
             view = inflater.inflate(R.layout.layout_single_img, container, false);
-            holder.imageView = (ImageView) view.findViewById(R.id.single_img);
+            holder.imageView = (RoundCornerImageView) view.findViewById(R.id.single_img);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.imageView.getLayoutParams();
             params.width = LinearLayout.LayoutParams.MATCH_PARENT;
             params.height = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -113,7 +113,7 @@ public class ImagePagerAdapter<T extends IBanner> extends RecyclingPagerAdapter 
         if (!isUrl) {
             final T t = imageIdList.get(getPosition(position));
             if (key_showstyle !=  0) {//唯一的时候 圆角
-                Glide.with(context).load(t.getBannerImg()).transform(new GlideRoundTransform(context, 15)).into(holder.imageView);
+                Glide.with(context).load(t.getBannerImg()).into(holder.imageView);
             } else {
                 Glide.with(context).load(t.getBannerImg()).into(holder.imageView);
             }
@@ -150,7 +150,7 @@ public class ImagePagerAdapter<T extends IBanner> extends RecyclingPagerAdapter 
 
     private static class ViewHolder {
 
-        ImageView imageView;
+        RoundCornerImageView imageView;
     }
 
     /**
