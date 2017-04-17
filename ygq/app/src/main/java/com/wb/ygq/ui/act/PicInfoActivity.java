@@ -1,5 +1,6 @@
 package com.wb.ygq.ui.act;
 
+import android.animation.LayoutTransition;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,7 +24,6 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.AddCollenResponseBeant;
-import com.wb.ygq.bean.CommResponseBean;
 import com.wb.ygq.bean.ImgListBean;
 import com.wb.ygq.ui.adapter.ImagePagerAdapter;
 import com.wb.ygq.ui.base.BaseActivity;
@@ -43,8 +43,9 @@ import java.util.List;
 public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     private ViewPager vp_picinfo;
     private TextView tv_comment_count, tv_collect_count, tv_praise_count, tv_comment;
-    private RelativeLayout rl_top_layout, rl_container;
+    private RelativeLayout rl_top_layout, rl_container, rl_praise;
     private LinearLayout ll_bottom_layout, ll_container;
+    private ImageView iv_collect, iv_praise;
     private HorizontalProgressBar pb_bar1, pb_bar2;
 
     private List<String> picPathes;
@@ -66,6 +67,8 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
     private List<ImgListBean.DataBean.CommentListBean> datas;
     private List<ImgListBean.DataBean.CommentListBean> allData;
     private int initCount;
+
+    private LayoutTransition mTransitioner;
     //输入框
     private RelativeLayout rl_input;
     private EditText et_input;
@@ -119,7 +122,6 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     //当手指按下的时候
                     x = event.getX();
@@ -141,15 +143,17 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
                             flag = true;
                         }
                     }
-
                 }
                 return false;
             }
         });
-//        tv_title = (TextView) findViewById(R.id.tv_title);
+
         rl_top_layout = (RelativeLayout) findViewById(R.id.rl_top_layout);
         rl_collect = (RelativeLayout) findViewById(R.id.rl_collect);
+        iv_collect = (ImageView) findViewById(R.id.iv_collect);
 
+        rl_praise = (RelativeLayout) findViewById(R.id.rl_praise);
+        iv_praise = (ImageView) findViewById(R.id.iv_praise);
 
         ll_bottom_layout = (LinearLayout) findViewById(R.id.ll_bottom_layout);
         tv_comment_count = (TextView) findViewById(R.id.tv_comment_count);
@@ -160,6 +164,10 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
         pb_bar2 = (HorizontalProgressBar) findViewById(R.id.pb_bar2);
         ll_container = (LinearLayout) findViewById(R.id.ll_container);
         rl_container = (RelativeLayout) findViewById(R.id.rl_container);
+        mTransitioner = new LayoutTransition();
+
+
+        ll_container.setLayoutTransition(mTransitioner);
 
         tv_button_send = (TextView) findViewById(R.id.tv_button_send);
         rl_input = (RelativeLayout) findViewById(R.id.rl_input);
@@ -260,7 +268,7 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
         tv_comment.setOnClickListener(this);
         tv_button_send.setOnClickListener(this);
         rl_collect.setOnClickListener(this);
-        tv_praise_count.setOnClickListener(this);
+        rl_praise.setOnClickListener(this);
 
     }
 
@@ -307,10 +315,12 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
             case R.id.tv_comment:
                 inPutComment();
                 break;
-            case R.id.tv_praise_count:
+            case R.id.rl_praise:
                 tv_praise_count.setText(Integer.valueOf(tv_praise_count.getText().toString().trim()) + 1 + "");
                 tv_praise_count.setEnabled(false);
                 tv_praise_count.setFocusable(false);
+                tv_praise_count.setTextColor(getResources().getColor(R.color.color_press));
+                iv_praise.setImageResource(R.drawable.icon_praise_c);
                 break;
             case R.id.rl_collect://添加收藏
                 requestAddCollect();
@@ -343,10 +353,12 @@ public class PicInfoActivity extends BaseActivity implements ViewPager.OnPageCha
                         String msg = bean.getMsg();
                         if (TextUtils.equals(msg, "200")) {
                             ToastUtil.showToast("收藏成功");
-                            tv_collect_count.setText(Integer.valueOf(tv_collect_count.getText().toString().trim())+1+"");
+                            tv_collect_count.setText(Integer.valueOf(tv_collect_count.getText().toString().trim()) + 1 + "");
                         } else if (TextUtils.equals(msg, "0")) {
                             ToastUtil.showToast(bean.getMessage());
                         }
+                        iv_collect.setImageResource(R.drawable.icon_favorite_c);
+                        tv_collect_count.setTextColor(getResources().getColor(R.color.color_press));
                     }
                 });
                 return null;
