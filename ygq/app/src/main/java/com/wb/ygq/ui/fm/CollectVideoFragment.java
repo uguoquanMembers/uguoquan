@@ -15,13 +15,10 @@ import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.CollcetVideoBean;
 import com.wb.ygq.bean.CollectVideoResponseBean;
-import com.wb.ygq.bean.CollentBean;
-import com.wb.ygq.bean.CollentResponseBean;
 import com.wb.ygq.bean.CommResponseBean;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
 import com.wb.ygq.callback.RecyclerViewItemLongClickListener;
 import com.wb.ygq.ui.act.VideoPlayActivity;
-import com.wb.ygq.ui.adapter.CollectPhotoAdapter;
 import com.wb.ygq.ui.adapter.CollectVideoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.ui.constant.PubConst;
@@ -145,16 +142,17 @@ public class CollectVideoFragment extends BaseFragment implements RecyclerViewIt
      * @param position
      */
     private void requestDeleteListData(final int position) {
+        MyUtil.showLog("position====" + position);
         OkHttpUtils.get().url(HttpUrl.API.DELETE_COLLECT_LIST).addParams("uid", userId).addParams("vid", dataList.get(position).getId()).addParams("type", "2").build().execute(new Callback() {
             @Override
             public Object parseNetworkResponse(Response response) throws IOException {
                 CommResponseBean commResponseBean = new Gson().fromJson(response.body().string(), CommResponseBean.class);
                 MyUtil.showLog("请求陈宫====" + commResponseBean.getCount());
-                if (TextUtils.equals(commResponseBean.getCount(), "200")) {
-                    ToastUtil.showToast("删除成功");
+                if (TextUtils.equals(commResponseBean.getCount(), "1")) {
                     mActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            ToastUtil.showToast("删除成功");
                             adapter.removeItem(position);
                         }
                     });

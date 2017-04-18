@@ -1,10 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ll_drawer"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color_ffffff"
-    android:orientation="vertical">
+              xmlns:attr="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/ll_drawer"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/color_ffffff"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="10dp">
+
+        <com.wb.ygq.widget.RoundCornerImageView
+            android:id="@+id/iv_header"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            attr:roundCornerRadius="50dp"
+            android:src="@drawable/default_image"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="哈哈哈"
+                android:textColor="#333333"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="尤果号：3346897"
+                android:textSize="13dp"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/arrors_right"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_vip"
@@ -16,12 +64,12 @@
         android:paddingTop="20dp"
         android:text="加入VIP/充值"
 
-        android:textColor="@color/color_333333" />
+        android:textColor="@color/color_333333"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_ededed" />
+        android:background="@color/color_ededed"/>
 
     <TextView
         android:id="@+id/tv_buy"
@@ -33,12 +81,12 @@
         android:paddingTop="20dp"
         android:text="购买记录"
 
-        android:textColor="@color/color_333333" />
+        android:textColor="@color/color_333333"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_ededed" />
+        android:background="@color/color_ededed"/>
 
     <TextView
         android:id="@+id/tv_kf"
@@ -50,12 +98,12 @@
         android:paddingTop="20dp"
         android:text="客服"
 
-        android:textColor="@color/color_333333" />
+        android:textColor="@color/color_333333"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_ededed" />
+        android:background="@color/color_ededed"/>
 
     <TextView
         android:id="@+id/tv_versions"
@@ -66,11 +114,11 @@
         android:paddingLeft="20dp"
         android:paddingTop="20dp"
         android:text="版本"
-        android:textColor="@color/color_333333" />
+        android:textColor="@color/color_333333"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_ededed" />
+        android:background="@color/color_ededed"/>
 
 </LinearLayout>

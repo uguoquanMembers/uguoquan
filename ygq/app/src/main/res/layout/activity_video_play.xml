@@ -278,6 +278,7 @@
             android:layout_marginLeft="15dp">
 
             <ImageView
+                android:id="@+id/iv_collect"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@drawable/icon_favorite_n"/>
@@ -297,11 +298,13 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_praise"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginLeft="15dp">
 
             <ImageView
+                android:id="@+id/iv_praise"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@drawable/icon_praise_n"/>

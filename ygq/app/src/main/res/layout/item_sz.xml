@@ -8,16 +8,16 @@
 
     <RelativeLayout
         android:id="@+id/rl_item_sz"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="270dp"
         android:layout_gravity="center"
         android:padding="3dp">
 
         <com.wb.ygq.widget.RoundCornerImageView
             android:id="@+id/ima_sz_bg"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_333333"
+            android:background="@color/color_999999"
             android:scaleType="centerCrop"
             attr:roundCornerRadius="10dp"/>
 

@@ -46,6 +46,7 @@ import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.MyUtil;
 import com.wb.ygq.utils.SharedUtil;
 import com.wb.ygq.utils.ToastUtil;
+import com.wb.ygq.widget.RoundCornerImageView;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 
@@ -144,7 +145,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     /**
      * 抽屉按钮
      */
-    private TextView tv_vip, tv_buy, tv_kf, tv_versions;
+    private TextView tv_vip, tv_buy, tv_kf, tv_versions, tv_name;
+    private RoundCornerImageView iv_header;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -166,7 +168,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         initView();
         initData();
         String sex = SharedUtil.getString(PubConst.KEY_SEX, "0");
-        if (TextUtils.equals(sex , "0")) //没存 弹出男女
+        if (TextUtils.equals(sex, "0")) //没存 弹出男女
         {
             DialogUtil.showSex(this, "", "确定", this);
         }
@@ -202,6 +204,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         tv_buy = (TextView) findViewById(R.id.tv_buy);
         tv_kf = (TextView) findViewById(R.id.tv_kf);
         tv_versions = (TextView) findViewById(R.id.tv_versions);
+        iv_header = (RoundCornerImageView) findViewById(R.id.iv_header);
+        tv_name = (TextView) findViewById(R.id.tv_name);
+        tv_name.setText(TextUtils.isEmpty(SharedUtil.getString("name", "")) ? "尤果圈主角" : SharedUtil.getString("name", ""));
 
         initToolbar();
         //为2的时候 从轮播图进入
@@ -293,7 +298,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         if (TextUtils.equals("2", sex)) {
             input_sex = "0";
         }
-        MyUtil.showLog("======="+input_sex);
+        MyUtil.showLog("=======" + input_sex);
         OkHttpUtils.get().url(HttpUrl.API.LOGIN).addParams("version", AppUtils.getVersionCode(this) + "").addParams("devicenumber", AppUtils.getDevice()).addParams("channel_name", AppUtils.getChannelID()).addParams("sex", input_sex).build().execute(new Callback() {
             @Override
             public Object parseNetworkResponse(Response response) throws IOException {
@@ -367,7 +372,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 //                skip(VideoPlayActivity.class,false);
                 break;
             case R.id.tv_kf://客服
-//                skip(PicInfoActivity.class, false);
+                skip(KeFuActivity.class, false);
                 break;
             case R.id.tv_versions://版本
                 requestLoginData(1);

@@ -145,7 +145,6 @@ public class CollectPhotoFragment extends BaseFragment implements RecyclerViewIt
             @Override
             public Object parseNetworkResponse(Response response) throws IOException {
                 CommResponseBean commResponseBean = new Gson().fromJson(response.body().string(), CommResponseBean.class);
-                MyUtil.showLog("请求陈宫====" + commResponseBean.getCount());
                 if (TextUtils.equals(commResponseBean.getCount(), "200")) {
                     ToastUtil.showToast("删除成功");
                     mActivity.runOnUiThread(new Runnable() {
@@ -187,13 +186,13 @@ public class CollectPhotoFragment extends BaseFragment implements RecyclerViewIt
                         @Override
                         public void run() {
                             MyUtil.showLog("请求成功====" + responseBean);
-                            if (responseBean != null) {
-                                List<CollentBean> data = responseBean.getData();
-                                if (data != null) {
-                                    dataList.addAll(data);
-                                    adapter.updateItems(dataList);
-                                }
-                            }
+//                            if (responseBean != null) {
+//                                List<CollentBean> data = responseBean.getData();
+//                                if (data != null) {
+//                                    dataList.addAll(data);
+//                                    adapter.updateItems(dataList);
+//                                }
+//                            }
                         }
                     });
                     return null;

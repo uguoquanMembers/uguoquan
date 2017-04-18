@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -26,27 +26,28 @@ public class CollectVideoAdapter extends BaseRecyclerAdapter<CollcetVideoBean> {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CollectVideoViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_sp_video, null));
+        return new CollectVideoViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_classify_two, null));
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof CollectVideoViewHolder) {
             final CollcetVideoBean videoBean = mItems.get(position);
-            ((CollectVideoViewHolder) holder).tv_video_name.setText(videoBean.getName());
-            ((CollectVideoViewHolder) holder).tv_video_num.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(videoBean.getImg()).crossFade().into(((CollectVideoViewHolder) holder).iv_video_img);
-            Glide.with(mContext).load(videoBean.getHeadpic()).bitmapTransform(new CropCircleTransformation(mContext)).into(((CollectVideoViewHolder) holder).ima_video_head);
-            ((CollectVideoViewHolder) holder).ll_item_spvideo.setOnClickListener(new View.OnClickListener() {
+            ((CollectVideoViewHolder) holder).tv_name.setText(videoBean.getName());
+            ((CollectVideoViewHolder) holder).tv_times.setVisibility(View.GONE);
+            ((CollectVideoViewHolder) holder).tv_type.setVisibility(View.GONE);
+            Glide.with(mContext).load(videoBean.getImg()).crossFade().into(((CollectVideoViewHolder) holder).ima_bg);
+            Glide.with(mContext).load(videoBean.getHeadpic()).bitmapTransform(new CropCircleTransformation(mContext)).into(((CollectVideoViewHolder) holder).ima_head);
+            ((CollectVideoViewHolder) holder).rl_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    itemClickListener.onItemClick(((CollectVideoViewHolder) holder).ll_item_spvideo, videoBean, position, 1);
+                    itemClickListener.onItemClick(((CollectVideoViewHolder) holder).rl_item, videoBean, position, 1);
                 }
             });
-            ((CollectVideoViewHolder) holder).ll_item_spvideo.setOnLongClickListener(new View.OnLongClickListener() {
+            ((CollectVideoViewHolder) holder).rl_item.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    itemLongClickListener.OnItemLongClick(((CollectVideoViewHolder) holder).ll_item_spvideo, videoBean, position);
+                    itemLongClickListener.OnItemLongClick(((CollectVideoViewHolder) holder).rl_item, videoBean, position);
                     return false;
                 }
             });
@@ -54,17 +55,19 @@ public class CollectVideoAdapter extends BaseRecyclerAdapter<CollcetVideoBean> {
     }
 
     class CollectVideoViewHolder extends RecyclerView.ViewHolder {
-        private ImageView ima_video_head, iv_video_img;
-        private TextView tv_video_name, tv_video_num;
-        private LinearLayout ll_item_spvideo;
+        private ImageView ima_bg, ima_head;
+        private TextView tv_name, tv_times, tv_type;
+        private RelativeLayout rl_item;
+
 
         public CollectVideoViewHolder(View itemView) {
             super(itemView);
-            ima_video_head = (ImageView) itemView.findViewById(R.id.ima_video_head);
-            iv_video_img = (ImageView) itemView.findViewById(R.id.iv_video_img);
-            tv_video_name = (TextView) itemView.findViewById(R.id.tv_video_name);
-            tv_video_num = (TextView) itemView.findViewById(R.id.tv_video_num);
-            ll_item_spvideo = (LinearLayout) itemView.findViewById(R.id.ll_item_spvideo);
+            ima_head = (ImageView) itemView.findViewById(R.id.ima_head);
+            tv_name = (TextView) itemView.findViewById(R.id.tv_name);
+            tv_times = (TextView) itemView.findViewById(R.id.tv_times);
+            rl_item = (RelativeLayout) itemView.findViewById(R.id.rl_item);
+            ima_bg = (ImageView) itemView.findViewById(R.id.ima_bg);
+            tv_type = (TextView) itemView.findViewById(R.id.tv_type);
         }
     }
 }

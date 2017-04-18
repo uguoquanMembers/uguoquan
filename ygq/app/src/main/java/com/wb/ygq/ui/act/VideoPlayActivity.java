@@ -187,7 +187,8 @@ public class VideoPlayActivity extends BaseActivity {
             }
         }
     };
-    private RelativeLayout rl_addcollent;
+    private RelativeLayout rl_addcollent,rl_praise;
+    private ImageView iv_collect, iv_praise;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -217,11 +218,16 @@ public class VideoPlayActivity extends BaseActivity {
         tv_input = (TextView) findViewById(R.id.tv_input);
         tv_button_send = (TextView) findViewById(R.id.tv_button_send);
         tv_collect_count = (TextView) findViewById(R.id.tv_collect_count);
+        iv_collect = (ImageView) findViewById(R.id.iv_collect);
+
         tv_zan_count = (TextView) findViewById(R.id.tv_zan_count);
         tv_comment_count = (TextView) findViewById(R.id.tv_comment_count);
         rl_input = (RelativeLayout) findViewById(R.id.rl_input);
         rl_addcollent = (RelativeLayout) findViewById(R.id.rl_addcollent);
         et_input = (EditText) findViewById(R.id.et_input);
+
+        rl_praise= (RelativeLayout) findViewById(R.id.rl_praise);
+        iv_praise = (ImageView) findViewById(R.id.iv_praise);
     }
 
 
@@ -736,7 +742,7 @@ public class VideoPlayActivity extends BaseActivity {
         tv_input.setOnClickListener(this);
         tv_button_send.setOnClickListener(this);
         rl_addcollent.setOnClickListener(this);
-        tv_zan_count.setOnClickListener(this);
+        rl_praise.setOnClickListener(this);
     }
 
     @Override
@@ -746,10 +752,12 @@ public class VideoPlayActivity extends BaseActivity {
             case R.id.tv_input://点击弹出输入框
                 inPutComment();
                 break;
-            case R.id.tv_zan_count://赞
+            case R.id.rl_praise://赞
                 tv_zan_count.setText(Integer.valueOf(tv_zan_count.getText().toString().trim()) + 1 + "");
                 tv_zan_count.setEnabled(false);
                 tv_zan_count.setFocusable(false);
+                tv_zan_count.setTextColor(getResources().getColor(R.color.color_press));
+                iv_praise.setImageResource(R.drawable.icon_praise_c);
                 break;
             case R.id.rl_addcollent://点击收藏
                 requestAddCollect();
@@ -788,6 +796,8 @@ public class VideoPlayActivity extends BaseActivity {
                         } else if (TextUtils.equals(msg, "0")) {
                             ToastUtil.showToast(bean.getMessage());
                         }
+                        iv_collect.setImageResource(R.drawable.icon_favorite_c);
+                        tv_collect_count.setTextColor(getResources().getColor(R.color.color_press));
                     }
                 });
                 return null;
