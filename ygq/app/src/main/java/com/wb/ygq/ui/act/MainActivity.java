@@ -179,6 +179,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     protected void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
+
     }
 
     @Override
@@ -398,6 +399,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 fragment = homeFragment;
                 fragmentTag = HOMEFRAGMENT_TAG;
                 setTextColor(0);
+                tv_name.setText(TextUtils.isEmpty(SharedUtil.getString("name", "")) ? "尤果圈主角" : SharedUtil.getString("name", ""));
                 break;
             case R.id.tab_sz:
                 curIndex = 1;
