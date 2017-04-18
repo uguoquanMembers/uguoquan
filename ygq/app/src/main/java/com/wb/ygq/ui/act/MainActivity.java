@@ -197,14 +197,15 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     public static void setToolBarH(int toolBarH) {
         MyUtil.showLog("setToolbar=====" + toolBarH);
         ViewGroup.LayoutParams params = toolbar.getLayoutParams();
-        if (toolBarH < 150|| toolBarH != 0) {
+        if (toolBarH < 150 || toolBarH != 0) {
             params.height = toolBarH;
-            
+
         } else {
-            params.height =150;
+            params.height = 150;
         }
         toolbar.setLayoutParams(params);
     }
+
     /**
      * 根据手机的分辨率from dp 的单位 转成为 px(像素)
      */
@@ -239,8 +240,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         iv_header = (RoundCornerImageView) findViewById(R.id.iv_header);
         tv_name = (TextView) findViewById(R.id.tv_name);
         tv_name.setText(TextUtils.isEmpty(SharedUtil.getString("name", "")) ? "尤果圈主角" : SharedUtil.getString("name", ""));
-
-        initToolbar();
+        initToolbar(true);
         //为2的时候 从轮播图进入
         if (key == 2) {
             tab_video.setChecked(true);
@@ -254,13 +254,17 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     /**
      * 设置标题
      */
-    private void initToolbar() {
-        //实现了监听的开关 ，最后2个参数可以写0
-        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
+    private void initToolbar(boolean flag) {
+
+        if (flag) {
+            //实现了监听的开关 ，最后2个参数可以写0
+            toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
+        } else {
+            toggle = new ActionBarDrawerToggle(this, drawerLayout, null, 0, 0);
+        }
         toggle.syncState();//同步drawerLayout
         //给drawerlayout添加监听
         drawerLayout.addDrawerListener(toggle);
-
     }
 
     //drawerlayout实现侧拉还要添加下面这行代码
