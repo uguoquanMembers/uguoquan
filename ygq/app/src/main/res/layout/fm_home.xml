@@ -1,24 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/home_bg_9"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/home_bg_9"
+              android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="@null" />
+        android:background="@null"/>
 
     <LinearLayout
         android:id="@+id/ll_home_addbanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"></LinearLayout>
+        android:orientation="horizontal">
 
-    <com.wb.ygq.widget.CycleGalleryViewPager
+    </LinearLayout>
+
+    <!--<com.wb.ygq.widget.CycleGalleryViewPager-->
+    <!--android:id="@+id/viewpager"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"></com.wb.ygq.widget.CycleGalleryViewPager>-->
+    <com.lsjwzh.widget.recyclerviewpager.LoopRecyclerViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.wb.ygq.widget.CycleGalleryViewPager>
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:clipToPadding="false"
+        android:paddingBottom="15dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="15dp"
+        app:rvp_singlePageFling="true"
+        app:rvp_triggerOffset="0.1"/>
 
 </LinearLayout>

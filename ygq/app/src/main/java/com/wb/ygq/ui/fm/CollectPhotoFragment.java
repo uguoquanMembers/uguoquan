@@ -186,13 +186,13 @@ public class CollectPhotoFragment extends BaseFragment implements RecyclerViewIt
                         @Override
                         public void run() {
                             MyUtil.showLog("请求成功====" + responseBean);
-//                            if (responseBean != null) {
-//                                List<CollentBean> data = responseBean.getData();
-//                                if (data != null) {
-//                                    dataList.addAll(data);
-//                                    adapter.updateItems(dataList);
-//                                }
-//                            }
+                            if (responseBean != null) {
+                                List<CollentBean> data = responseBean.getData();
+                                if (data != null) {
+                                    dataList.addAll(data);
+                                    adapter.updateItems(dataList);
+                                }
+                            }
                         }
                     });
                     return null;
