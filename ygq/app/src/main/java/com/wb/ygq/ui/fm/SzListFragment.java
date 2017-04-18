@@ -14,6 +14,7 @@ import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.SZMessage;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
+import com.wb.ygq.ui.act.MainActivity;
 import com.wb.ygq.ui.act.PicInfoActivity;
 import com.wb.ygq.ui.adapter.SzListAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
@@ -29,6 +30,8 @@ import java.io.IOException;
  * Author : 郭
  */
 public class SzListFragment extends BaseFragment implements RecyclerViewItemClickListener {
+
+    private MainActivity mMainActivity;
 
     private String title;
     private String id;
@@ -72,6 +75,7 @@ public class SzListFragment extends BaseFragment implements RecyclerViewItemClic
 
     @Override
     public void initView() {
+        mMainActivity = (MainActivity) getActivity();
         recycle_sz = (RecyclerView) view.findViewById(R.id.recycle_sz);
         recycle_sz.setHasFixedSize(true);
         recycle_sz.setLayoutManager(new GridLayoutManager(mActivity, 2));
@@ -114,18 +118,18 @@ public class SzListFragment extends BaseFragment implements RecyclerViewItemClic
      */
     @Override
     public void onItemClick(View view, Object o, int position, int eventType) {
-        SZMessage.DataBean dataBean= (SZMessage.DataBean) o;
-        Bundle bundle=new Bundle();
-        bundle.putString("id",dataBean.getId());
-        skip(PicInfoActivity.class,bundle,false);
+        SZMessage.DataBean dataBean = (SZMessage.DataBean) o;
+        Bundle bundle = new Bundle();
+        bundle.putString("id", dataBean.getId());
+        skip(PicInfoActivity.class, bundle, false);
     }
 
     /**
      * 获取网络数据
      */
-    public void getNetDatas(){
+    public void getNetDatas() {
         OkHttpUtils.get()
-                .url(String.format(HttpUrl.API.SZ_MESSAGE,id,page))
+                .url(String.format(HttpUrl.API.SZ_MESSAGE, id, page))
                 .build()
                 .execute(new Callback() {
                     @Override
@@ -138,7 +142,7 @@ public class SzListFragment extends BaseFragment implements RecyclerViewItemClic
                         mActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                mSZMessage=new Gson().fromJson(finalData,SZMessage.class);
+                                mSZMessage = new Gson().fromJson(finalData, SZMessage.class);
                                 adapter.updateItems(mSZMessage.getData());
                             }
                         });
@@ -156,7 +160,6 @@ public class SzListFragment extends BaseFragment implements RecyclerViewItemClic
                     }
                 });
     }
-
 
 
 }

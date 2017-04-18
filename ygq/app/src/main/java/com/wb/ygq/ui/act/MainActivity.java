@@ -218,6 +218,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         setToolTitle(0);
     }
 
+
     /**
      * 设置标题
      */
@@ -227,6 +228,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         toggle.syncState();//同步drawerLayout
         //给drawerlayout添加监听
         drawerLayout.addDrawerListener(toggle);
+
     }
 
     //drawerlayout实现侧拉还要添加下面这行代码
