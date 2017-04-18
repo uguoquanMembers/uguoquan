@@ -191,6 +191,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     protected void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
+
     }
 
     public static void setToolBarH(int toolBarH) {
@@ -241,6 +242,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         setToolTitle(0);
     }
 
+
     /**
      * 设置标题
      */
@@ -250,6 +252,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         toggle.syncState();//同步drawerLayout
         //给drawerlayout添加监听
         drawerLayout.addDrawerListener(toggle);
+
     }
 
     //drawerlayout实现侧拉还要添加下面这行代码
@@ -419,6 +422,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 fragment = homeFragment;
                 fragmentTag = HOMEFRAGMENT_TAG;
                 setTextColor(0);
+                tv_name.setText(TextUtils.isEmpty(SharedUtil.getString("name", "")) ? "尤果圈主角" : SharedUtil.getString("name", ""));
                 break;
             case R.id.tab_sz:
                 curIndex = 1;

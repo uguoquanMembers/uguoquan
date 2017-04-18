@@ -39,6 +39,8 @@ import java.util.List;
  */
 public class SzListFragment extends BaseFragment implements RecyclerViewItemClickListener, OnRefreshListener, OnLoadMoreListener {
 
+    private MainActivity mMainActivity;
+
     private String title;
     private String id;
     private int page;
@@ -84,6 +86,7 @@ public class SzListFragment extends BaseFragment implements RecyclerViewItemClic
 
     @Override
     public void initView() {
+        mMainActivity = (MainActivity) getActivity();
         recycle_sz = (IRecyclerView) view.findViewById(R.id.recycle_sz);
         recycle_sz.setHasFixedSize(true);
         recycle_sz.setLayoutManager(new GridLayoutManager(mActivity, 2));
@@ -121,7 +124,7 @@ public class SzListFragment extends BaseFragment implements RecyclerViewItemClic
                 } else {
 
                 }
-                MainActivity.setToolBarH(key_x[0]/20);
+                MainActivity.setToolBarH(key_x[0] / 20);
             }
         });
     }
@@ -158,44 +161,44 @@ public class SzListFragment extends BaseFragment implements RecyclerViewItemClic
      * 获取网络数据
      */
     public void getNetDatas() {
-        OkHttpUtils.get().url(String.format(HttpUrl.API.SZ_MESSAGE, id, page)).build().execute(new Callback() {
-            @Override
-            public Object parseNetworkResponse(final Response response) throws IOException {
-
-                String data = null;
-                data = response.body().string();
-
-                final String finalData = data;
-                mActivity.runOnUiThread(new Runnable() {
+        OkHttpUtils.get()
+                .url(String.format(HttpUrl.API.SZ_MESSAGE, id, page))
+                .build()
+                .execute(new Callback() {
                     @Override
-                    public void run() {
-                        mSZMessage = new Gson().fromJson(finalData, SZMessage.class);
-                        List<SZMessage.DataBean> recordList = mSZMessage.getData();
-                        recycle_sz.setRefreshing(false);
-                        if (recordList != null && !recordList.isEmpty()) {
-                            page++;
-                            dataList.addAll(recordList);
-                            adapter.updateItems(dataList);
-                            loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-                        } else {
-                            loadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
-                        }
+                    public Object parseNetworkResponse(final Response response) throws IOException {
+                        String data = null;
+                        data = response.body().string();
+                        final String finalData = data;
+                        mActivity.runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                mSZMessage = new Gson().fromJson(finalData, SZMessage.class);
+                                                                List<SZMessage.DataBean> recordList = mSZMessage.getData();
+                                                                recycle_sz.setRefreshing(false);
+                                                                if (recordList != null && !recordList.isEmpty()) {
+                                                                    page++;
+                                                                    dataList.addAll(recordList);
+                                                                    adapter.updateItems(dataList);
+                                                                    loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                                                                } else {
+                                                                    loadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+                                                                }
+                                                            }
+                                                        });
+                        return null;
+                    }
+
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        ToastUtil.showToast("数据加载错误，请稍后重试");
+                    }
+
+                    @Override
+                    public void onResponse(Object response) {
+
                     }
                 });
-
-                return null;
-            }
-
-            @Override
-            public void onError(Request request, Exception e) {
-                ToastUtil.showToast("数据加载错误，请稍后重试");
-            }
-
-            @Override
-            public void onResponse(Object response) {
-
-            }
-        });
     }
 
 
