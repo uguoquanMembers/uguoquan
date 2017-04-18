@@ -24,4 +24,17 @@
         android:layout_gravity="center"
         android:background="@drawable/button_home_click"
         />
+    <ImageView
+        android:id="@+id/iv_refreshing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+    <TextView
+        android:id="@+id/tv_complete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:textSize="13sp"
+        android:text="刷新完成"/>
 </merge>

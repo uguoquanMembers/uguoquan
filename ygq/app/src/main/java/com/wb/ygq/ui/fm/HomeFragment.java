@@ -4,40 +4,32 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.PagerAdapter;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.commit451.nativestackblur.NativeStackBlur;
 import com.google.gson.Gson;
+import com.lsjwzh.widget.recyclerviewpager.LoopRecyclerViewPager;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.wb.ygq.R;
 import com.wb.ygq.bean.HomeVideoBean;
 import com.wb.ygq.bean.IBannerBean;
 import com.wb.ygq.ui.act.PicInfoActivity;
-import com.wb.ygq.ui.act.SZActivity;
-import com.wb.ygq.ui.act.VideoActivity;
 import com.wb.ygq.ui.act.VideoPlayActivity;
+import com.wb.ygq.ui.adapter.LayoutAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.ui.constant.PubConst;
 import com.wb.ygq.utils.AppUtils;
 import com.wb.ygq.utils.HttpUrl;
 import com.wb.ygq.utils.SharedUtil;
-import com.wb.ygq.utils.VipDialog;
-import com.wb.ygq.widget.CycleGalleryViewPager;
 import com.wb.ygq.widget.autoscrollviewpager.AutoScrollViewPager;
 import com.wb.ygq.widget.autoscrollviewpager.CircleIndicator;
 import com.wb.ygq.widget.autoscrollviewpager.ImagePagerAdapter;
@@ -70,8 +62,9 @@ public class HomeFragment extends BaseFragment {
      * 存储下面vp的list
      */
     private List<HomeVideoBean.DataBean.IndexImgListBean> vpList = new ArrayList<>();
-    private CycleGalleryViewPager viewpager_down;
-
+//    private CycleGalleryViewPager viewpager_down;
+    private LoopRecyclerViewPager mRecyclerViewPager;
+    private LayoutAdapter mLayoutAdapter;
 
     @Nullable
     @Override
@@ -118,89 +111,158 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void initView() {
         ll_home_addbanner = (LinearLayout) view.findViewById(R.id.ll_home_addbanner);
-        viewpager_down = (CycleGalleryViewPager) view.findViewById(R.id.viewpager);
+//        viewpager = (LoopRecyclerViewPager) view.findViewById(R.id.viewpager);
 
+        /**
+         * 一下为画廊vp
+         */
+        mRecyclerViewPager = (LoopRecyclerViewPager)view.findViewById(R.id.viewpager);
+        LinearLayoutManager layout = new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL,
+                false);
+        mRecyclerViewPager.setTriggerOffset(0.15f);
+        mRecyclerViewPager.setFlingFactor(0.25f);
+        mRecyclerViewPager.setLayoutManager(layout);
+//        mRecyclerViewPager.setAdapter(new LayoutAdapter(mActivity, mRecyclerViewPager,10));
+        mRecyclerViewPager.setHasFixedSize(true);
+        mRecyclerViewPager.setLongClickable(true);
+
+        mRecyclerViewPager.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+//                mPositionText.setText("First: " + mRecyclerViewPager.getFirstVisiblePosition());
+                int childCount = mRecyclerViewPager.getChildCount();
+                int width = mRecyclerViewPager.getChildAt(0).getWidth();
+                int padding = (mRecyclerViewPager.getWidth() - width) / 2;
+
+                for (int j = 0; j < childCount; j++) {
+                    View v = recyclerView.getChildAt(j);
+                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
+                    float rate = 0;
+                    if (v.getLeft() <= padding) {
+                        if (v.getLeft() >= padding - v.getWidth()) {
+                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
+                        } else {
+                            rate = 1;
+                        }
+                        v.setScaleY(1 - rate * 0.1f);
+                    } else {
+                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
+                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
+                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                        }
+                        v.setScaleY(0.9f + rate * 0.1f);
+                    }
+                }
+            }
+        });
+
+        mRecyclerViewPager.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if (mRecyclerViewPager.getChildCount() < 3) {
+                    if (mRecyclerViewPager.getChildAt(1) != null) {
+                        View v1 = mRecyclerViewPager.getChildAt(1);
+                        v1.setScaleY(0.9f);
+                    }
+                } else {
+                    if (mRecyclerViewPager.getChildAt(0) != null) {
+                        View v0 = mRecyclerViewPager.getChildAt(0);
+                        v0.setScaleY(0.9f);
+                    }
+                    if (mRecyclerViewPager.getChildAt(2) != null) {
+                        View v2 = mRecyclerViewPager.getChildAt(2);
+                        v2.setScaleY(0.9f);
+                    }
+                }
+
+            }
+        });
 
     }
 
     /**
      * 处理vp
      */
-    private void initDownVpData() {
-        viewpager_down.setAdapter(new PagerAdapter() {
-            @Override
-            public int getCount() {
-                return vpList.size();
-            }
-
-            @Override
-            public boolean isViewFromObject(View view, Object object) {
-                return view == object;
-            }
-
-            @Override
-            public Object instantiateItem(ViewGroup container, final int position) {
-                View view = LayoutInflater.from(mActivity).inflate(R.layout.layout_vp_home_down, container, false);
-                ((TextView) view.findViewById(R.id.tv_vp_title)).setText(vpList.get(position).getTitle() + ">>");
-                final ImageView id = (ImageView) view.findViewById(R.id.ima_vp_con);
-                if (PubConst.ZUANSHI.equals(SharedUtil.getString("vip", ""))) {
-                    Glide.with(mActivity).load(vpList.get(position).getImg()).crossFade().into(id);
-                } else {
-                    if ("0".equals(vpList.get(position).getEmpty())) {
-                        Glide.with(mActivity).load(vpList.get(position).getImg()).crossFade().into(id);
-                    } else if ("1".equals(vpList.get(position).getEmpty())) {
-                        //当时1的时候图片变虚
-                        Glide.with(getActivity()).load(vpList.get(position).getImg()).asBitmap().into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                Bitmap process = NativeStackBlur.process(resource, 30);
-                                id.setImageBitmap(process);
-                            }
-                        });
-                    }
-                }
-                id.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (PubConst.ZUANSHI.equals(SharedUtil.getString("vip", ""))) {
-                            if ("99".equals(vpList.get(position).getUrl())) {
-                                skip(VideoActivity.class, false);
-                            } else {
-                                Bundle bundle = new Bundle();
-                                bundle.putString("index", vpList.get(position).getUrl());
-                                skip(SZActivity.class, bundle, false);
-                            }
-                        } else {
-                            if ("1".equals(vpList.get(position).getEmpty())) {
-                                VipDialog.showVipDialog(mActivity, false);
-                            } else {
-                                if ("99".equals(vpList.get(position).getUrl())) {
-                                    skip(VideoActivity.class, false);
-                                } else {
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("index", vpList.get(position).getUrl());
-                                    skip(SZActivity.class, bundle, false);
-                                }
-                            }
-                        }
-                    }
-                });
-                container.addView(view);
-                return view;
-            }
-
-            @Override
-            public void destroyItem(ViewGroup container, int position, Object object) {
-                container.removeView((View) object);
-            }
-
-            @Override
-            public float getPageWidth(int position) {
-                return 0.8f;//建议值为0.6~1.0之间
-            }
-        });
-        viewpager_down.setNarrowFactor(0.9f);
-    }
+//    private void initDownVpData() {
+//        viewpager_down.setAdapter(new PagerAdapter() {
+//            @Override
+//            public int getCount() {
+//                return vpList.size();
+//            }
+//
+//            @Override
+//            public boolean isViewFromObject(View view, Object object) {
+//                return view == object;
+//            }
+//
+//            @Override
+//            public Object instantiateItem(ViewGroup container, final int position) {
+//                View view = LayoutInflater.from(mActivity).inflate(R.layout.layout_vp_home_down, container, false);
+//                ((TextView) view.findViewById(R.id.tv_vp_title)).setText(vpList.get(position).getTitle() + ">>");
+//                final ImageView id = (ImageView) view.findViewById(R.id.ima_vp_con);
+//                if (PubConst.ZUANSHI.equals(SharedUtil.getString("vip", ""))) {
+//                    Glide.with(mActivity).load(vpList.get(position).getImg()).crossFade().into(id);
+//                } else {
+//                    if ("0".equals(vpList.get(position).getEmpty())) {
+//                        Glide.with(mActivity).load(vpList.get(position).getImg()).crossFade().into(id);
+//                    } else if ("1".equals(vpList.get(position).getEmpty())) {
+//                        //当时1的时候图片变虚
+//                        Glide.with(getActivity()).load(vpList.get(position).getImg()).asBitmap().into(new SimpleTarget<Bitmap>() {
+//                            @Override
+//                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+//                                Bitmap process = NativeStackBlur.process(resource, 30);
+//                                id.setImageBitmap(process);
+//                            }
+//                        });
+//                    }
+//                }
+//                id.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        if (PubConst.ZUANSHI.equals(SharedUtil.getString("vip", ""))) {
+//                            if ("99".equals(vpList.get(position).getUrl())) {
+//                                skip(VideoActivity.class, false);
+//                            } else {
+//                                Bundle bundle = new Bundle();
+//                                bundle.putString("index", vpList.get(position).getUrl());
+//                                skip(SZActivity.class, bundle, false);
+//                            }
+//                        } else {
+//                            if ("1".equals(vpList.get(position).getEmpty())) {
+//                                VipDialog.showVipDialog(mActivity, false);
+//                            } else {
+//                                if ("99".equals(vpList.get(position).getUrl())) {
+//                                    skip(VideoActivity.class, false);
+//                                } else {
+//                                    Bundle bundle = new Bundle();
+//                                    bundle.putString("index", vpList.get(position).getUrl());
+//                                    skip(SZActivity.class, bundle, false);
+//                                }
+//                            }
+//                        }
+//                    }
+//                });
+//                container.addView(view);
+//                return view;
+//            }
+//
+//            @Override
+//            public void destroyItem(ViewGroup container, int position, Object object) {
+//                container.removeView((View) object);
+//            }
+//
+//            @Override
+//            public float getPageWidth(int position) {
+//                return 0.8f;//建议值为0.6~1.0之间
+//            }
+//        });
+////        viewpager_down.setNarrowFactor(0.9f);
+//    }
 
     @Override
     public void initData() {
@@ -232,7 +294,10 @@ public class HomeFragment extends BaseFragment {
                         List<HomeVideoBean.DataBean.IndexImgListBean> indexImgList = mHomeVideoBean.getData().getIndexImgList();
                         if (indexImgList != null && !indexImgList.isEmpty()) {
                             vpList.addAll(indexImgList);
-                            initDownVpData();
+//                            initDownVpData();
+                            mLayoutAdapter=new LayoutAdapter(mActivity,mRecyclerViewPager,vpList.size());
+                            mRecyclerViewPager.setAdapter(mLayoutAdapter);
+                            mLayoutAdapter.updateDatas(vpList);
                         }
                     }
                 });

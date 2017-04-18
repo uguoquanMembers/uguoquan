@@ -1,44 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:attr="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
         android:paddingLeft="15dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="5dp">
+        android:paddingTop="10dp">
+
         <com.wb.ygq.widget.RoundCornerImageView
             android:id="@+id/iv_header"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            attr:roundCornerRadius="50dp"
-            android:src="@drawable/default_image"/>
+            android:src="@drawable/default_image"
+            attr:roundCornerRadius="50dp"/>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="哈哈哈"
                 android:textColor="#333333"
-                android:textSize="18sp"
-                android:text="哈哈哈"/>
+                android:textSize="18sp"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:textSize="13dp"
-                android:text="尤果号：3346897"/>
+                android:text="尤果号：3346897"
+                android:textSize="13dp"/>
 
         </LinearLayout>
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,10 +51,11 @@
             android:layout_marginRight="8dp"
             android:src="@drawable/arrors_right"/>
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/color_ededed" />
+        android:background="@color/color_ededed"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -65,12 +71,12 @@
             android:gravity="center"
             android:lineSpacingExtra="7dp"
             android:padding="10dp"
-            android:text="1\n等级" />
+            android:text="1\n等级"/>
 
         <View
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:background="@color/color_ededed" />
+            android:background="@color/color_ededed"/>
 
         <TextView
             android:id="@+id/tv_bt_recharge"
@@ -81,20 +87,20 @@
             android:gravity="center"
             android:lineSpacingExtra="7dp"
             android:padding="10dp"
-            android:text="会员\n充值" />
+            android:text="会员\n充值"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/color_ededed" />
+        android:background="@color/color_ededed"/>
 
     <ImageView
         android:id="@+id/ima_recharge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_ffffff"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY"/>
 
     <TextView
         android:id="@+id/tv_btmine_buy"
@@ -105,12 +111,12 @@
         android:drawableRight="@drawable/arrors_right"
         android:gravity="center_vertical"
         android:padding="10dp"
-        android:text="购买记录" />
+        android:text="购买记录"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/color_ededed" />
+        android:background="@color/color_ededed"/>
 
     <TextView
         android:id="@+id/tv_btmine_collect"
@@ -121,7 +127,12 @@
         android:drawableRight="@drawable/arrors_right"
         android:gravity="center_vertical"
         android:padding="10dp"
-        android:text="我的收藏" />
+        android:text="我的收藏"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_ededed"/>
 
     <TextView
         android:id="@+id/tv_kefu"
@@ -132,7 +143,13 @@
         android:drawableRight="@drawable/arrors_right"
         android:gravity="center_vertical"
         android:padding="10dp"
-        android:text="客服" />
+        android:text="客服"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_ededed"/>
+
     <TextView
         android:id="@+id/tv_update"
         android:layout_width="match_parent"
@@ -142,5 +159,11 @@
         android:drawableRight="@drawable/arrors_right"
         android:gravity="center_vertical"
         android:padding="10dp"
-        android:text="检查更新" />
+        android:text="检查更新"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_ededed"/>
+
 </LinearLayout>
