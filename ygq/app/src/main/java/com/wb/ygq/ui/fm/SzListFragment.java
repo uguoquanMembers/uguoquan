@@ -39,7 +39,6 @@ import java.util.List;
  */
 public class SzListFragment extends BaseFragment implements RecyclerViewItemClickListener, OnRefreshListener, OnLoadMoreListener {
 
-    private MainActivity mMainActivity;
 
     private String title;
     private String id;
@@ -49,6 +48,7 @@ public class SzListFragment extends BaseFragment implements RecyclerViewItemClic
     private SzListAdapter adapter;
     private SZMessage mSZMessage;
     private LoadMoreFooterView loadMoreFooterView;
+    private boolean isLarge=true;
 
     private List<SZMessage.DataBean> dataList = new ArrayList<>();
 
@@ -86,7 +86,6 @@ public class SzListFragment extends BaseFragment implements RecyclerViewItemClic
 
     @Override
     public void initView() {
-        mMainActivity = (MainActivity) getActivity();
         recycle_sz = (IRecyclerView) view.findViewById(R.id.recycle_sz);
         recycle_sz.setHasFixedSize(true);
         recycle_sz.setLayoutManager(new GridLayoutManager(mActivity, 2));
@@ -112,19 +111,26 @@ public class SzListFragment extends BaseFragment implements RecyclerViewItemClic
         recycle_sz.setOnRefreshListener(this);
         recycle_sz.setOnLoadMoreListener(this);
         adapter.setItemClickListener(this);
-        final int[] key_x = {0};
+//        final int[] key_x = {0};
         recycle_sz.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 MyUtil.showLog("dx=====" + dx + "dy======" + dy);
-                key_x[0] = key_x[0] + dy;
-                if (key_x[0] > 0) {
 
-                } else {
-
+                if (dy > 60) {
+                    if (isLarge) {
+                        MainActivity.setToolBarH(75);
+                        isLarge = false;
+                    }
                 }
-                MainActivity.setToolBarH(key_x[0] / 20);
+                if (dy < -60) {
+                    if (!isLarge) {
+                        MainActivity.setToolBarH(150);
+                        isLarge = true;
+                    }
+                }
+
             }
         });
     }
@@ -171,21 +177,21 @@ public class SzListFragment extends BaseFragment implements RecyclerViewItemClic
                         data = response.body().string();
                         final String finalData = data;
                         mActivity.runOnUiThread(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                mSZMessage = new Gson().fromJson(finalData, SZMessage.class);
-                                                                List<SZMessage.DataBean> recordList = mSZMessage.getData();
-                                                                recycle_sz.setRefreshing(false);
-                                                                if (recordList != null && !recordList.isEmpty()) {
-                                                                    page++;
-                                                                    dataList.addAll(recordList);
-                                                                    adapter.updateItems(dataList);
-                                                                    loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-                                                                } else {
-                                                                    loadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
-                                                                }
-                                                            }
-                                                        });
+                            @Override
+                            public void run() {
+                                mSZMessage = new Gson().fromJson(finalData, SZMessage.class);
+                                List<SZMessage.DataBean> recordList = mSZMessage.getData();
+                                recycle_sz.setRefreshing(false);
+                                if (recordList != null && !recordList.isEmpty()) {
+                                    page++;
+                                    dataList.addAll(recordList);
+                                    adapter.updateItems(dataList);
+                                    loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                                } else {
+                                    loadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+                                }
+                            }
+                        });
                         return null;
                     }
 

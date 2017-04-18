@@ -197,12 +197,20 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     public static void setToolBarH(int toolBarH) {
         MyUtil.showLog("setToolbar=====" + toolBarH);
         ViewGroup.LayoutParams params = toolbar.getLayoutParams();
-        if (toolBarH < 48|| toolBarH != 0) {
+        if (toolBarH < 150|| toolBarH != 0) {
             params.height = toolBarH;
+            
         } else {
-            params.height = 48;
+            params.height =150;
         }
         toolbar.setLayoutParams(params);
+    }
+    /**
+     * 根据手机的分辨率from dp 的单位 转成为 px(像素)
+     */
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
     }
 
     @Override
