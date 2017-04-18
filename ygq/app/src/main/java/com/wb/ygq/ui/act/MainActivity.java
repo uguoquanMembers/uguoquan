@@ -14,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -118,6 +119,11 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
      * 是否跳转  2 的时候为视频
      */
     private int key = -1;
+    /**
+     * 1 男  2女
+     */
+    private String sex;
+
 
     public static void start(Context context, Intent extras) {
         Intent intent = new Intent();
@@ -127,6 +133,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         }
         context.startActivity(intent);
     }
+
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -140,7 +147,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
     private DrawerLayout drawerLayout;
-    private Toolbar toolbar;
+    private static Toolbar toolbar;
     private ActionBarDrawerToggle toggle;
     /**
      * 抽屉按钮
@@ -167,10 +174,15 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         initTitle();
         initView();
         initData();
-        String sex = SharedUtil.getString(PubConst.KEY_SEX, "0");
+        sex = SharedUtil.getString(PubConst.KEY_SEX, "0");
         if (TextUtils.equals(sex, "0")) //没存 弹出男女
         {
             DialogUtil.showSex(this, "", "确定", this);
+        }
+        if (TextUtils.equals(sex, "1")) {
+            iv_header.setBackgroundResource(R.drawable.man);
+        } else if (TextUtils.equals(sex, "2")) {
+            iv_header.setBackgroundResource(R.drawable.woman);
         }
         setListener();
     }
@@ -179,6 +191,17 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     protected void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
+    }
+
+    public static void setToolBarH(int toolBarH) {
+        MyUtil.showLog("setToolbar=====" + toolBarH);
+        ViewGroup.LayoutParams params = toolbar.getLayoutParams();
+        if (toolBarH < 48|| toolBarH != 0) {
+            params.height = toolBarH;
+        } else {
+            params.height = 48;
+        }
+        toolbar.setLayoutParams(params);
     }
 
     @Override

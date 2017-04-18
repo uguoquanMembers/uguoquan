@@ -95,6 +95,18 @@ public class MineFragment extends BaseFragment implements DialogChooseListener {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        String sex = SharedUtil.getString(PubConst.KEY_SEX, "0");
+        MyUtil.showLog("========="+sex);
+        if (TextUtils.equals(sex, "1")) {
+            iv_header.setBackgroundResource(R.drawable.man);
+        } else if (TextUtils.equals(sex, "2")) {
+            iv_header.setBackgroundResource(R.drawable.woman);
+        }
+    }
+
+    @Override
     public void initTitle() {
 
     }

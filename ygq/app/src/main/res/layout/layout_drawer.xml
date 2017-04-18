@@ -19,7 +19,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             attr:roundCornerRadius="50dp"
-            android:src="@drawable/default_image"/>
+            android:background="@drawable/login_no"/>
 
         <LinearLayout
             android:layout_width="0dp"

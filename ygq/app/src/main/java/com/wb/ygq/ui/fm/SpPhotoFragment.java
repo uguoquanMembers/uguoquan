@@ -116,6 +116,7 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
                         if (recordList != null && !recordList.isEmpty()) {
                             pageNum++;
                             dataList.addAll(recordList);
+                            MyUtil.showLog("返回的数据===" + dataList.toString());
                             adapter.updateItems(dataList);
                             loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
                         } else {
@@ -248,7 +249,7 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
      */
     @Override
     public void onItemClick(View view, Object o, int position, int eventType) {
-
+        MyUtil.showLog("点击完毕===" + dataList.get(position).getId());
     }
 
     @Override

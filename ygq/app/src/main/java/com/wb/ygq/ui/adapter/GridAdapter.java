@@ -31,9 +31,9 @@ public class GridAdapter extends BaseAdapter {
         //勿动  后果自负
         ViewHolder holder = null;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.layout_single_img, null);
+            convertView = inflater.inflate(R.layout.layout_ima, null);
             holder = new ViewHolder();
-            holder.ima = (ImageView) convertView.findViewById(R.id.single_img);
+            holder.ima = (ImageView) convertView.findViewById(R.id.ima);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -54,9 +54,9 @@ public class GridAdapter extends BaseAdapter {
         {
             params.height = (int) (screenWidth / 2);
             params.width = (int) (screenWidth / 2);// ( adapter图片不可设置pading
-            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) holder.ima.getLayoutParams();
-            p.leftMargin = 30;
-            holder.ima.setLayoutParams(p);
+//            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) holder.ima.getLayoutParams();
+//            p.leftMargin = 30;
+//            holder.ima.setLayoutParams(p);
         }
         holder.ima.setLayoutParams(params);
         if ("0".equals(isEmpty)) {
