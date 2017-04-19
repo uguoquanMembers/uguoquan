@@ -19,6 +19,8 @@ import com.wb.ygq.R;
 import com.wb.ygq.bean.FriendListBean;
 import com.wb.ygq.bean.SpFriendListResponseBean;
 import com.wb.ygq.callback.OnCommentListener;
+import com.wb.ygq.callback.RecyclerViewItemClickListener;
+import com.wb.ygq.callback.RecyclerViewItemLongClickListener;
 import com.wb.ygq.ui.adapter.SpPhotoAdapter;
 import com.wb.ygq.ui.base.BaseActivity;
 import com.wb.ygq.ui.constant.PubConst;
@@ -36,7 +38,7 @@ import java.util.List;
  * Description：个人朋友圈
  * Created on 2017/4/12
  */
-public class PersonalActivity extends BaseActivity implements OnCommentListener {
+public class PersonalActivity extends BaseActivity implements OnCommentListener,RecyclerViewItemClickListener,RecyclerViewItemLongClickListener{
     private Toolbar toolbar;
     private RecyclerView recycler;
     private SpPhotoAdapter adapter;
@@ -97,6 +99,8 @@ public class PersonalActivity extends BaseActivity implements OnCommentListener 
     @Override
     public void setListener() {
         tv_button_send.setOnClickListener(this);
+        adapter.setItemClickListener(this);
+        adapter.setItemLongClickListener(this);
         recycler.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -198,5 +202,15 @@ public class PersonalActivity extends BaseActivity implements OnCommentListener 
     public void getComment(int position) {
         this.commentPosition = position;
         inPutComment();
+    }
+
+    @Override
+    public void onItemClick(View view, Object o, int position, int eventType) {
+
+    }
+
+    @Override
+    public void OnItemLongClick(View view, Object o, int position) {
+
     }
 }
