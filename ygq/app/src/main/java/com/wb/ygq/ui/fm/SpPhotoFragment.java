@@ -24,6 +24,7 @@ import com.wb.ygq.bean.FriendListBean;
 import com.wb.ygq.bean.SpFriendListResponseBean;
 import com.wb.ygq.callback.OnCommentListener;
 import com.wb.ygq.callback.RecyclerViewItemClickListener;
+import com.wb.ygq.callback.RecyclerViewItemLongClickListener;
 import com.wb.ygq.ui.adapter.SpPhotoAdapter;
 import com.wb.ygq.ui.base.BaseFragment;
 import com.wb.ygq.ui.constant.PubConst;
@@ -45,7 +46,7 @@ import java.util.List;
  * Description：
  * Created on 2017/4/3
  */
-public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemClickListener, OnRefreshListener, OnLoadMoreListener, OnCommentListener {
+public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemLongClickListener,RecyclerViewItemClickListener, OnRefreshListener, OnLoadMoreListener, OnCommentListener {
 
     public static SpPhotoFragment newInstance() {
 
@@ -158,6 +159,7 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
         recycleview.setHasFixedSize(true);
         recycleview.setLayoutManager(new GridLayoutManager(mActivity, 1));
         adapter.setItemClickListener(this);
+        adapter.setItemLongClickListener(this);
         loadMoreFooterView = (LoadMoreFooterView) recycleview.getLoadMoreFooterView();
         recycleview.setIAdapter(adapter);
         recycleview.post(new Runnable() {
@@ -285,4 +287,8 @@ public class SpPhotoFragment extends BaseFragment implements RecyclerViewItemCli
         inPutComment();
     }
 
+    @Override
+    public void OnItemLongClick(View view, Object o, int position) {
+
+    }
 }

@@ -73,6 +73,13 @@ public class SpPhotoAdapter extends BaseRecyclerAdapter<FriendListBean> {
                     itemClickListener.onItemClick(((SpPhotoViewHolder) holder).ll_container, mItems.get(position), position, 1);
                 }
             });
+            ((SpPhotoViewHolder) holder).ll_container.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    itemLongClickListener.OnItemLongClick(((SpPhotoViewHolder) holder).ll_container, mItems.get(position), position);
+                    return false;
+                }
+            });
             final ArrayList<String> urlList = new ArrayList<>();
             urlList.clear();
             List<String> imgList = friendListBean.getImg();

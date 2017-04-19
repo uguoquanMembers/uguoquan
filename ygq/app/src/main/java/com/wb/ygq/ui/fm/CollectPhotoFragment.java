@@ -144,16 +144,22 @@ public class CollectPhotoFragment extends BaseFragment implements RecyclerViewIt
         OkHttpUtils.get().url(HttpUrl.API.DELETE_COLLECT_LIST).addParams("uid", userId).addParams("vid", dataList.get(position).getId()).addParams("type", "1").build().execute(new Callback() {
             @Override
             public Object parseNetworkResponse(Response response) throws IOException {
-                CommResponseBean commResponseBean = new Gson().fromJson(response.body().string(), CommResponseBean.class);
-                if (TextUtils.equals(commResponseBean.getCount(), "200")) {
-                    ToastUtil.showToast("删除成功");
-                    mActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapter.removeItem(position);
+                final CommResponseBean commResponseBean = new Gson().fromJson(response.body().string(), CommResponseBean.class);
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (TextUtils.equals(commResponseBean.getCount(), "1")) {
+                            ToastUtil.showToast("删除成功");
+                            mActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapter.removeItem(position);
+                                }
+                            });
                         }
-                    });
-                }
+                    }
+                });
+
                 return null;
             }
 

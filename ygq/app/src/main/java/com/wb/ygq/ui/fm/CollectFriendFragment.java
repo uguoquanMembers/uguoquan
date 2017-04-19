@@ -100,18 +100,23 @@ public class CollectFriendFragment extends BaseFragment implements RecyclerViewI
     private void requestDeleteListData(final int position) {
         OkHttpUtils.get().url(HttpUrl.API.DELETE_COLLECT_LIST).addParams("uid", userId).addParams("vid", dataList.get(position).getId()).addParams("type", "3").build().execute(new Callback() {
             @Override
-            public Object parseNetworkResponse(Response response) throws IOException {
-                CommResponseBean commResponseBean = new Gson().fromJson(response.body().string(), CommResponseBean.class);
-                MyUtil.showLog("请求陈宫====" + commResponseBean.getCount());
-                if (TextUtils.equals(commResponseBean.getCount(), "200")) {
-                    ToastUtil.showToast("删除成功");
-                    mActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapter.removeItem(position);
+            public Object parseNetworkResponse( Response response) throws IOException {
+                final CommResponseBean commResponseBean = new Gson().fromJson(response.body().string(), CommResponseBean.class);
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        MyUtil.showLog("请求陈宫====" + commResponseBean.getCount());
+                        if (TextUtils.equals(commResponseBean.getCount(), "1")) {
+                            ToastUtil.showToast("删除成功");
+                            mActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapter.removeItem(position);
+                                }
+                            });
                         }
-                    });
-                }
+                    }
+                });
                 return null;
             }
 
