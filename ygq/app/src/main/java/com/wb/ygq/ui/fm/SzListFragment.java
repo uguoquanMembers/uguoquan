@@ -112,27 +112,27 @@ public class SzListFragment extends BaseFragment implements RecyclerViewItemClic
         recycle_sz.setOnLoadMoreListener(this);
         adapter.setItemClickListener(this);
 //        final int[] key_x = {0};
-        recycle_sz.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                MyUtil.showLog("dx=====" + dx + "dy======" + dy);
-
-                if (dy > 60) {
-                    if (isLarge) {
-                        MainActivity.setToolBarH(75);
-                        isLarge = false;
-                    }
-                }
-                if (dy < -60) {
-                    if (!isLarge) {
-                        MainActivity.setToolBarH(150);
-                        isLarge = true;
-                    }
-                }
-
-            }
-        });
+//        recycle_sz.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                MyUtil.showLog("dx=====" + dx + "dy======" + dy);
+//
+//                if (dy > 60) {
+//                    if (isLarge) {
+//                        MainActivity.setToolBarH(75);
+//                        isLarge = false;
+//                    }
+//                }
+//                if (dy < -60) {
+//                    if (!isLarge) {
+//                        MainActivity.setToolBarH(150);
+//                        isLarge = true;
+//                    }
+//                }
+//
+//            }
+//        });
     }
 
     /**

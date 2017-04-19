@@ -179,11 +179,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         {
             DialogUtil.showSex(this, "", "确定", this);
         }
-        if (TextUtils.equals(sex, "1")) {
-            iv_header.setBackgroundResource(R.drawable.man);
-        } else if (TextUtils.equals(sex, "2")) {
-            iv_header.setBackgroundResource(R.drawable.woman);
-        }
         setListener();
     }
 
@@ -194,17 +189,17 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     }
 
-    public static void setToolBarH(int toolBarH) {
-        MyUtil.showLog("setToolbar=====" + toolBarH);
-        ViewGroup.LayoutParams params = toolbar.getLayoutParams();
-        if (toolBarH < 150 || toolBarH != 0) {
-            params.height = toolBarH;
-
-        } else {
-            params.height = 150;
-        }
-        toolbar.setLayoutParams(params);
-    }
+//    public static void setToolBarH(int toolBarH) {
+//        MyUtil.showLog("setToolbar=====" + toolBarH);
+//        ViewGroup.LayoutParams params = toolbar.getLayoutParams();
+//        if (toolBarH < 150 || toolBarH != 0) {
+//            params.height = toolBarH;
+//
+//        } else {
+//            params.height = 150;
+//        }
+//        toolbar.setLayoutParams(params);
+//    }
 
     /**
      * 根据手机的分辨率from dp 的单位 转成为 px(像素)
@@ -625,6 +620,12 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     @Override
     public void onClickCallBack(Bundle data) {
+        sex = SharedUtil.getString(PubConst.KEY_SEX, "0");
+        if (TextUtils.equals(sex, "1")) {
+            iv_header.setBackgroundResource(R.drawable.man);
+        } else if (TextUtils.equals(sex, "2")) {
+            iv_header.setBackgroundResource(R.drawable.woman);
+        }
         requestLoginData(0);
     }
 }
